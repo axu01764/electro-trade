@@ -1,0 +1,846 @@
+// HPI 1.7-V
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { 
+  ChevronDown, CheckCircle, Package, TrendingUp, Shield, 
+  Users, Zap, Award, Clock, Globe, Phone, Mail, 
+  MessageCircle, ArrowRight, Settings, Wrench, Factory,
+  ChevronRight
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Image } from '@/components/ui/image';
+import { BaseCrudService } from '@/integrations';
+import { Coreproducts, Faq, Distributorapplications } from '@/entities';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+export default function HomePage() {
+  // --- CANONICAL DATA SOURCES & STATE ---
+  const [products, setProducts] = useState<Coreproducts[]>([]);
+  const [faqs, setFaqs] = useState<Faq[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [isLoadingFaqs, setIsLoadingFaqs] = useState(true);
+  const [applicationStep, setApplicationStep] = useState(1);
+  const [formData, setFormData] = useState({
+    companyName: '',
+    contactPersonName: '',
+    contactPhone: '',
+    email: '',
+    companyType: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // --- DATA FETCHING LOGIC ---
+  useEffect(() => {
+    loadProducts();
+    loadFaqs();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      const result = await BaseCrudService.getAll<Coreproducts>('coreproducts');
+      setProducts(result.items);
+    } catch (error) {
+      console.error('Failed to load products:', error);
+    } finally {
+      setIsLoadingProducts(false);
+    }
+  };
+
+  const loadFaqs = async () => {
+    try {
+      const result = await BaseCrudService.getAll<Faq>('faq');
+      setFaqs(result.items);
+    } catch (error) {
+      console.error('Failed to load FAQs:', error);
+    } finally {
+      setIsLoadingFaqs(false);
+    }
+  };
+
+  // --- FORM HANDLING LOGIC ---
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleNextStep = () => {
+    if (applicationStep === 1) {
+      setApplicationStep(2);
+    }
+  };
+
+  const handleSubmitApplication = async () => {
+    setIsSubmitting(true);
+    try {
+      await BaseCrudService.create<Distributorapplications>('distributorapplications', {
+        _id: crypto.randomUUID(),
+        companyName: formData.companyName,
+        contactPersonName: formData.contactPersonName,
+        contactPhone: formData.contactPhone,
+        email: formData.email,
+        companyType: formData.companyType
+      });
+      
+      setFormData({
+        companyName: '',
+        contactPersonName: '',
+        contactPhone: '',
+        email: '',
+        companyType: ''
+      });
+      setApplicationStep(1);
+      alert('申请已成功提交！我们的团队将在48小时内与您联系。');
+    } catch (error) {
+      console.error('Failed to submit application:', error);
+      alert('提交失败，请稍后重试。');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // --- ANIMATION & SCROLL LOGIC ---
+  const { scrollYProgress } = useScroll();
+  const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
+  const fadeUpVariant = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] } }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-clip">
+      <style>{`
+        .industrial-noise {
+          position: absolute;
+          top: 0; left: 0; width: 100%; height: 100%;
+          pointer-events: none;
+          z-index: 1;
+          opacity: 0.03;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .clip-diagonal {
+          clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        .clip-diagonal-reverse {
+          clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+        }
+        .glow-border {
+          position: relative;
+        }
+        .glow-border::before {
+          content: '';
+          position: absolute;
+          inset: -1px;
+          background: linear-gradient(45deg, transparent, rgba(255, 153, 0, 0.3), transparent);
+          z-index: -1;
+          border-radius: inherit;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        .glow-border:hover::before {
+          opacity: 1;
+        }
+      `}</style>
+
+      <Header />
+
+      {/* --- HERO SECTION --- */}
+      <section id="hero" className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-black">
+        <motion.div 
+          className="absolute inset-0 z-0"
+          style={{ y: heroY, opacity: heroOpacity }}
+        >
+          <Image 
+            src="https://static.wixstatic.com/media/556c5c_16409983991d41e8a22da03086fa3e11~mv2.png?originWidth=1920&originHeight=1024"
+            alt="Industrial workshop background"
+            className="w-full h-full object-cover opacity-60"
+            width={1920}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/60 to-background"></div>
+          <div className="industrial-noise"></div>
+        </motion.div>
+
+        <div className="relative z-10 w-full max-w-[120rem] mx-auto px-6 md:px-12 pt-32 pb-24 flex flex-col items-center text-center">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+            className="max-w-5xl"
+          >
+            <motion.div variants={fadeUpVariant} className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              <span className="font-paragraph text-sm tracking-wider text-foreground/90 uppercase">Thailand Dealer Recruitment Program</span>
+            </motion.div>
+            
+            <motion.h1 variants={fadeUpVariant} className="font-heading text-5xl md:text-7xl lg:text-8xl text-foreground mb-8 leading-[1.1] tracking-tight">
+              寻找泰国本地<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-500">电动工具经销商</span>
+            </motion.h1>
+            
+            <motion.p variants={fadeUpVariant} className="font-paragraph text-xl md:text-2xl text-foreground/80 mb-12 max-w-3xl mx-auto leading-relaxed">
+              极具竞争力的经销价格、稳定快速的物流支持。<br className="hidden md:block" />
+              符合条件的经销商可申请免费产品评估。
+            </motion.p>
+            
+            <motion.div variants={fadeUpVariant} className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-lg px-10 py-7 h-auto rounded-none relative overflow-hidden group"
+                onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  申请免费样品评估 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-lg px-10 py-7 h-auto rounded-none transition-colors"
+              >
+                <MessageCircle className="mr-2 h-5 w-5" />
+                添加LINE咨询
+              </Button>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2"
+          >
+            <span className="font-paragraph text-xs text-muted-gray-foreground uppercase tracking-widest">Scroll to explore</span>
+            <ChevronDown className="w-6 h-6 text-primary animate-bounce" />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* --- PROFIT OPPORTUNITIES --- */}
+      <section id="opportunities" className="relative w-full py-32 bg-background border-t border-muted-gray/20">
+        <div className="max-w-[100rem] mx-auto px-6 md:px-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUpVariant}
+            className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8"
+          >
+            <div className="max-w-2xl">
+              <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
+                为什么值得成为你的<br />下一个<span className="text-primary">合作品牌？</span>
+              </h2>
+              <div className="w-20 h-1 bg-primary"></div>
+            </div>
+            <p className="font-paragraph text-lg text-foreground/60 max-w-md">
+              我们为合作伙伴提供全方位的支持体系，确保您在泰国市场获得持续的竞争优势与丰厚回报。
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: TrendingUp, title: '经销商价格', desc: '极具竞争力的价格体系，确保高额利润空间' },
+              { icon: Package, title: '低起订量', desc: '灵活的采购政策，降低库存压力与资金占用' },
+              { icon: Shield, title: '区域保护', desc: '严格的区域独家授权，避免恶性价格竞争' },
+              { icon: Zap, title: '快速交付', desc: '本地化仓储与高效物流，确保产品及时送达' }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group bg-secondary/40 border border-muted-gray/20 p-8 hover:bg-secondary/80 transition-colors duration-300 glow-border"
+              >
+                <div className="mb-6 inline-flex p-4 bg-background border border-muted-gray/30 group-hover:border-primary/50 transition-colors">
+                  <item.icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="font-heading text-2xl text-foreground mb-3">{item.title}</h3>
+                <p className="font-paragraph text-foreground/60 leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- CORE PRODUCTS SHOWCASE --- */}
+      <section id="products" className="relative w-full py-32 bg-secondary/20 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+        
+        <div className="max-w-[120rem] mx-auto px-6 md:px-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUpVariant}
+            className="text-center mb-20"
+          >
+            <h2 className="font-heading text-4xl md:text-6xl text-foreground mb-6">
+              核心<span className="text-primary">电动工具</span>系列
+            </h2>
+            <p className="font-paragraph text-xl text-foreground/60 max-w-2xl mx-auto">
+              专为高强度工业与建筑场景设计，提供卓越的动力与持久的耐用性。
+            </p>
+          </motion.div>
+
+          <div className="min-h-[400px]">
+            {isLoadingProducts ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+              </div>
+            ) : products.length > 0 ? (
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={staggerContainer}
+              >
+                {products.map((product, index) => (
+                  <motion.div
+                    key={product._id}
+                    variants={fadeUpVariant}
+                    className="group relative bg-background border border-muted-gray/20 overflow-hidden flex flex-col"
+                  >
+                    <div className="relative aspect-[4/3] bg-secondary/50 p-8 flex items-center justify-center overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent z-10"></div>
+                      {product.productImage ? (
+                        <Image 
+                          src={product.productImage}
+                          alt={product.productName || 'Locanex Product'}
+                          className="w-full h-full object-contain relative z-0 group-hover:scale-110 transition-transform duration-700 ease-out"
+                          width={400}
+                        />
+                      ) : (
+                        <Wrench className="w-20 h-20 text-muted-gray relative z-0" />
+                      )}
+                      
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-primary/90 z-20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
+                        <Button variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-none">
+                          申请产品样品
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="p-6 flex-grow flex flex-col relative z-30 bg-background">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-heading text-xl text-foreground font-bold">{product.productName}</h3>
+                        {product.productModel && (
+                          <span className="font-paragraph text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">
+                            {product.productModel}
+                          </span>
+                        )}
+                      </div>
+                      {product.productDescription && (
+                        <p className="font-paragraph text-sm text-foreground/60 mb-4 line-clamp-2">
+                          {product.productDescription}
+                        </p>
+                      )}
+                      <div className="mt-auto pt-4 border-t border-muted-gray/20">
+                        <button className="text-primary text-sm font-heading flex items-center gap-1 group-hover:gap-2 transition-all">
+                          查看详情 <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <div className="text-center py-20 border border-dashed border-muted-gray/30 bg-secondary/20">
+                <Package className="w-16 h-16 text-muted-gray mx-auto mb-4" />
+                <p className="font-paragraph text-lg text-foreground/60">产品目录正在更新中</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* --- DIFFERENTIATION (COMPARISON) --- */}
+      <section id="differentiation" className="relative w-full py-32 bg-background">
+        <div className="max-w-[100rem] mx-auto px-6 md:px-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUpVariant}
+            className="text-center mb-16"
+          >
+            <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
+              产品与经销<span className="text-primary">支持对比</span>
+            </h2>
+            <div className="w-20 h-1 bg-primary mx-auto"></div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="overflow-x-auto"
+          >
+            <table className="w-full min-w-[800px] border-collapse">
+              <thead>
+                <tr>
+                  <th className="p-6 text-left font-heading text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">比较项目</th>
+                  <th className="p-6 text-left font-heading text-2xl text-primary border-b-2 border-primary w-1/3 bg-secondary/30">Locanex</th>
+                  <th className="p-6 text-left font-heading text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">一般市场产品</th>
+                </tr>
+              </thead>
+              <tbody className="font-paragraph">
+                {[
+                  { label: '电机性能', pro: '动力稳定，效率更高', con: '性能不稳定，效率一般' },
+                  { label: '电池保护', pro: '多重保护系统', con: '基础保护或无保护' },
+                  { label: '耐用性', pro: '更耐用，寿命更长', con: '耐用性较低' },
+                  { label: '质量检测', pro: '出厂严格检测', con: '检测标准不一' },
+                  { label: '配件供应', pro: '配件齐全，供应稳定', con: '配件短缺，供应不稳定' },
+                  { label: '经销商支持', pro: '提供培训、营销全方位支持', con: '支持有限或无支持' },
+                ].map((row, i) => (
+                  <tr key={i} className="group hover:bg-secondary/20 transition-colors">
+                    <td className="p-6 border-b border-muted-gray/20 text-foreground/80 font-bold">{row.label}</td>
+                    <td className="p-6 border-b border-muted-gray/20 text-foreground bg-secondary/10 group-hover:bg-secondary/30 transition-colors flex items-center gap-3">
+                      <CheckCircle className="w-5 h-5 text-primary shrink-0" /> {row.pro}
+                    </td>
+                    <td className="p-6 border-b border-muted-gray/20 text-foreground/50">{row.con}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* --- SAMPLE PROGRAM (PARALLAX BANNER) --- */}
+      <section id="sample-program" className="relative w-full py-32 overflow-hidden clip-diagonal-reverse bg-black">
+        <motion.div 
+          className="absolute inset-0 z-0"
+          initial={{ scale: 1.1 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1.5 }}
+          viewport={{ once: true }}
+        >
+          <Image 
+            src="https://static.wixstatic.com/media/556c5c_28f53801f0e948cdbcdc7a7fee4b1933~mv2.png?originWidth=1152&originHeight=640"
+            alt="Industrial background"
+            className="w-full h-full object-cover opacity-40"
+            width={1920}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
+        </motion.div>
+
+        <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-12">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-2xl"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/50 text-primary text-sm font-heading mb-6">
+              <Settings className="w-4 h-4" /> 零风险评估
+            </div>
+            <h2 className="font-heading text-4xl md:text-6xl text-foreground mb-6 leading-tight">
+              申请加入泰国经销商<br />
+              <span className="text-primary">产品测试计划</span>
+            </h2>
+            <p className="font-paragraph text-lg text-foreground/80 mb-8">
+              我们深知产品品质是合作的基础。符合条件的意向经销商，可申请获取 Locanex 核心产品进行免费实地测试。
+            </p>
+            
+            <div className="grid grid-cols-2 gap-6 mb-10">
+              {[
+                '提交经销商申请', '添加LINE保持沟通', '资质评估与确认', '寄送测试样品'
+              ].map((step, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-secondary border border-primary/30 flex items-center justify-center text-primary font-heading text-sm">
+                    {i + 1}
+                  </div>
+                  <span className="font-paragraph text-foreground/90">{step}</span>
+                </div>
+              ))}
+            </div>
+
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-lg px-10 py-7 h-auto rounded-none"
+              onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              立即申请免费样品
+            </Button>
+            <p className="mt-4 font-paragraph text-sm text-muted-gray-foreground">
+              * 样品数量有限，申请不代表自动获得，需经资质审核。
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="hidden lg:block w-full max-w-md relative"
+          >
+            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full"></div>
+            <Image 
+              src="https://static.wixstatic.com/media/556c5c_497fc267e9ff4f9fade69572550d690d~mv2.png?originWidth=1152&originHeight=640"
+              alt="Sample Kit"
+              className="relative z-10 w-full h-auto border border-muted-gray/30 shadow-2xl"
+              width={600}
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* --- COMPANY & SUPPLY CAPABILITY --- */}
+      <section id="company" className="relative w-full py-32 bg-background">
+        <div className="max-w-[100rem] mx-auto px-6 md:px-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUpVariant}
+            className="text-center mb-20"
+          >
+            <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
+              公司实力、<span className="text-primary">质量控制</span>与供货能力
+            </h2>
+            <div className="w-20 h-1 bg-primary mx-auto"></div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: '工厂与生产线', desc: '现代化生产线，稳定的生产能力', icon: Factory },
+              { title: '产品质量检测', desc: '严格的质量检测流程，确保产品品质', icon: Shield },
+              { title: '仓库与库存', desc: '充足的库存管理，确保稳定交货', icon: Package }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="group relative h-80 overflow-hidden border border-muted-gray/20"
+              >
+                <Image 
+                  src="https://static.wixstatic.com/media/556c5c_2d011c292e894241b0fb7190e8d6f640~mv2.png?originWidth=576&originHeight=448"
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  width={600}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 w-full p-8">
+                  <item.icon className="w-8 h-8 text-primary mb-4" />
+                  <h3 className="font-heading text-2xl text-foreground mb-2">{item.title}</h3>
+                  <p className="font-paragraph text-foreground/70">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-12 text-center"
+          >
+            <p className="font-heading text-xl text-primary tracking-wide">我们正在寻找首批泰国市场合作伙伴。</p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* --- IDEAL DISTRIBUTOR & APPLICATION FORM (SPLIT LAYOUT) --- */}
+      <section id="application-section" className="relative w-full bg-secondary/30 border-t border-muted-gray/20">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          
+          {/* Left Side: Ideal Distributor */}
+          <div className="p-12 md:p-20 lg:p-32 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-muted-gray/20">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="font-heading text-3xl md:text-4xl text-foreground mb-12">
+                哪些合作伙伴<span className="text-primary">适合申请？</span>
+              </h2>
+              
+              <div className="space-y-12">
+                <div>
+                  <h3 className="font-heading text-xl text-foreground mb-6 flex items-center gap-2">
+                    <CheckCircle className="text-green-500 w-6 h-6" /> 适合申请
+                  </h3>
+                  <ul className="space-y-4 font-paragraph text-foreground/80">
+                    {['电动工具经销商', '五金店/建材店', '工业用品供应商', '电商卖家', '批发商', '拥有区域渠道的公司'].map((item, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary"></div> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="font-heading text-xl text-foreground mb-6 flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full border-2 border-red-500 flex items-center justify-center text-red-500 text-sm font-bold">X</div> 暂不适合
+                  </h3>
+                  <ul className="space-y-4 font-paragraph text-foreground/60">
+                    {['仅希望购买个人试用品', '没有相关销售渠道', '无法提供真实经营信息', '不接受核心产品测试反馈'].map((item, i) => (
+                      <li key={i} className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-muted-gray"></div> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Side: Application Form */}
+          <div id="application" className="p-12 md:p-20 lg:p-32 bg-background relative overflow-hidden">
+            <div className="industrial-noise"></div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative z-10 max-w-md mx-auto lg:mx-0"
+            >
+              <h2 className="font-heading text-3xl md:text-4xl text-foreground mb-4">
+                申请成为<span className="text-primary">Locanex经销商</span>
+              </h2>
+              <p className="font-paragraph text-foreground/60 mb-10">填写基本信息，获取产品资料与评估资格。</p>
+
+              {/* Step Indicator */}
+              <div className="flex items-center mb-10">
+                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
+                <div className="font-paragraph text-sm ml-3 mr-4 text-foreground/80">步骤 1: 基本信息</div>
+                <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
+                <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
+                <div className="font-paragraph text-sm ml-3 text-foreground/80">步骤 2: 联系方式</div>
+              </div>
+
+              <div className="bg-secondary/20 border border-muted-gray/20 p-8">
+                {applicationStep === 1 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-6"
+                  >
+                    <div className="space-y-2">
+                      <Label htmlFor="companyName" className="font-paragraph text-foreground/80">公司名称 *</Label>
+                      <Input
+                        id="companyName"
+                        value={formData.companyName}
+                        onChange={(e) => handleInputChange('companyName', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        placeholder="请输入公司全称"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="contactPersonName" className="font-paragraph text-foreground/80">联系人姓名 *</Label>
+                      <Input
+                        id="contactPersonName"
+                        value={formData.contactPersonName}
+                        onChange={(e) => handleInputChange('contactPersonName', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        placeholder="请输入联系人姓名"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="companyType" className="font-paragraph text-foreground/80">公司类型 *</Label>
+                      <Select value={formData.companyType} onValueChange={(value) => handleInputChange('companyType', value)}>
+                        <SelectTrigger className="bg-background border-muted-gray/30 text-foreground focus:ring-primary rounded-none h-12">
+                          <SelectValue placeholder="请选择公司类型" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-secondary border-muted-gray/30 text-foreground">
+                          <SelectItem value="五金工具经销商">五金工具经销商</SelectItem>
+                          <SelectItem value="建材市场经销商">建材市场经销商</SelectItem>
+                          <SelectItem value="工业用品供应商">工业用品供应商</SelectItem>
+                          <SelectItem value="电商平台卖家">电商平台卖家</SelectItem>
+                          <SelectItem value="批发商">批发商</SelectItem>
+                          <SelectItem value="零售连锁店">零售连锁店</SelectItem>
+                          <SelectItem value="其他">其他</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <Button
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-lg py-6 h-auto rounded-none mt-4"
+                      onClick={handleNextStep}
+                      disabled={!formData.companyName || !formData.contactPersonName || !formData.companyType}
+                    >
+                      下一步
+                    </Button>
+                  </motion.div>
+                )}
+
+                {applicationStep === 2 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="space-y-6"
+                  >
+                    <div className="space-y-2">
+                      <Label htmlFor="contactPhone" className="font-paragraph text-foreground/80">联系电话 *</Label>
+                      <Input
+                        id="contactPhone"
+                        value={formData.contactPhone}
+                        onChange={(e) => handleInputChange('contactPhone', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        placeholder="请输入联系电话"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="font-paragraph text-foreground/80">电子邮箱 *</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        placeholder="请输入电子邮箱"
+                      />
+                    </div>
+
+                    <div className="flex gap-4 mt-4">
+                      <Button
+                        variant="outline"
+                        className="w-1/3 border-muted-gray/50 text-foreground hover:bg-secondary font-heading py-6 h-auto rounded-none"
+                        onClick={() => setApplicationStep(1)}
+                      >
+                        返回
+                      </Button>
+                      <Button
+                        className="w-2/3 bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-lg py-6 h-auto rounded-none"
+                        onClick={handleSubmitApplication}
+                        disabled={!formData.contactPhone || !formData.email || isSubmitting}
+                      >
+                        {isSubmitting ? '提交中...' : '提交申请'}
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- FAQ SECTION --- */}
+      <section id="faq" className="relative w-full py-32 bg-background">
+        <div className="max-w-[60rem] mx-auto px-6 md:px-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUpVariant}
+            className="text-center mb-16"
+          >
+            <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
+              常见<span className="text-primary">问题</span>
+            </h2>
+            <div className="w-12 h-1 bg-primary mx-auto"></div>
+          </motion.div>
+
+          <div className="min-h-[300px]">
+            {isLoadingFaqs ? (
+               <div className="flex justify-center items-center h-32">
+                 <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+               </div>
+            ) : faqs.length > 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <Accordion type="single" collapsible className="space-y-4">
+                  {faqs.map((faq, index) => (
+                    <AccordionItem 
+                      key={faq._id} 
+                      value={`item-${index}`}
+                      className="bg-secondary/20 border border-muted-gray/20 px-6 rounded-none data-[state=open]:border-primary/50 transition-colors"
+                    >
+                      <AccordionTrigger className="font-heading text-lg text-foreground hover:text-primary hover:no-underline py-6 text-left">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="font-paragraph text-base text-foreground/70 pb-6 leading-relaxed">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </motion.div>
+            ) : (
+              <div className="text-center py-12 border border-dashed border-muted-gray/30">
+                <p className="font-paragraph text-foreground/60">暂无常见问题</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* --- FINAL CTA --- */}
+      <section id="final-cta" className="relative w-full py-32 overflow-hidden bg-primary">
+        <div className="absolute inset-0 opacity-10 mix-blend-overlay">
+           <Image 
+            src="https://static.wixstatic.com/media/556c5c_e0859bd4b0844dfdb2784bdbbeb0dab7~mv2.png?originWidth=1920&originHeight=1024"
+            alt="Texture"
+            className="w-full h-full object-cover"
+            width={1920}
+          />
+        </div>
+        
+        <div className="relative z-10 max-w-[80rem] mx-auto px-6 md:px-12 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="font-heading text-4xl md:text-6xl text-black mb-6 font-bold">
+              准备与 Locanex 一起开拓<br />泰国电动工具市场吗？
+            </h2>
+            <p className="font-paragraph text-xl text-black/80 max-w-2xl mx-auto mb-12 font-medium">
+              提交经销商申请，获取产品资料、经销价格和免费产品评估资格。
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Button 
+                size="lg" 
+                className="bg-black hover:bg-black/80 text-white font-heading text-lg px-12 py-7 h-auto rounded-none shadow-2xl"
+                onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                申请免费样品评估
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-black text-black hover:bg-black hover:text-white font-heading text-lg px-12 py-7 h-auto rounded-none transition-colors"
+              >
+                <MessageCircle className="mr-2 h-5 w-5" />
+                添加LINE咨询
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
