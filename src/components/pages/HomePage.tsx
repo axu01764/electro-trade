@@ -245,7 +245,7 @@ export default function HomePage() {
       </section>
 
       {/* --- DEALER OPPORTUNITIES (B2B) --- */}
-      <section id="opportunities" className="relative w-full py-20 md:py-32 overflow-hidden">
+      <section id="opportunities" className="relative w-full overflow-hidden" style={{ minHeight: '450px', maxHeight: '520px', display: 'flex', alignItems: 'center' }}>
         {/* Background with warehouse image and 30% black overlay */}
         <div className="absolute inset-0 z-0">
           <Image 
@@ -259,56 +259,62 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </div>
 
-        <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-12">
+        <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 md:px-12">
           {/* Section Header */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUpVariant}
-            className="mb-16 md:mb-24 text-center"
+            className="mb-12 text-center"
           >
-            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-4">
+            <h2 className="font-heading text-3xl md:text-5xl lg:text-5xl text-foreground mb-4">
               为什么 Locanex 值得成为您的<br />下一个<span className="text-primary">合作品牌？</span>
             </h2>
-            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mt-6">
+            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mt-4">
               不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。
             </p>
           </motion.div>
 
-          {/* Cards Grid - Desktop: 6 cards + 1 profit card | Tablet: 3 cards + profit | Mobile: 2 cards + profit */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 md:gap-6">
+          {/* Cards Grid - Desktop: 6 cards in 1 row | Tablet: 3 cards x 2 rows | Mobile: 2 cards x 3 rows */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
             {/* 6 Advantage Cards */}
             {[
               { 
+                number: '01',
                 icon: TrendingUp, 
                 title: '有竞争力的经销价格', 
                 desc: '通过资质审核后获取经销商合作报价' 
               },
               { 
+                number: '02',
                 icon: Package, 
                 title: '阶梯采购政策', 
-                desc: '根据采购数量提供不同级别合作价格' 
+                desc: '根据采购数量提供不同级别的合作方案' 
               },
               { 
+                number: '03',
                 icon: Zap, 
                 title: '统一无线电池平台', 
-                desc: '多款无线工具共享电池平台，促进持续销售' 
+                desc: '多款无线工具共享电池平台，带来持续销售机会' 
               },
               { 
+                number: '04',
                 icon: Award, 
                 title: '组合销售机会', 
-                desc: '工具、电池、充电器和配件可以组合销售' 
+                desc: '工具、电池、充电器和配件可组合销售' 
               },
               { 
+                number: '05',
                 icon: Clock, 
                 title: '稳定供货', 
                 desc: '提供稳定供货和长期补货支持' 
               },
               { 
+                number: '06',
                 icon: Globe, 
                 title: '泰国市场支持', 
-                desc: '提供泰文产品图片、视频、产品资料和营销支持' 
+                desc: '提供泰文产品资料、图片、视频和营销支持' 
               }
             ].map((item, index) => (
               <motion.div
@@ -317,57 +323,17 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="group lg:col-span-1 md:col-span-1 col-span-1 bg-black/60 backdrop-blur-sm border border-muted-gray/40 p-5 md:p-6 hover:border-primary/60 transition-all duration-300 flex flex-col"
+                className="group bg-black/60 backdrop-blur-sm border border-muted-gray/40 p-5 md:p-6 hover:border-primary transition-all duration-300 flex flex-col justify-between h-[170px] md:h-[180px] lg:h-[190px] hover:-translate-y-1"
               >
-                <div className="mb-4 inline-flex p-3 bg-background/40 border border-muted-gray/30 group-hover:border-primary/50 transition-colors w-fit">
-                  <item.icon className="w-6 h-6 text-primary" />
+                <div>
+                  <div className="mb-3 inline-flex items-center justify-center w-8 h-8 bg-primary/20 border border-muted-gray/50 group-hover:border-primary/80 transition-colors">
+                    <span className="font-heading text-xs text-primary font-bold">{item.number}</span>
+                  </div>
+                  <h3 className="font-heading text-sm md:text-base text-foreground mb-2 line-clamp-2 leading-tight">{item.title}</h3>
                 </div>
-                <h3 className="font-heading text-base md:text-lg text-foreground mb-2 line-clamp-2">{item.title}</h3>
-                <p className="font-paragraph text-xs md:text-sm text-foreground/70 leading-relaxed line-clamp-3">{item.desc}</p>
+                <p className="font-paragraph text-xs text-foreground/70 leading-relaxed line-clamp-2">{item.desc}</p>
               </motion.div>
             ))}
-
-            {/* Profit Example Card - Larger, spans 1 column on desktop, full width on mobile/tablet */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="col-span-2 md:col-span-3 lg:col-span-1 bg-black/70 backdrop-blur-sm border-2 border-primary/80 p-6 md:p-8 flex flex-col justify-between hover:border-primary transition-all duration-300"
-            >
-              <div>
-                <h3 className="font-heading text-xl md:text-2xl text-foreground mb-6 text-center">利润示例</h3>
-                
-                <div className="space-y-4 md:space-y-5">
-                  <div className="border-b border-muted-gray/30 pb-4">
-                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">经销商采购价格</p>
-                    <p className="font-heading text-lg md:text-xl text-foreground">฿[待填写]</p>
-                  </div>
-                  
-                  <div className="border-b border-muted-gray/30 pb-4">
-                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">建议零售价</p>
-                    <p className="font-heading text-lg md:text-xl text-foreground">฿[待填写]</p>
-                  </div>
-                  
-                  <div className="border-b border-muted-gray/30 pb-4">
-                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">预计单件毛利润</p>
-                    <p className="font-heading text-lg md:text-xl text-foreground">฿[待填写]</p>
-                  </div>
-                  
-                  <div className="pb-4">
-                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">预计毛利率</p>
-                    <p className="font-heading text-lg md:text-xl text-foreground">[待填写]%</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Disclaimer */}
-              <div className="mt-6 md:mt-8 pt-4 border-t border-muted-gray/30">
-                <p className="font-paragraph text-xs text-foreground/60 leading-relaxed">
-                  实际利润取决于采购数量、销售渠道、物流、促销和当地市场情况。详细经销报价将在资质审核后提供。
-                </p>
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
