@@ -244,49 +244,130 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- PROFIT OPPORTUNITIES --- */}
-      <section id="opportunities" className="relative w-full py-32 bg-background border-t border-muted-gray/20">
-        <div className="max-w-[100rem] mx-auto px-6 md:px-12">
+      {/* --- DEALER OPPORTUNITIES (B2B) --- */}
+      <section id="opportunities" className="relative w-full py-20 md:py-32 overflow-hidden">
+        {/* Background with warehouse image and 30% black overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src="https://static.wixstatic.com/media/556c5c_f85184c7b62946029429c579009fc6be~mv2.png"
+            alt="Industrial warehouse background"
+            className="w-full h-full object-cover"
+            width={1920}
+          />
+          {/* 30% black overlay */}
+          <div className="absolute inset-0 bg-black/30"></div>
+          <div className="industrial-noise"></div>
+        </div>
+
+        <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-12">
+          {/* Section Header */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUpVariant}
-            className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8"
+            className="mb-16 md:mb-24 text-center"
           >
-            <div className="max-w-2xl">
-              <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
-                为什么值得成为你的<br />下一个<span className="text-primary">合作品牌？</span>
-              </h2>
-              <div className="w-20 h-1 bg-primary"></div>
-            </div>
-            <p className="font-paragraph text-lg text-foreground/60 max-w-md">
-              我们为合作伙伴提供全方位的支持体系，确保您在泰国市场获得持续的竞争优势与丰厚回报。
+            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-4">
+              为什么 Locanex 值得成为您的<br />下一个<span className="text-primary">合作品牌？</span>
+            </h2>
+            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mt-6">
+              不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Cards Grid - Desktop: 6 cards + 1 profit card | Tablet: 3 cards + profit | Mobile: 2 cards + profit */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 md:gap-6">
+            {/* 6 Advantage Cards */}
             {[
-              { icon: TrendingUp, title: '经销商价格', desc: '极具竞争力的价格体系，确保高额利润空间' },
-              { icon: Package, title: '低起订量', desc: '灵活的采购政策，降低库存压力与资金占用' },
-              { icon: Shield, title: '区域保护', desc: '严格的区域独家授权，避免恶性价格竞争' },
-              { icon: Zap, title: '快速交付', desc: '本地化仓储与高效物流，确保产品及时送达' }
+              { 
+                icon: TrendingUp, 
+                title: '有竞争力的经销价格', 
+                desc: '通过资质审核后获取经销商合作报价' 
+              },
+              { 
+                icon: Package, 
+                title: '阶梯采购政策', 
+                desc: '根据采购数量提供不同级别合作价格' 
+              },
+              { 
+                icon: Zap, 
+                title: '统一无线电池平台', 
+                desc: '多款无线工具共享电池平台，促进持续销售' 
+              },
+              { 
+                icon: Award, 
+                title: '组合销售机会', 
+                desc: '工具、电池、充电器和配件可以组合销售' 
+              },
+              { 
+                icon: Clock, 
+                title: '稳定供货', 
+                desc: '提供稳定供货和长期补货支持' 
+              },
+              { 
+                icon: Globe, 
+                title: '泰国市场支持', 
+                desc: '提供泰文产品图片、视频、产品资料和营销支持' 
+              }
             ].map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group bg-secondary/40 border border-muted-gray/20 p-8 hover:bg-secondary/80 transition-colors duration-300 glow-border"
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className="group lg:col-span-1 md:col-span-1 col-span-1 bg-black/60 backdrop-blur-sm border border-muted-gray/40 p-5 md:p-6 hover:border-primary/60 transition-all duration-300 flex flex-col"
               >
-                <div className="mb-6 inline-flex p-4 bg-background border border-muted-gray/30 group-hover:border-primary/50 transition-colors">
-                  <item.icon className="w-8 h-8 text-primary" />
+                <div className="mb-4 inline-flex p-3 bg-background/40 border border-muted-gray/30 group-hover:border-primary/50 transition-colors w-fit">
+                  <item.icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-heading text-2xl text-foreground mb-3">{item.title}</h3>
-                <p className="font-paragraph text-foreground/60 leading-relaxed">{item.desc}</p>
+                <h3 className="font-heading text-base md:text-lg text-foreground mb-2 line-clamp-2">{item.title}</h3>
+                <p className="font-paragraph text-xs md:text-sm text-foreground/70 leading-relaxed line-clamp-3">{item.desc}</p>
               </motion.div>
             ))}
+
+            {/* Profit Example Card - Larger, spans 1 column on desktop, full width on mobile/tablet */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="col-span-2 md:col-span-3 lg:col-span-1 bg-black/70 backdrop-blur-sm border-2 border-primary/80 p-6 md:p-8 flex flex-col justify-between hover:border-primary transition-all duration-300"
+            >
+              <div>
+                <h3 className="font-heading text-xl md:text-2xl text-foreground mb-6 text-center">利润示例</h3>
+                
+                <div className="space-y-4 md:space-y-5">
+                  <div className="border-b border-muted-gray/30 pb-4">
+                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">经销商采购价格</p>
+                    <p className="font-heading text-lg md:text-xl text-foreground">฿[待填写]</p>
+                  </div>
+                  
+                  <div className="border-b border-muted-gray/30 pb-4">
+                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">建议零售价</p>
+                    <p className="font-heading text-lg md:text-xl text-foreground">฿[待填写]</p>
+                  </div>
+                  
+                  <div className="border-b border-muted-gray/30 pb-4">
+                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">预计单件毛利润</p>
+                    <p className="font-heading text-lg md:text-xl text-foreground">฿[待填写]</p>
+                  </div>
+                  
+                  <div className="pb-4">
+                    <p className="font-paragraph text-xs md:text-sm text-foreground/70 mb-2">预计毛利率</p>
+                    <p className="font-heading text-lg md:text-xl text-foreground">[待填写]%</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Disclaimer */}
+              <div className="mt-6 md:mt-8 pt-4 border-t border-muted-gray/30">
+                <p className="font-paragraph text-xs text-foreground/60 leading-relaxed">
+                  实际利润取决于采购数量、销售渠道、物流、促销和当地市场情况。详细经销报价将在资质审核后提供。
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
