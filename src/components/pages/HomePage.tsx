@@ -715,6 +715,7 @@ export default function HomePage() {
                   { label: '质量检测', pro: '出厂严格检测', con: '检测标准不一' },
                   { label: '配件供应', pro: '配件齐全，供应稳定', con: '配件短缺，供应不稳定' },
                   { label: '经销商支持', pro: '提供培训、营销全方位支持', con: '支持有限或无支持' },
+                  { label: 'ODM定制与市场测试', pro: '✓ 支持产品ODM定制，配合经销商进行市场测试与产品优化', con: '通常以标准产品为主，对经销商ODM定制支持有限' },
                 ].map((row, i) => (
                   <tr key={i} className="group hover:bg-secondary/20 transition-colors">
                     <td className="p-6 border-b border-muted-gray/20 text-foreground/80 font-bold">{row.label}</td>
