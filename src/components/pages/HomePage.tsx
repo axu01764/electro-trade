@@ -159,7 +159,7 @@ export default function HomePage() {
       <Header />
 
       {/* --- HERO SECTION --- */}
-      <section id="hero" className="relative w-full h-[680px] md:h-[720px] flex items-center justify-center overflow-hidden bg-black">
+      <section id="hero" className="relative w-full min-h-[600px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-20 sm:pt-24 md:pt-0">
         <motion.div 
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
@@ -171,11 +171,11 @@ export default function HomePage() {
             width={1920}
           />
           {/* Gradient mask: 60% black on left to 10-15% on right */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-black/10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/20 md:from-black/60 md:via-black/30 md:to-black/10"></div>
           <div className="industrial-noise"></div>
         </motion.div>
 
-        <div className="relative z-10 w-full max-w-[1300px] mx-auto px-6 md:px-12 h-full flex items-center">
+        <div className="relative z-10 w-full max-w-[1300px] mx-auto px-4 sm:px-6 md:px-12 h-full flex items-center">
           {/* Left side: ~45% - Text and CTA */}
           <motion.div
             initial="hidden"
@@ -183,36 +183,36 @@ export default function HomePage() {
             variants={staggerContainer}
             className="w-full md:w-[45%] flex flex-col justify-center"
           >
-            <motion.div variants={fadeUpVariant} className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit">
+            <motion.div variants={fadeUpVariant} className="mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-              <span className="font-paragraph text-sm tracking-wider text-foreground/90 uppercase">Thailand Dealer Recruitment Program</span>
+              <span className="font-paragraph text-xs sm:text-sm tracking-wider text-foreground/90 uppercase">Thailand Dealer Recruitment Program</span>
             </motion.div>
             
-            <motion.h1 variants={fadeUpVariant} className="font-heading text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-[1.2] tracking-tight text-left">
+            <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 sm:mb-6 leading-[1.2] tracking-tight text-left">
               寻找泰国本地<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-500">电动工具经销商</span>
             </motion.h1>
             
-            <motion.p variants={fadeUpVariant} className="font-paragraph text-base md:text-lg text-foreground/80 mb-8 leading-relaxed text-left">
+            <motion.p variants={fadeUpVariant} className="font-paragraph text-sm sm:text-base md:text-lg text-foreground/80 mb-6 sm:mb-8 leading-relaxed text-left">
               有竞争力的经销价格、稳定供货和市场支持。<br />
               符合条件的经销商可申请免费产品样品。
             </motion.p>
             
-            <motion.div variants={fadeUpVariant} className="flex flex-col sm:flex-row gap-4 items-start mb-6">
+            <motion.div variants={fadeUpVariant} className="flex flex-col gap-3 sm:gap-4 items-stretch sm:items-start mb-4 sm:mb-6">
               <Button 
                 size="lg" 
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-base px-8 py-6 h-auto rounded-none relative overflow-hidden group whitespace-nowrap"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-6 h-12 sm:h-auto rounded-none relative overflow-hidden group w-full sm:w-auto"
                 onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  申请免费样品评估 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center sm:justify-start gap-2">
+                  申请免费样品评估 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform hidden sm:inline" />
                 </span>
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-base px-8 py-6 h-auto rounded-none transition-colors whitespace-nowrap"
+                className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-6 h-12 sm:h-auto rounded-none transition-colors w-full sm:w-auto"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 添加LINE咨询
@@ -224,7 +224,7 @@ export default function HomePage() {
             </motion.p>
 
             {/* Trust points */}
-            <motion.div variants={fadeUpVariant} className="mt-10 grid grid-cols-2 gap-4 text-left">
+            <motion.div variants={fadeUpVariant} className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-left">
               {[
                 '有竞争力的经销价格',
                 '样品测试机会',
@@ -233,7 +233,7 @@ export default function HomePage() {
               ].map((point, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
-                  <span className="font-paragraph text-sm text-foreground/80">{point}</span>
+                  <span className="font-paragraph text-xs sm:text-sm text-foreground/80">{point}</span>
                 </div>
               ))}
             </motion.div>
