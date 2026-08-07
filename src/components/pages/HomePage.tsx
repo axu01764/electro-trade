@@ -54,7 +54,7 @@ export default function HomePage() {
 
   const loadFaqs = async () => {
     try {
-      const result = await BaseCrudService.getAll<Faq>('faq');
+      const result = await BaseCrudService.getAll<Faq>('faq', [], { limit: 8 });
       setFaqs(result.items);
     } catch (error) {
       console.error('Failed to load FAQs:', error);
