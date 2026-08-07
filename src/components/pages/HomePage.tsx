@@ -392,7 +392,7 @@ export default function HomePage() {
                   <Image 
                     src="https://static.wixstatic.com/media/556c5c_8aae7f52450e4b5bb621c5beaa1fbd8b~mv2.png"
                     alt="Locanex 21V Impact Drill"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -446,7 +446,7 @@ export default function HomePage() {
                   <Image 
                     src="https://static.wixstatic.com/media/556c5c_12ea91a36dc44157a25ecf3cabd84403~mv2.png"
                     alt="Locanex 21V Impact Wrench"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -499,7 +499,7 @@ export default function HomePage() {
                   <Image 
                     src="https://static.wixstatic.com/media/556c5c_7457eb978ebd4fbcaec544aa7c991a4f~mv2.png"
                     alt="Locanex 21V Chainsaw"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -552,7 +552,7 @@ export default function HomePage() {
                   <Image 
                     src="https://static.wixstatic.com/media/556c5c_a6b7cb813d1c45b8839817121694b305~mv2.png"
                     alt="Locanex 21V Circular Saw"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -605,7 +605,7 @@ export default function HomePage() {
                   <Image 
                     src="https://static.wixstatic.com/media/556c5c_554ad7a1a9ec4d3b8e6cc4a0ccc41b1e~mv2.png"
                     alt="Locanex 21V Angle Grinder"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
