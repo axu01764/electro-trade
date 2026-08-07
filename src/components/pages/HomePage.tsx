@@ -745,14 +745,12 @@ export default function HomePage() {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: 'url(https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=1)',
+            backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(https://static.wixstatic.com/media/556c5c_bf739abb11f348c09b52556495b9071f~mv2.png)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundPosition: 'center center',
             backgroundRepeat: 'no-repeat'
           }}
-        >
-          <div className="absolute inset-0 bg-black/70"></div>
-        </div>
+        ></div>
 
         <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-12">
           {/* Title Section */}
