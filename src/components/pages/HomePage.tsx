@@ -338,11 +338,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- CORE PRODUCTS SHOWCASE --- */}
-      <section id="products" className="relative w-full py-20 md:py-32 bg-secondary/40 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+      {/* --- CORE PRODUCTS SHOWCASE (21V PROFESSIONAL SERIES) --- */}
+      <section id="products" className="relative w-full py-20 md:py-32 overflow-hidden">
+        {/* Background with industrial image and 60-75% dark overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src="https://static.wixstatic.com/media/556c5c_f85184c7b62946029429c579009fc6be~mv2.png"
+            alt="Industrial warehouse background"
+            className="w-full h-full object-cover"
+            width={1920}
+          />
+          {/* 65% black overlay */}
+          <div className="absolute inset-0 bg-black/65"></div>
+          <div className="industrial-noise"></div>
+        </div>
         
-        <div className="max-w-[120rem] mx-auto px-6 md:px-12">
+        <div className="relative z-10 max-w-[120rem] mx-auto px-6 md:px-12">
+          {/* Section Header */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -350,110 +362,293 @@ export default function HomePage() {
             variants={fadeUpVariant}
             className="text-center mb-16 md:mb-24"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/50 text-primary text-xs font-heading mb-6 uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-              PROFESSIONAL 21V BRUSHLESS SERIES
-            </div>
-            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-6">
-              Locanex 21V 专业无刷电动工具系列
+            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-4">
+              LOCANEX 21V<br />
+              <span className="text-primary">专业无刷电动工具系列</span>
             </h2>
-            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-4xl mx-auto leading-relaxed">
-              为专业施工、安装、维修与工业用户打造｜五款21V工具覆盖高频作业场景｜适合经销商门店展示与样品测试
+            <p className="font-paragraph text-base md:text-lg text-foreground/80 max-w-4xl mx-auto leading-relaxed mt-6">
+              为专业施工、安装、维修与工业用户打造<br />
+              五款21V专业工具覆盖高频作业场景<br />
+              适合经销商门店展示与样品测试
             </p>
           </motion.div>
 
+          {/* 5 Product Cards - Desktop: 5 in row | Mobile: 1 column */}
           <div className="min-h-[500px]">
-            {isLoadingProducts ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-              </div>
-            ) : products.length > 0 ? (
-              <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-4"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+            >
+              {/* Product 1: Impact Drill */}
+              <motion.div
+                variants={fadeUpVariant}
+                className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
               >
-                {products.map((product, index) => (
-                  <motion.div
-                    key={product._id}
-                    variants={fadeUpVariant}
-                    className="group relative bg-secondary/60 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
+                {/* Product Image - Full Cover */}
+                <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
+                  <Image 
+                    src="https://static.wixstatic.com/media/556c5c_aa9c35c585094f48aa0034488d05dde1~mv2.png?originWidth=256&originHeight=384"
+                    alt="Locanex 21V Impact Drill"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    width={300}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                {/* Product Info */}
+                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-3">
+                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                      LOCANEX 21V
+                    </span>
+                  </div>
+                  
+                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                    无刷冲击钻
+                  </h3>
+                  
+                  <div className="mb-4">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      专业用途
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      钻孔、紧固、安装与维修作业
+                    </p>
+                  </div>
+                  
+                  <div className="mb-6">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      经销商看点
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      高频施工工具，同时覆盖钻孔与紧固需求。
+                    </p>
+                  </div>
+                  
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
-                    {/* Product Image - Full Cover */}
-                    <div className="relative w-full aspect-[3/4] bg-secondary/80 overflow-hidden">
-                      {product.productImage ? (
-                        <Image 
-                          src={product.productImage}
-                          alt={product.productName || 'Locanex Product'}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                          width={300}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary to-secondary/50">
-                          <Wrench className="w-16 h-16 text-muted-gray/50" />
-                        </div>
-                      )}
-                      {/* Overlay gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    
-                    {/* Product Info */}
-                    <div className="p-5 md:p-6 flex-grow flex flex-col relative z-30 bg-secondary/60">
-                      {/* Brand Label */}
-                      <div className="mb-3">
-                        <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
-                          LOCANEX 21V
-                        </span>
-                      </div>
-                      
-                      {/* Product Name */}
-                      <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
-                        {product.productName}
-                      </h3>
-                      
-                      {/* Professional Use */}
-                      {product.productDescription && (
-                        <div className="mb-4">
-                          <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
-                            专业用途：
-                          </p>
-                          <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
-                            {product.productDescription}
-                          </p>
-                        </div>
-                      )}
-                      
-                      {/* Dealer Highlight */}
-                      {product.keyFeatures && (
-                        <div className="mb-6">
-                          <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
-                            经销商看点：
-                          </p>
-                          <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
-                            {product.keyFeatures}
-                          </p>
-                        </div>
-                      )}
-                      
-                      {/* CTA Button */}
-                      <Button 
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm md:text-base py-3 md:py-4 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                        onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
-                      >
-                        申请该产品样品
-                      </Button>
-                    </div>
-                  </motion.div>
-                ))}
+                    申请该产品样品
+                  </Button>
+                </div>
               </motion.div>
-            ) : (
-              <div className="text-center py-20 border border-dashed border-muted-gray/30 bg-secondary/20">
-                <Package className="w-16 h-16 text-muted-gray mx-auto mb-4" />
-                <p className="font-paragraph text-lg text-foreground/60">产品目录正在更新中</p>
-              </div>
-            )}
+
+              {/* Product 2: Impact Wrench */}
+              <motion.div
+                variants={fadeUpVariant}
+                className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
+              >
+                <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
+                  <Image 
+                    src="https://static.wixstatic.com/media/556c5c_f5bd27da7850400ea6d0419653bacde6~mv2.png?originWidth=256&originHeight=384"
+                    alt="Locanex 21V Impact Wrench"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    width={300}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-3">
+                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                      LOCANEX 21V
+                    </span>
+                  </div>
+                  
+                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                    无刷冲击扳手
+                  </h3>
+                  
+                  <div className="mb-4">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      专业用途
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      轮胎、机械、钢结构及螺栓拆装
+                    </p>
+                  </div>
+                  
+                  <div className="mb-6">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      经销商看点
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      专业紧固定位，适合汽修、工程与设备维护渠道。
+                    </p>
+                  </div>
+                  
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    申请该产品样品
+                  </Button>
+                </div>
+              </motion.div>
+
+              {/* Product 3: Chainsaw */}
+              <motion.div
+                variants={fadeUpVariant}
+                className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
+              >
+                <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
+                  <Image 
+                    src="https://static.wixstatic.com/media/556c5c_7a74d90f0e5c46f9a92141981a048cfa~mv2.png?originWidth=256&originHeight=384"
+                    alt="Locanex 21V Chainsaw"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    width={300}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-3">
+                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                      LOCANEX 21V
+                    </span>
+                  </div>
+                  
+                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                    无刷无绳链锯
+                  </h3>
+                  
+                  <div className="mb-4">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      专业用途
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      木材切割、园林修枝与现场木工作业
+                    </p>
+                  </div>
+                  
+                  <div className="mb-6">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      经销商看点
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      无绳作业更灵活，用途直观，方便门店演示。
+                    </p>
+                  </div>
+                  
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    申请该产品样品
+                  </Button>
+                </div>
+              </motion.div>
+
+              {/* Product 4: Circular Saw */}
+              <motion.div
+                variants={fadeUpVariant}
+                className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
+              >
+                <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
+                  <Image 
+                    src="https://static.wixstatic.com/media/556c5c_e6fe8a72a9404a5589c2da2d096e4ce4~mv2.png?originWidth=256&originHeight=384"
+                    alt="Locanex 21V Circular Saw"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    width={300}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-3">
+                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                      LOCANEX 21V
+                    </span>
+                  </div>
+                  
+                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                    无刷电圆锯
+                  </h3>
+                  
+                  <div className="mb-4">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      专业用途
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      木板、模板、板材与施工现场切割
+                    </p>
+                  </div>
+                  
+                  <div className="mb-6">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      经销商看点
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      专业切割场景明确，适合木工、建筑与装修渠道。
+                    </p>
+                  </div>
+                  
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    申请该产品样品
+                  </Button>
+                </div>
+              </motion.div>
+
+              {/* Product 5: Angle Grinder */}
+              <motion.div
+                variants={fadeUpVariant}
+                className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
+              >
+                <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
+                  <Image 
+                    src="https://static.wixstatic.com/media/556c5c_b4a45139917d4426a576e8cb825e3664~mv2.png?originWidth=256&originHeight=384"
+                    alt="Locanex 21V Angle Grinder"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    width={300}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-3">
+                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                      LOCANEX 21V
+                    </span>
+                  </div>
+                  
+                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                    无刷角磨机
+                  </h3>
+                  
+                  <div className="mb-4">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      专业用途
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      金属切割、打磨、去毛刺与表面处理
+                    </p>
+                  </div>
+                  
+                  <div className="mb-6">
+                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                      经销商看点
+                    </p>
+                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                      覆盖高频金工任务，适合维修、工程与工业渠道。
+                    </p>
+                  </div>
+                  
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    申请该产品样品
+                  </Button>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
 
           {/* Bottom CTA Section */}
