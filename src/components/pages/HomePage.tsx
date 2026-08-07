@@ -897,16 +897,16 @@ export default function HomePage() {
             className="text-center mb-20"
           >
             <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
-              公司实力、<span className="text-primary">质量控制</span>与供货能力
+              公司实力、<span className="text-primary">产品展示</span>与供货能力
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto"></div>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: '工厂与生产线', desc: '现代化生产线，稳定的生产能力', icon: Factory },
-              { title: '产品质量检测', desc: '严格的质量检测流程，确保产品品质', icon: Shield },
-              { title: '仓库与库存', desc: '充足的库存管理，确保稳定交货', icon: Package }
+              { title: '工厂与生产线', desc: '现代化生产线，稳定的生产与交付能力', image: 'https://static.wixstatic.com/media/556c5c_35ab86ea4b674d54a597438efd805d7e~mv2.png' },
+              { title: '产品展示间', desc: '产品系列集中展示，方便选品与样品确认', image: 'https://static.wixstatic.com/media/556c5c_45196851bba147288f733a9256fc8b92~mv2.png' },
+              { title: '仓库与库存', desc: '完善的库存管理，支持稳定供货与及时补货', image: 'https://static.wixstatic.com/media/556c5c_e15fa405088f43b9930bbc0f26594e70~mv2.png' }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -917,14 +917,13 @@ export default function HomePage() {
                 className="group relative h-80 overflow-hidden border border-muted-gray/20"
               >
                 <Image 
-                  src="https://static.wixstatic.com/media/556c5c_2d011c292e894241b0fb7190e8d6f640~mv2.png?originWidth=576&originHeight=448"
+                  src={item.image}
                   alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                   width={600}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 w-full p-8">
-                  <item.icon className="w-8 h-8 text-primary mb-4" />
                   <h3 className="font-heading text-2xl text-foreground mb-2">{item.title}</h3>
                   <p className="font-paragraph text-foreground/70">{item.desc}</p>
                 </div>
