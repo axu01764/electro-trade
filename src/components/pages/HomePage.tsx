@@ -739,82 +739,151 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- SAMPLE PROGRAM (PARALLAX BANNER) --- */}
-      <section id="sample-program" className="relative w-full py-32 overflow-hidden clip-diagonal-reverse bg-black">
-        <motion.div 
+      {/* --- SAMPLE PROGRAM (WORKFLOW) --- */}
+      <section id="sample-program" className="relative w-full py-20 md:py-32 overflow-hidden">
+        {/* Background with overlay */}
+        <div 
           className="absolute inset-0 z-0"
-          initial={{ scale: 1.1 }}
-          whileInView={{ scale: 1 }}
-          transition={{ duration: 1.5 }}
-          viewport={{ once: true }}
+          style={{
+            backgroundImage: 'url(https://static.wixstatic.com/media/12d367_71ebdd7141d041e4be3d91d80d4578dd~mv2.png?id=1)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
         >
-          <Image 
-            src="https://static.wixstatic.com/media/556c5c_28f53801f0e948cdbcdc7a7fee4b1933~mv2.png?originWidth=1152&originHeight=640"
-            alt="Industrial background"
-            className="w-full h-full object-cover opacity-40"
-            width={1920}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
-        </motion.div>
+          <div className="absolute inset-0 bg-black/70"></div>
+        </div>
 
-        <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-12">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+        <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-12">
+          {/* Title Section */}
+          <motion.div
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="max-w-2xl"
+            className="text-center mb-16 md:mb-20"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/50 text-primary text-sm font-heading mb-6">
-              <Settings className="w-4 h-4" /> 零风险评估
+              <Settings className="w-4 h-4" /> 经销商样品测试计划
             </div>
-            <h2 className="font-heading text-4xl md:text-6xl text-foreground mb-6 leading-tight">
+            <h2 className="font-heading text-3xl md:text-5xl text-foreground mb-4 leading-tight">
               申请加入泰国经销商<br />
               <span className="text-primary">产品测试计划</span>
             </h2>
-            <p className="font-paragraph text-lg text-foreground/80 mb-8">
-              我们深知产品品质是合作的基础。符合条件的意向经销商，可申请获取 Locanex 核心产品进行免费实地测试。
+            <p className="font-paragraph text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
+              通过样品测试了解真实产品表现，并根据测试反馈制定长期合作方案。
             </p>
-            
-            <div className="grid grid-cols-2 gap-6 mb-10">
+          </motion.div>
+
+          {/* Workflow Steps */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-12"
+          >
+            {/* Desktop: Horizontal Layout */}
+            <div className="hidden md:flex items-center justify-between gap-2 mb-12">
               {[
-                '提交经销商申请', '添加LINE保持沟通', '资质评估与确认', '寄送测试样品'
-              ].map((step, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-secondary border border-primary/30 flex items-center justify-center text-primary font-heading text-sm">
-                    {i + 1}
+                { num: 1, title: '提交经销商申请', desc: '填写申请表\n提交基本信息' },
+                { num: 2, title: '添加 LINE', desc: '添加官方 LINE\n保持沟通' },
+                { num: 3, title: '资质评估', desc: '评估经销商资质\n与经营能力' },
+                { num: 4, title: '确认样品', desc: '确认可申请的产品\n与样品数量' },
+                { num: 5, title: '产品测试', desc: '签收样品并进行\n产品测试' },
+                { num: 6, title: '制定合作方案', desc: '根据测试反馈\n制定合作方案' }
+              ].map((step, index) => (
+                <div key={step.num} className="flex items-center flex-1">
+                  {/* Step Circle */}
+                  <div className="flex flex-col items-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-secondary border-2 border-primary flex items-center justify-center text-primary font-heading text-lg mb-3">
+                      {step.num}
+                    </div>
+                    <h3 className="font-heading text-sm text-foreground text-center mb-1 w-20">
+                      {step.title}
+                    </h3>
+                    <p className="font-paragraph text-xs text-foreground/70 text-center w-24 leading-tight">
+                      {step.desc}
+                    </p>
                   </div>
-                  <span className="font-paragraph text-foreground/90">{step}</span>
+
+                  {/* Arrow between steps */}
+                  {index < 5 && (
+                    <div className="flex-1 flex items-center justify-center px-2">
+                      <div className="h-px bg-primary/50 flex-1"></div>
+                      <ChevronRight className="w-5 h-5 text-primary mx-1" />
+                      <div className="h-px bg-primary/50 flex-1"></div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
 
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-lg px-10 py-7 h-auto rounded-none"
-              onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              立即申请免费样品
-            </Button>
-            <p className="mt-4 font-paragraph text-sm text-muted-gray-foreground">
-              * 样品数量有限，申请不代表自动获得，需经资质审核。
+            {/* Mobile: Vertical Layout */}
+            <div className="md:hidden space-y-6">
+              {[
+                { num: 1, title: '提交经销商申请', desc: '填写申请表\n提交基本信息' },
+                { num: 2, title: '添加 LINE', desc: '添加官方 LINE\n保持沟通' },
+                { num: 3, title: '资质评估', desc: '评估经销商资质\n与经营能力' },
+                { num: 4, title: '确认样品', desc: '确认可申请的产品\n与样品数量' },
+                { num: 5, title: '产品测试', desc: '签收样品并进行\n产品测试' },
+                { num: 6, title: '制定合作方案', desc: '根据测试反馈\n制定合作方案' }
+              ].map((step, index) => (
+                <div key={step.num}>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-secondary border-2 border-primary flex items-center justify-center text-primary font-heading text-sm flex-shrink-0">
+                      {step.num}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-heading text-sm text-foreground mb-1">
+                        {step.title}
+                      </h3>
+                      <p className="font-paragraph text-xs text-foreground/70 leading-tight">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                  {index < 5 && (
+                    <div className="flex justify-center py-2 ml-5">
+                      <ChevronDown className="w-5 h-5 text-primary/50" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Notice Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="border border-primary/60 bg-black/40 px-6 py-4 mb-8 text-center"
+          >
+            <p className="font-paragraph text-sm text-foreground">
+              样品数量有限 ｜ 申请不代表自动获得样品 ｜ 需提供真实经营信息
             </p>
           </motion.div>
 
+          {/* CTA Button */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="hidden lg:block w-full max-w-md relative"
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col items-center gap-4"
           >
-            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full"></div>
-            <Image 
-              src="https://static.wixstatic.com/media/556c5c_497fc267e9ff4f9fade69572550d690d~mv2.png?originWidth=1152&originHeight=640"
-              alt="Sample Kit"
-              className="relative z-10 w-full h-auto border border-muted-gray/30 shadow-2xl"
-              width={600}
-            />
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-base md:text-lg px-8 md:px-12 py-3 md:py-4 h-auto rounded-none"
+              onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              申请免费样品评估
+            </Button>
+            <p className="font-paragraph text-xs md:text-sm text-muted-gray-foreground text-center max-w-2xl">
+              * 免费样品需经经销商资质审核，样品型号与数量由双方沟通后确定。
+            </p>
           </motion.div>
         </div>
       </section>
