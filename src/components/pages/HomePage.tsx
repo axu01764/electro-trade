@@ -677,7 +677,16 @@ export default function HomePage() {
       </section>
 
       {/* --- DIFFERENTIATION (COMPARISON) --- */}
-      <section id="differentiation" className="relative w-full py-32 bg-background">
+      <section 
+        id="differentiation" 
+        className="relative w-full py-32 bg-background"
+        style={{
+          backgroundImage: `url('https://static.wixstatic.com/media/556c5c_8fa7d834ed1349b3b5ef9ffa2cee64d1~mv2.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
         <div className="max-w-[100rem] mx-auto px-6 md:px-12">
           <motion.div
             initial="hidden"
