@@ -390,7 +390,7 @@ export default function HomePage() {
                 {/* Product Image - Full Cover */}
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
                   <Image 
-                    src="https://static.wixstatic.com/media/556c5c_aa9c35c585094f48aa0034488d05dde1~mv2.png?originWidth=256&originHeight=384"
+                    src="https://static.wixstatic.com/media/556c5c_8aae7f52450e4b5bb621c5beaa1fbd8b~mv2.png"
                     alt="Locanex 21V Impact Drill"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
@@ -444,7 +444,7 @@ export default function HomePage() {
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
                   <Image 
-                    src="https://static.wixstatic.com/media/556c5c_f5bd27da7850400ea6d0419653bacde6~mv2.png?originWidth=256&originHeight=384"
+                    src="https://static.wixstatic.com/media/556c5c_12ea91a36dc44157a25ecf3cabd84403~mv2.png"
                     alt="Locanex 21V Impact Wrench"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
@@ -497,7 +497,7 @@ export default function HomePage() {
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
                   <Image 
-                    src="https://static.wixstatic.com/media/556c5c_7a74d90f0e5c46f9a92141981a048cfa~mv2.png?originWidth=256&originHeight=384"
+                    src="https://static.wixstatic.com/media/556c5c_7457eb978ebd4fbcaec544aa7c991a4f~mv2.png"
                     alt="Locanex 21V Chainsaw"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
@@ -550,7 +550,7 @@ export default function HomePage() {
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
                   <Image 
-                    src="https://static.wixstatic.com/media/556c5c_e6fe8a72a9404a5589c2da2d096e4ce4~mv2.png?originWidth=256&originHeight=384"
+                    src="https://static.wixstatic.com/media/556c5c_a6b7cb813d1c45b8839817121694b305~mv2.png"
                     alt="Locanex 21V Circular Saw"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
@@ -603,7 +603,7 @@ export default function HomePage() {
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
                   <Image 
-                    src="https://static.wixstatic.com/media/556c5c_b4a45139917d4426a576e8cb825e3664~mv2.png?originWidth=256&originHeight=384"
+                    src="https://static.wixstatic.com/media/556c5c_554ad7a1a9ec4d3b8e6cc4a0ccc41b1e~mv2.png"
                     alt="Locanex 21V Angle Grinder"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     width={300}
