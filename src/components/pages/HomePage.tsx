@@ -165,7 +165,7 @@ export default function HomePage() {
           style={{ y: heroY, opacity: heroOpacity }}
         >
           <Image 
-            src="https://static.wixstatic.com/media/556c5c_5a8f5bf333e64548bb7542845c26b1fc~mv2.png"
+            src="https://static.wixstatic.com/media/556c5c_7c2510887aa746379649a33b4319f1f3~mv2.png"
             alt="Locanex power tools background"
             className="w-full h-full object-cover"
             width={1920}
