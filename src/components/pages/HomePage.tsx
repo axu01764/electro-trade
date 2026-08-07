@@ -704,18 +704,17 @@ export default function HomePage() {
                 <tr>
                   <th className="p-6 text-left font-heading text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">比较项目</th>
                   <th className="p-6 text-left font-heading text-2xl text-primary border-b-2 border-primary w-1/3 bg-secondary/30">Locanex</th>
-                  <th className="p-6 text-left font-heading text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">一般市场产品</th>
+                  <th className="p-6 text-left font-heading text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">一般供应商</th>
                 </tr>
               </thead>
               <tbody className="font-paragraph">
                 {[
-                  { label: '电机性能', pro: '动力稳定，效率更高', con: '性能不稳定，效率一般' },
-                  { label: '电池保护', pro: '多重保护系统', con: '基础保护或无保护' },
-                  { label: '耐用性', pro: '更耐用，寿命更长', con: '耐用性较低' },
-                  { label: '质量检测', pro: '出厂严格检测', con: '检测标准不一' },
-                  { label: '配件供应', pro: '配件齐全，供应稳定', con: '配件短缺，供应不稳定' },
-                  { label: '经销商支持', pro: '提供培训、营销全方位支持', con: '支持有限或无支持' },
-                  { label: 'ODM定制与市场测试', pro: '✓ 支持产品ODM定制，配合经销商进行市场测试与产品优化', con: '通常以标准产品为主，对经销商ODM定制支持有限' },
+                  { label: '工厂供货', pro: '✓ 工厂直供，利润空间更大', con: '中间环节多，成本更高' },
+                  { label: 'OEM 贴牌', pro: '✓ 品牌、Logo、包装均可定制', con: '以标准产品为主' },
+                  { label: 'ODM 开发', pro: '✓ 根据你的客户需求开发产品', con: '只能选择现有产品' },
+                  { label: '产品差异化', pro: '✓ 打造专属配置与产品系列', con: '产品同质化严重' },
+                  { label: '市场测试', pro: '✓ 先测试市场，再扩大采购', con: '批量采购，试错成本高' },
+                  { label: '长期支持', pro: '✓ 根据市场反馈持续优化产品', con: '以供货为主，支持有限' },
                 ].map((row, i) => (
                   <tr key={i} className="group hover:bg-secondary/20 transition-colors">
                     <td className="p-6 border-b border-muted-gray/20 text-foreground/80 font-bold">{row.label}</td>
