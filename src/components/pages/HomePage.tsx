@@ -339,7 +339,7 @@ export default function HomePage() {
       </section>
 
       {/* --- CORE PRODUCTS SHOWCASE --- */}
-      <section id="products" className="relative w-full py-32 bg-secondary/20 overflow-hidden">
+      <section id="products" className="relative w-full py-20 md:py-32 bg-secondary/40 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
         
         <div className="max-w-[120rem] mx-auto px-6 md:px-12">
@@ -348,24 +348,28 @@ export default function HomePage() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUpVariant}
-            className="text-center mb-20"
+            className="text-center mb-16 md:mb-24"
           >
-            <h2 className="font-heading text-4xl md:text-6xl text-foreground mb-6">
-              核心<span className="text-primary">电动工具</span>系列
+            <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/50 text-primary text-xs font-heading mb-6 uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              PROFESSIONAL 21V BRUSHLESS SERIES
+            </div>
+            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-6">
+              Locanex 21V 专业无刷电动工具系列
             </h2>
-            <p className="font-paragraph text-xl text-foreground/60 max-w-2xl mx-auto">
-              专为高强度工业与建筑场景设计，提供卓越的动力与持久的耐用性。
+            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-4xl mx-auto leading-relaxed">
+              为专业施工、安装、维修与工业用户打造｜五款21V工具覆盖高频作业场景｜适合经销商门店展示与样品测试
             </p>
           </motion.div>
 
-          <div className="min-h-[400px]">
+          <div className="min-h-[500px]">
             {isLoadingProducts ? (
               <div className="flex justify-center items-center h-64">
                 <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
               </div>
             ) : products.length > 0 ? (
               <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
@@ -375,48 +379,71 @@ export default function HomePage() {
                   <motion.div
                     key={product._id}
                     variants={fadeUpVariant}
-                    className="group relative bg-background border border-muted-gray/20 overflow-hidden flex flex-col"
+                    className="group relative bg-secondary/60 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
                   >
-                    <div className="relative aspect-[4/3] bg-secondary/50 p-8 flex items-center justify-center overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent z-10"></div>
+                    {/* Product Image - Full Cover */}
+                    <div className="relative w-full aspect-[3/4] bg-secondary/80 overflow-hidden">
                       {product.productImage ? (
                         <Image 
                           src={product.productImage}
                           alt={product.productName || 'Locanex Product'}
-                          className="w-full h-full object-contain relative z-0 group-hover:scale-110 transition-transform duration-700 ease-out"
-                          width={400}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                          width={300}
                         />
                       ) : (
-                        <Wrench className="w-20 h-20 text-muted-gray relative z-0" />
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary to-secondary/50">
+                          <Wrench className="w-16 h-16 text-muted-gray/50" />
+                        </div>
                       )}
-                      
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-primary/90 z-20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 text-center">
-                        <Button variant="outline" className="border-white text-white hover:bg-white hover:text-primary rounded-none">
-                          申请产品样品
-                        </Button>
-                      </div>
+                      {/* Overlay gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                     
-                    <div className="p-6 flex-grow flex flex-col relative z-30 bg-background">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-heading text-xl text-foreground font-bold">{product.productName}</h3>
-                        {product.productModel && (
-                          <span className="font-paragraph text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">
-                            {product.productModel}
-                          </span>
-                        )}
+                    {/* Product Info */}
+                    <div className="p-5 md:p-6 flex-grow flex flex-col relative z-30 bg-secondary/60">
+                      {/* Brand Label */}
+                      <div className="mb-3">
+                        <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                          LOCANEX 21V
+                        </span>
                       </div>
+                      
+                      {/* Product Name */}
+                      <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                        {product.productName}
+                      </h3>
+                      
+                      {/* Professional Use */}
                       {product.productDescription && (
-                        <p className="font-paragraph text-sm text-foreground/60 mb-4 line-clamp-2">
-                          {product.productDescription}
-                        </p>
+                        <div className="mb-4">
+                          <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                            专业用途：
+                          </p>
+                          <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                            {product.productDescription}
+                          </p>
+                        </div>
                       )}
-                      <div className="mt-auto pt-4 border-t border-muted-gray/20">
-                        <button className="text-primary text-sm font-heading flex items-center gap-1 group-hover:gap-2 transition-all">
-                          查看详情 <ChevronRight className="w-4 h-4" />
-                        </button>
-                      </div>
+                      
+                      {/* Dealer Highlight */}
+                      {product.keyFeatures && (
+                        <div className="mb-6">
+                          <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                            经销商看点：
+                          </p>
+                          <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                            {product.keyFeatures}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {/* CTA Button */}
+                      <Button 
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm md:text-base py-3 md:py-4 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                        onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                      >
+                        申请该产品样品
+                      </Button>
                     </div>
                   </motion.div>
                 ))}
@@ -428,6 +455,29 @@ export default function HomePage() {
               </div>
             )}
           </div>
+
+          {/* Bottom CTA Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mt-20 md:mt-28 text-center"
+          >
+            <h3 className="font-heading text-2xl md:text-3xl text-foreground mb-4">
+              想先测试哪一款？
+            </h3>
+            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mb-8">
+              符合条件的泰国经销商可申请指定产品样品进行评估与测试。样品数量有限，申请需经资质审核。
+            </p>
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-base md:text-lg px-10 md:px-12 py-6 md:py-7 h-auto rounded-none uppercase tracking-wider font-bold"
+              onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              申请免费样品评估
+            </Button>
+          </motion.div>
         </div>
       </section>
 
