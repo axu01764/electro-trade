@@ -1036,18 +1036,140 @@ export default function HomePage() {
           backgroundRepeat: 'no-repeat',
         }}
       >
+        <style>{`
+          @media (max-width: 767px) {
+            .comparison-table-mobile {
+              width: 100%;
+              max-width: 100%;
+              table-layout: fixed;
+              background: linear-gradient(135deg, #0D1011, #07090A);
+              border: 1px solid rgba(190, 200, 208, 0.18);
+              border-radius: 14px;
+              overflow: hidden;
+              box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+            }
+            .comparison-table-mobile thead {
+              background-color: #141719;
+              height: 48px;
+            }
+            .comparison-table-mobile th {
+              padding: 14px 8px;
+              text-align: left;
+              vertical-align: top;
+              border: none;
+              font-weight: 600;
+              font-size: 10px;
+              line-height: 1;
+              color: #9EA5AA;
+              white-space: normal;
+              word-break: break-word;
+              overflow-wrap: anywhere;
+            }
+            .comparison-table-mobile th:nth-child(2) {
+              font-weight: 700;
+              font-size: 11px;
+              color: #FF9D00;
+              background-color: rgba(255, 157, 0, 0.10);
+              border-bottom: 2px solid #FF9D00;
+            }
+            .comparison-table-mobile tbody tr {
+              border-bottom: 1px solid rgba(190, 200, 208, 0.12);
+            }
+            .comparison-table-mobile tbody tr:nth-child(odd) {
+              background-color: rgba(255, 255, 255, 0.012);
+            }
+            .comparison-table-mobile tbody tr:nth-child(even) {
+              background-color: transparent;
+            }
+            .comparison-table-mobile td {
+              padding: 14px 8px;
+              border: none;
+              text-align: left;
+              vertical-align: top;
+              white-space: normal;
+              word-break: break-word;
+              overflow-wrap: anywhere;
+              height: auto;
+            }
+            .comparison-table-mobile td:nth-child(1) {
+              font-size: 11px;
+              font-weight: 700;
+              color: #F1F3F4;
+              line-height: 1.45;
+              width: 24%;
+              border-right: 1px solid rgba(190, 200, 208, 0.08);
+            }
+            .comparison-table-mobile td:nth-child(2) {
+              font-size: 10px;
+              font-weight: 500;
+              color: #ECEEEF;
+              line-height: 1.6;
+              width: 39%;
+              background-color: rgba(255, 157, 0, 0.035);
+              border-right: 1px solid rgba(190, 200, 208, 0.08);
+            }
+            .comparison-table-mobile td:nth-child(3) {
+              font-size: 9.5px;
+              font-weight: 400;
+              color: #727A80;
+              line-height: 1.6;
+              width: 37%;
+            }
+            .comparison-checkmark {
+              display: inline-flex;
+              align-items: center;
+              gap: 5px;
+              margin-right: 0;
+            }
+            .comparison-checkmark-circle {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 14px;
+              height: 14px;
+              min-width: 14px;
+              border-radius: 50%;
+              background-color: rgba(255, 157, 0, 0.08);
+              border: 1px solid rgba(255, 157, 0, 0.30);
+              flex-shrink: 0;
+            }
+            .comparison-checkmark-icon {
+              width: 8px;
+              height: 8px;
+              color: #FF9D00;
+              stroke-width: 2;
+            }
+          }
+        `}</style>
         <div className="max-w-[100rem] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUpVariant}
-            className="text-center mb-12 max-sm:mb-10 sm:mb-16"
+            className="max-sm:text-left sm:text-center mb-12 max-sm:mb-10 sm:mb-16"
           >
-            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl md:text-5xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-[1.2]">
-              产品与经销<span className="text-primary">支持对比</span>
-            </h2>
-            <div className="w-20 h-1 bg-primary mx-auto"></div>
+            {/* Mobile: English subtitle + Title with split colors + Subtitle */}
+            <div className="sm:hidden">
+              <span className="block text-[#FF9D00] text-[10px] font-bold tracking-[1.4px] uppercase mb-3">
+                FACTORY · OEM · ODM
+              </span>
+              <h2 className="font-heading text-[25px] leading-[1.25] font-black text-foreground mb-3">
+                <span className="text-[#F5F6F7]">产品与经销</span>
+                <span className="text-[#FF9D00]">支持对比</span>
+              </h2>
+              <p className="font-paragraph text-[12px] leading-[1.65] text-[#9DA5AB]">
+                从工厂直供到市场测试，为泰国经销商提供更灵活的合作支持。
+              </p>
+            </div>
+            
+            {/* Desktop/Tablet: Original centered layout */}
+            <div className="hidden sm:block">
+              <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl md:text-5xl text-foreground mb-3 sm:mb-4 leading-[1.2]">
+                产品与经销<span className="text-primary">支持对比</span>
+              </h2>
+              <div className="w-20 h-1 bg-primary mx-auto"></div>
+            </div>
           </motion.div>
 
           <motion.div 
@@ -1055,9 +1177,46 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="overflow-x-auto"
+            className="max-sm:overflow-visible sm:overflow-x-auto"
           >
-            <table className="w-full min-w-[800px] border-collapse">
+            {/* Mobile: Premium table */}
+            <table className="comparison-table-mobile sm:hidden">
+              <thead>
+                <tr>
+                  <th>比较项目</th>
+                  <th>我们</th>
+                  <th>一般供应商</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { label: '工厂供货', pro: '自有工厂直供，价格优势明显', con: '多级代理，成本较高' },
+                  { label: 'OEM贴牌', pro: '支持小批量定制，灵活度高', con: '起订量要求极高' },
+                  { label: 'ODM开发', pro: '专业研发团队，支持功能定制', con: '仅提供公模产品' },
+                  { label: '产品差异化', pro: '独特工业设计，避免价格战', con: '同质化严重，竞争激烈' },
+                  { label: '市场测试', pro: '支持样机试销，降低风险', con: '需大批量进货' },
+                  { label: '长期支持', pro: '提供品牌营销与售后全方位支持', con: '仅负责产品销售' },
+                ].map((row, i) => (
+                  <tr key={i}>
+                    <td>{row.label}</td>
+                    <td>
+                      <span className="comparison-checkmark">
+                        <span className="comparison-checkmark-circle">
+                          <svg className="comparison-checkmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                        </span>
+                        <span>{row.pro}</span>
+                      </span>
+                    </td>
+                    <td>{row.con}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Desktop/Tablet: Original table */}
+            <table className="hidden sm:table w-full min-w-[800px] border-collapse">
               <thead>
                 <tr>
                   <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">比较项目</th>
