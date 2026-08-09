@@ -184,7 +184,31 @@ export default function HomePage() {
       <Header />
 
       {/* --- HERO SECTION --- */}
-      <section id="hero" className="relative w-full max-sm:min-h-[760px] max-sm:h-auto sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0 max-sm:overflow-hidden">
+      <section 
+        id="hero" 
+        className="relative w-full sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0"
+        style={{
+          minHeight: 'auto',
+          height: 'auto',
+          position: 'relative',
+          overflow: 'hidden',
+          paddingTop: 0,
+        }}
+      >
+        <style>{`
+          @media (max-width: 767px) {
+            #hero {
+              min-height: 760px !important;
+              height: auto !important;
+              position: relative !important;
+              overflow: hidden !important;
+              padding-top: 0 !important;
+              background-position: center bottom !important;
+              background-size: 100% auto !important;
+              background-repeat: no-repeat !important;
+            }
+          }
+        `}</style>
         <motion.div 
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
@@ -209,13 +233,28 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </motion.div>
 
-        <div className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 h-full max-sm:flex max-sm:flex-col max-sm:justify-start md:flex md:items-center">
+        <div 
+          className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 md:h-full md:flex md:items-center"
+          style={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'stretch',
+            width: '100%',
+            height: 'auto',
+            margin: 0,
+            padding: '32px 16px 0',
+            transform: 'none',
+            zIndex: 2,
+          }}
+        >
           {/* Mobile: Top section - Text and CTA | Desktop: Left side ~45% */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="w-full max-sm:pt-[32px] md:w-[45%] flex flex-col justify-start"
+            className="w-full md:w-[45%] flex flex-col justify-start"
           >
             <motion.div variants={fadeUpVariant} className="mb-4 max-sm:mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-none bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit max-sm:text-[10px] max-sm:px-3 max-sm:py-1.5 max-sm:h-7 max-sm:text-[9px] max-sm:leading-none">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse max-sm:w-1.5 max-sm:h-1.5 flex-shrink-0"></span>
