@@ -184,7 +184,7 @@ export default function HomePage() {
       {/* --- HERO SECTION --- */}
       <section 
         id="hero" 
-        className="relative w-full sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0"
+        className="relative w-full sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0 max-sm:!relative max-sm:!min-h-[760px] max-sm:!h-auto max-sm:!overflow-hidden max-sm:!pt-0 max-sm:!mt-0"
         style={{
           minHeight: 'auto',
           height: 'auto',
@@ -201,6 +201,7 @@ export default function HomePage() {
               position: relative !important;
               overflow: hidden !important;
               padding-top: 0 !important;
+              margin-top: 0 !important;
               background-position: center bottom !important;
               background-size: 100% auto !important;
               background-repeat: no-repeat !important;
@@ -232,7 +233,7 @@ export default function HomePage() {
         </motion.div>
 
         <div 
-          className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 md:h-full md:flex md:items-center"
+          className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 md:h-full md:flex md:items-center max-sm:!absolute max-sm:!top-0 max-sm:!left-0 max-sm:!right-0 max-sm:!bottom-auto max-sm:!w-full max-sm:!h-auto max-sm:!m-0 max-sm:!translate-y-0 max-sm:!px-4 max-sm:!pt-7 max-sm:!pb-0 max-sm:!z-[2]"
           style={{
             position: 'relative',
             display: 'flex',
