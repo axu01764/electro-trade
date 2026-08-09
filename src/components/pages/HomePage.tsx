@@ -34,6 +34,8 @@ export default function HomePage() {
     companyType: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   // --- DATA FETCHING LOGIC ---
   useEffect(() => {
@@ -60,6 +62,33 @@ export default function HomePage() {
       console.error('Failed to load FAQs:', error);
     } finally {
       setIsLoadingFaqs(false);
+    }
+  };
+
+  // --- CAROUSEL LOGIC ---
+  const handleCarouselPrev = () => {
+    if (carouselIndex > 0) {
+      setCarouselIndex(carouselIndex - 1);
+      scrollCarouselToIndex(carouselIndex - 1);
+    }
+  };
+
+  const handleCarouselNext = () => {
+    if (carouselIndex < products.length - 1) {
+      setCarouselIndex(carouselIndex + 1);
+      scrollCarouselToIndex(carouselIndex + 1);
+    }
+  };
+
+  const scrollCarouselToIndex = (index: number) => {
+    if (carouselRef.current) {
+      const cardWidth = carouselRef.current.offsetWidth - 32; // 100% - 16px padding on each side
+      const gap = 12;
+      const scrollLeft = index * (cardWidth + gap);
+      carouselRef.current.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -178,6 +207,27 @@ export default function HomePage() {
           height: 48px;
           font-size: 14px;
           border-radius: 0;
+        }
+        /* Mobile Carousel Styles */
+        @media (max-width: 767px) {
+          .product-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            gap: 12px;
+            padding: 0 16px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .product-carousel::-webkit-scrollbar {
+            display: none;
+          }
+          .product-carousel-item {
+            flex: 0 0 calc(100% - 36px);
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+          }
         }
       `}</style>
       <Header />
@@ -459,10 +509,11 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          {/* 5 Product Cards - Desktop: 5 in row | Mobile: 1 column */}
+          {/* 5 Product Cards - Desktop: 5 in row | Tablet: 2 columns | Mobile: Carousel */}
           <div className="min-h-[400px] max-sm:min-h-[auto]">
+            {/* Desktop & Tablet Grid */}
             <motion.div 
-              className="grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 max-sm:gap-2 sm:gap-3 md:gap-4"
+              className="hidden sm:grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -735,6 +786,219 @@ export default function HomePage() {
                 </div>
               </motion.div>
             </motion.div>
+
+            {/* Mobile Carousel */}
+            <div className="sm:hidden">
+              {/* Carousel Container */}
+              <div 
+                ref={carouselRef}
+                className="product-carousel mb-6"
+              >
+                {/* Product 1 */}
+                <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
+                  <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
+                    <Image 
+                      src="https://static.wixstatic.com/media/556c5c_8aae7f52450e4b5bb621c5beaa1fbd8b~mv2.png"
+                      alt="Locanex 21V Impact Drill"
+                      className="w-full h-full object-contain object-center"
+                      width={300}
+                    />
+                  </div>
+                  <div className="p-3 flex-grow flex flex-col relative z-30 bg-black/70">
+                    <div className="mb-2">
+                      <span className="font-heading text-xs font-bold text-primary tracking-widest uppercase">LOCANEX 21V</span>
+                    </div>
+                    <h3 className="font-heading text-sm text-foreground font-bold mb-2 line-clamp-2 leading-tight">无刷冲击钻</h3>
+                    <div className="mb-2">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">专业用途</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">钻孔、紧固、安装与维修作业</p>
+                    </div>
+                    <div className="mb-3">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">高频施工工具，同时覆盖钻孔与紧固需求。</p>
+                    </div>
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      申请该产品样品
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Product 2 */}
+                <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
+                  <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
+                    <Image 
+                      src="https://static.wixstatic.com/media/556c5c_12ea91a36dc44157a25ecf3cabd84403~mv2.png"
+                      alt="Locanex 21V Impact Wrench"
+                      className="w-full h-full object-contain object-center"
+                      width={300}
+                    />
+                  </div>
+                  <div className="p-3 flex-grow flex flex-col relative z-30 bg-black/70">
+                    <div className="mb-2">
+                      <span className="font-heading text-xs font-bold text-primary tracking-widest uppercase">LOCANEX 21V</span>
+                    </div>
+                    <h3 className="font-heading text-sm text-foreground font-bold mb-2 line-clamp-2 leading-tight">无刷冲击扳手</h3>
+                    <div className="mb-2">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">专业用途</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">轮胎、机械、钢结构及螺栓拆装</p>
+                    </div>
+                    <div className="mb-3">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">专业紧固定位，适合汽修、工程与设备维护渠道。</p>
+                    </div>
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      申请该产品样品
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Product 3 */}
+                <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
+                  <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
+                    <Image 
+                      src="https://static.wixstatic.com/media/556c5c_7457eb978ebd4fbcaec544aa7c991a4f~mv2.png"
+                      alt="Locanex 21V Chainsaw"
+                      className="w-full h-full object-contain object-center"
+                      width={300}
+                    />
+                  </div>
+                  <div className="p-3 flex-grow flex flex-col relative z-30 bg-black/70">
+                    <div className="mb-2">
+                      <span className="font-heading text-xs font-bold text-primary tracking-widest uppercase">LOCANEX 21V</span>
+                    </div>
+                    <h3 className="font-heading text-sm text-foreground font-bold mb-2 line-clamp-2 leading-tight">无刷无绳链锯</h3>
+                    <div className="mb-2">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">专业用途</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">木材切割、园林修枝与现场木工作业</p>
+                    </div>
+                    <div className="mb-3">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">无绳作业更灵活，用途直观，方便门店演示。</p>
+                    </div>
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      申请该产品样品
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Product 4 */}
+                <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
+                  <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
+                    <Image 
+                      src="https://static.wixstatic.com/media/556c5c_a6b7cb813d1c45b8839817121694b305~mv2.png"
+                      alt="Locanex 21V Circular Saw"
+                      className="w-full h-full object-contain object-center"
+                      width={300}
+                    />
+                  </div>
+                  <div className="p-3 flex-grow flex flex-col relative z-30 bg-black/70">
+                    <div className="mb-2">
+                      <span className="font-heading text-xs font-bold text-primary tracking-widest uppercase">LOCANEX 21V</span>
+                    </div>
+                    <h3 className="font-heading text-sm text-foreground font-bold mb-2 line-clamp-2 leading-tight">无刷电圆锯</h3>
+                    <div className="mb-2">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">专业用途</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">木板、模板、板材与施工现场切割</p>
+                    </div>
+                    <div className="mb-3">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">专业切割场景明确，适合木工、建筑与装修渠道。</p>
+                    </div>
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      申请该产品样品
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Product 5 */}
+                <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
+                  <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
+                    <Image 
+                      src="https://static.wixstatic.com/media/556c5c_554ad7a1a9ec4d3b8e6cc4a0ccc41b1e~mv2.png"
+                      alt="Locanex 21V Angle Grinder"
+                      className="w-full h-full object-contain object-center"
+                      width={300}
+                    />
+                  </div>
+                  <div className="p-3 flex-grow flex flex-col relative z-30 bg-black/70">
+                    <div className="mb-2">
+                      <span className="font-heading text-xs font-bold text-primary tracking-widest uppercase">LOCANEX 21V</span>
+                    </div>
+                    <h3 className="font-heading text-sm text-foreground font-bold mb-2 line-clamp-2 leading-tight">无刷角磨机</h3>
+                    <div className="mb-2">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">专业用途</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">金属切割、打磨、去毛刺与表面处理</p>
+                    </div>
+                    <div className="mb-3">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">覆盖高频金工任务，适合维修、工程与工业渠道。</p>
+                    </div>
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      申请该产品样品
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Carousel Controls */}
+              <div className="flex items-center justify-between gap-3 px-4">
+                {/* Product Counter */}
+                <div className="text-center flex-1">
+                  <span className="font-heading text-sm text-primary font-bold">
+                    {String(carouselIndex + 1).padStart(2, '0')} / 05
+                  </span>
+                </div>
+
+                {/* Navigation Buttons */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleCarouselPrev}
+                    disabled={carouselIndex === 0}
+                    className="w-10 h-10 flex items-center justify-center border border-primary/50 text-primary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-primary/10 transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5 rotate-180" />
+                  </button>
+                  <button
+                    onClick={handleCarouselNext}
+                    disabled={carouselIndex === 4}
+                    className="w-10 h-10 flex items-center justify-center border border-primary/50 text-primary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-primary/10 transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Pagination Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {[0, 1, 2, 3, 4].map((index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setCarouselIndex(index);
+                      scrollCarouselToIndex(index);
+                    }}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      carouselIndex === index ? 'bg-primary' : 'bg-primary/30'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Bottom CTA Section */}
