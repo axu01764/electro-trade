@@ -329,25 +329,32 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </div>
 
-        <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
-          {/* Section Header */}
+        <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 max-sm:px-5 sm:px-6 md:px-12">
+          {/* Section Header - Desktop/Tablet centered, Mobile left-aligned */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUpVariant}
-            className="mb-8 max-sm:mb-8 sm:mb-12 text-center"
+            className="mb-8 max-sm:mb-6 sm:mb-12 max-sm:text-left sm:text-center"
           >
-            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-5xl lg:text-5xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-[1.2]">
-              为什么 Locanex 值得成为您的<br />下一个<span className="text-primary">合作品牌？</span>
+            {/* Mobile: Orange English subtitle */}
+            <span className="hidden max-sm:block text-[#FF9D00] text-xs font-bold tracking-widest uppercase mb-2 block">
+              Dealer Advantages
+            </span>
+            
+            <h2 className="font-heading text-2xl max-sm:text-[25px] sm:text-3xl md:text-5xl lg:text-5xl text-foreground mb-3 max-sm:mb-2 sm:mb-4 leading-[1.2] max-sm:leading-[1.3]">
+              <span className="max-sm:block">为什么 Locanex 值得成为</span>
+              <span className="max-sm:block">你的下一个<span className="text-primary">合作品牌？</span></span>
+              <span className="hidden sm:inline">为什么 Locanex 值得成为您的<br />下一个<span className="text-primary">合作品牌？</span></span>
             </h2>
-            <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mt-3 max-sm:mt-3 sm:mt-4 leading-[1.6]">
+            <p className="font-paragraph text-xs max-sm:text-[12px] sm:text-base md:text-lg text-[#AEB4B9] max-w-3xl max-sm:max-w-none mx-auto mt-3 max-sm:mt-2 sm:mt-4 leading-[1.6] max-sm:leading-[1.6]">
               不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。
             </p>
           </motion.div>
 
-          {/* Cards Grid - Desktop: 6 cards in 1 row | Tablet: 3 cards x 2 rows | Mobile: 1 column */}
-          <div className="grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 max-sm:gap-2 sm:gap-3 md:gap-4">
+          {/* Cards Grid - Desktop: 6 cards in 1 row | Tablet: 3 cards x 2 rows | Mobile: 2 columns x 3 rows */}
+          <div className="grid grid-cols-1 max-sm:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 max-sm:gap-[10px] sm:gap-3 md:gap-4">
             {/* 6 Advantage Cards */}
             {[
               { 
