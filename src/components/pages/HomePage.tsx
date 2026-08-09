@@ -122,7 +122,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-clip">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-clip pb-24 max-sm:pb-32">
       <style>{`
         .industrial-noise {
           position: absolute;
@@ -154,12 +154,37 @@ export default function HomePage() {
         .glow-border:hover::before {
           opacity: 1;
         }
+        /* Mobile Fixed CTA Bar */
+        .fixed-cta-bar {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 40;
+          display: none;
+          background: rgba(18, 18, 18, 0.98);
+          backdrop-filter: blur(8px);
+          border-top: 1px solid rgba(74, 74, 74, 0.3);
+          padding: 12px 16px;
+          gap: 8px;
+        }
+        @media (max-width: 767px) {
+          .fixed-cta-bar {
+            display: flex;
+          }
+        }
+        .fixed-cta-bar button {
+          flex: 1;
+          height: 48px;
+          font-size: 14px;
+          border-radius: 0;
+        }
       `}</style>
 
       <Header />
 
       {/* --- HERO SECTION --- */}
-      <section id="hero" className="relative w-full min-h-[600px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-20 sm:pt-24 md:pt-0">
+      <section id="hero" className="relative w-full min-h-[500px] max-sm:min-h-[600px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-20 max-sm:pt-16 sm:pt-24 md:pt-0">
         <motion.div 
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
@@ -175,7 +200,7 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </motion.div>
 
-        <div className="relative z-10 w-full max-w-[1300px] mx-auto px-4 sm:px-6 md:px-12 h-full flex items-center">
+        <div className="relative z-10 w-full max-w-[1300px] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12 h-full flex items-center">
           {/* Left side: ~45% - Text and CTA */}
           <motion.div
             initial="hidden"
@@ -183,25 +208,25 @@ export default function HomePage() {
             variants={staggerContainer}
             className="w-full md:w-[45%] flex flex-col justify-center"
           >
-            <motion.div variants={fadeUpVariant} className="mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit">
+            <motion.div variants={fadeUpVariant} className="mb-3 max-sm:mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
               <span className="font-paragraph text-xs sm:text-sm tracking-wider text-foreground/90 uppercase">Thailand Dealer Recruitment Program</span>
             </motion.div>
             
-            <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 sm:mb-6 leading-[1.2] tracking-tight text-left">
+            <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-3 max-sm:mb-4 sm:mb-6 leading-[1.2] tracking-tight text-left">
               寻找泰国本地<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-500">电动工具经销商</span>
             </motion.h1>
             
-            <motion.p variants={fadeUpVariant} className="font-paragraph text-sm sm:text-base md:text-lg text-foreground/80 mb-6 sm:mb-8 leading-relaxed text-left">
+            <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/80 mb-4 max-sm:mb-5 sm:mb-8 leading-[1.6] text-left">
               有竞争力的经销价格、稳定供货和市场支持。<br />
               符合条件的经销商可申请免费产品样品。
             </motion.p>
             
-            <motion.div variants={fadeUpVariant} className="flex flex-col gap-3 sm:gap-4 items-stretch sm:items-start mb-4 sm:mb-6">
+            <motion.div variants={fadeUpVariant} className="flex flex-col gap-2 max-sm:gap-2 sm:gap-4 items-stretch sm:items-start mb-3 max-sm:mb-4 sm:mb-6">
               <Button 
                 size="lg" 
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-6 h-12 sm:h-auto rounded-none relative overflow-hidden group w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 py-3 max-sm:py-3 sm:py-6 h-12 max-sm:h-12 sm:h-auto rounded-none relative overflow-hidden group w-full sm:w-auto"
                 onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <span className="relative z-10 flex items-center justify-center sm:justify-start gap-2">
@@ -212,19 +237,19 @@ export default function HomePage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-6 h-12 sm:h-auto rounded-none transition-colors w-full sm:w-auto"
+                className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 py-3 max-sm:py-3 sm:py-6 h-12 max-sm:h-12 sm:h-auto rounded-none transition-colors w-full sm:w-auto"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 添加LINE咨询
               </Button>
             </motion.div>
 
-            <motion.p variants={fadeUpVariant} className="font-paragraph text-xs text-muted-gray-foreground text-left">
+            <motion.p variants={fadeUpVariant} className="font-paragraph text-xs max-sm:text-xs text-muted-gray-foreground text-left">
               申请约需60秒｜无需支付申请费用｜审核通过后安排样品
             </motion.p>
 
             {/* Trust points */}
-            <motion.div variants={fadeUpVariant} className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-left">
+            <motion.div variants={fadeUpVariant} className="mt-4 max-sm:mt-4 sm:mt-10 grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 gap-2 max-sm:gap-2 sm:gap-4 text-left">
               {[
                 '有竞争力的经销价格',
                 '样品测试机会',
@@ -233,7 +258,7 @@ export default function HomePage() {
               ].map((point, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
-                  <span className="font-paragraph text-xs sm:text-sm text-foreground/80">{point}</span>
+                  <span className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">{point}</span>
                 </div>
               ))}
             </motion.div>
@@ -245,7 +270,7 @@ export default function HomePage() {
       </section>
 
       {/* --- DEALER OPPORTUNITIES (B2B) --- */}
-      <section id="opportunities" className="relative w-full overflow-hidden" style={{ minHeight: '450px', maxHeight: '520px', display: 'flex', alignItems: 'center' }}>
+      <section id="opportunities" className="relative w-full overflow-hidden py-16 max-sm:py-12 sm:py-20 md:py-32 flex items-center">
         {/* Background with warehouse image and 30% black overlay */}
         <div className="absolute inset-0 z-0">
           <Image 
@@ -259,25 +284,25 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </div>
 
-        <div className="relative z-10 w-full max-w-[1280px] mx-auto px-6 md:px-12">
+        <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
           {/* Section Header */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUpVariant}
-            className="mb-12 text-center"
+            className="mb-8 max-sm:mb-8 sm:mb-12 text-center"
           >
-            <h2 className="font-heading text-3xl md:text-5xl lg:text-5xl text-foreground mb-4">
+            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-5xl lg:text-5xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-[1.2]">
               为什么 Locanex 值得成为您的<br />下一个<span className="text-primary">合作品牌？</span>
             </h2>
-            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mt-4">
+            <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mt-3 max-sm:mt-3 sm:mt-4 leading-[1.6]">
               不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。
             </p>
           </motion.div>
 
-          {/* Cards Grid - Desktop: 6 cards in 1 row | Tablet: 3 cards x 2 rows | Mobile: 2 cards x 3 rows */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+          {/* Cards Grid - Desktop: 6 cards in 1 row | Tablet: 3 cards x 2 rows | Mobile: 1 column */}
+          <div className="grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 max-sm:gap-2 sm:gap-3 md:gap-4">
             {/* 6 Advantage Cards */}
             {[
               { 
@@ -323,15 +348,15 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
-                className="group bg-black/60 backdrop-blur-sm border border-muted-gray/40 p-5 md:p-6 hover:border-primary transition-all duration-300 flex flex-col justify-between h-[170px] md:h-[180px] lg:h-[190px] hover:-translate-y-1"
+                className="group bg-black/60 backdrop-blur-sm border border-muted-gray/40 p-3 max-sm:p-3 sm:p-4 md:p-6 hover:border-primary transition-all duration-300 flex flex-col justify-between min-h-[140px] max-sm:min-h-[140px] sm:min-h-[160px] md:h-[180px] lg:h-[190px] hover:-translate-y-1"
               >
                 <div>
-                  <div className="mb-3 inline-flex items-center justify-center w-8 h-8 bg-primary/20 border border-muted-gray/50 group-hover:border-primary/80 transition-colors">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3 inline-flex items-center justify-center w-8 h-8 bg-primary/20 border border-muted-gray/50 group-hover:border-primary/80 transition-colors">
                     <span className="font-heading text-xs text-primary font-bold">{item.number}</span>
                   </div>
-                  <h3 className="font-heading text-sm md:text-base text-foreground mb-2 line-clamp-2 leading-tight">{item.title}</h3>
+                  <h3 className="font-heading text-xs max-sm:text-xs sm:text-sm md:text-base text-foreground mb-1 max-sm:mb-1 sm:mb-2 line-clamp-2 leading-tight">{item.title}</h3>
                 </div>
-                <p className="font-paragraph text-xs text-foreground/70 leading-relaxed line-clamp-2">{item.desc}</p>
+                <p className="font-paragraph text-xs max-sm:text-xs text-foreground/70 leading-[1.4] line-clamp-2">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -339,7 +364,7 @@ export default function HomePage() {
       </section>
 
       {/* --- CORE PRODUCTS SHOWCASE (21V PROFESSIONAL SERIES) --- */}
-      <section id="products" className="relative w-full py-20 md:py-32 overflow-hidden">
+      <section id="products" className="relative w-full py-12 max-sm:py-12 sm:py-20 md:py-32 overflow-hidden">
         {/* Background with industrial image and 60-75% dark overlay */}
         <div className="absolute inset-0 z-0">
           <Image 
@@ -353,20 +378,20 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </div>
         
-        <div className="relative z-10 max-w-[120rem] mx-auto px-6 md:px-12">
+        <div className="relative z-10 max-w-[120rem] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
           {/* Section Header */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUpVariant}
-            className="text-center mb-16 md:mb-24"
+            className="text-center mb-12 max-sm:mb-10 sm:mb-16 md:mb-24"
           >
-            <h2 className="font-heading text-3xl md:text-5xl lg:text-6xl text-foreground mb-4">
+            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-[1.2]">
               LOCANEX 21V<br />
               <span className="text-primary">专业无刷电动工具系列</span>
             </h2>
-            <p className="font-paragraph text-base md:text-lg text-foreground/80 max-w-4xl mx-auto leading-relaxed mt-6">
+            <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/80 max-w-4xl mx-auto leading-[1.6] mt-3 max-sm:mt-3 sm:mt-6">
               为专业施工、安装、维修与工业用户打造<br />
               五款21V专业工具覆盖高频作业场景<br />
               适合经销商门店展示与样品测试
@@ -374,9 +399,9 @@ export default function HomePage() {
           </motion.div>
 
           {/* 5 Product Cards - Desktop: 5 in row | Mobile: 1 column */}
-          <div className="min-h-[500px]">
+          <div className="min-h-[400px] max-sm:min-h-[auto]">
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-4"
+              className="grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 max-sm:gap-2 sm:gap-3 md:gap-4"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -399,37 +424,37 @@ export default function HomePage() {
                 </div>
                 
                 {/* Product Info */}
-                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
-                  <div className="mb-3">
-                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3">
+                    <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
                   
-                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                  <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷冲击钻
                   </h3>
                   
-                  <div className="mb-4">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       钻孔、紧固、安装与维修作业
                     </p>
                   </div>
                   
-                  <div className="mb-6">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       高频施工工具，同时覆盖钻孔与紧固需求。
                     </p>
                   </div>
                   
                   <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     申请该产品样品
@@ -452,37 +477,37 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 
-                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
-                  <div className="mb-3">
-                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3">
+                    <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
                   
-                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                  <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷冲击扳手
                   </h3>
                   
-                  <div className="mb-4">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       轮胎、机械、钢结构及螺栓拆装
                     </p>
                   </div>
                   
-                  <div className="mb-6">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       专业紧固定位，适合汽修、工程与设备维护渠道。
                     </p>
                   </div>
                   
                   <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     申请该产品样品
@@ -505,37 +530,37 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 
-                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
-                  <div className="mb-3">
-                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3">
+                    <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
                   
-                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                  <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷无绳链锯
                   </h3>
                   
-                  <div className="mb-4">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       木材切割、园林修枝与现场木工作业
                     </p>
                   </div>
                   
-                  <div className="mb-6">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       无绳作业更灵活，用途直观，方便门店演示。
                     </p>
                   </div>
                   
                   <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     申请该产品样品
@@ -558,37 +583,37 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 
-                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
-                  <div className="mb-3">
-                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3">
+                    <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
                   
-                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                  <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷电圆锯
                   </h3>
                   
-                  <div className="mb-4">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       木板、模板、板材与施工现场切割
                     </p>
                   </div>
                   
-                  <div className="mb-6">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       专业切割场景明确，适合木工、建筑与装修渠道。
                     </p>
                   </div>
                   
                   <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     申请该产品样品
@@ -611,37 +636,37 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 
-                <div className="p-5 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
-                  <div className="mb-3">
-                    <span className="font-heading text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
+                <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3">
+                    <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
                   
-                  <h3 className="font-heading text-base md:text-lg text-foreground font-bold mb-4 line-clamp-2 leading-tight">
+                  <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷角磨机
                   </h3>
                   
-                  <div className="mb-4">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       金属切割、打磨、去毛刺与表面处理
                     </p>
                   </div>
                   
-                  <div className="mb-6">
-                    <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
+                  <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
+                    <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
                     </p>
-                    <p className="font-paragraph text-sm text-foreground/80 leading-relaxed">
+                    <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80 leading-[1.4]">
                       覆盖高频金工任务，适合维修、工程与工业渠道。
                     </p>
                   </div>
                   
                   <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs md:text-sm py-3 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
                     申请该产品样品
@@ -657,17 +682,17 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-20 md:mt-28 text-center"
+            className="mt-12 max-sm:mt-10 sm:mt-20 md:mt-28 text-center"
           >
-            <h3 className="font-heading text-2xl md:text-3xl text-foreground mb-4">
+            <h3 className="font-heading text-xl max-sm:text-xl sm:text-2xl md:text-3xl text-foreground mb-3 max-sm:mb-3 sm:mb-4">
               想先测试哪一款？
             </h3>
-            <p className="font-paragraph text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mb-8">
+            <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mb-6 max-sm:mb-5 sm:mb-8 leading-[1.6]">
               符合条件的泰国经销商可申请指定产品样品进行评估与测试。样品数量有限，申请需经资质审核。
             </p>
             <Button 
               size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-base md:text-lg px-10 md:px-12 py-6 md:py-7 h-auto rounded-none uppercase tracking-wider font-bold"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-10 md:px-12 py-3 max-sm:py-3 md:py-6 md:py-7 h-auto rounded-none uppercase tracking-wider font-bold"
               onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
             >
               申请免费样品评估
@@ -679,7 +704,7 @@ export default function HomePage() {
       {/* --- DIFFERENTIATION (COMPARISON) --- */}
       <section 
         id="differentiation" 
-        className="relative w-full py-32 bg-background"
+        className="relative w-full py-16 max-sm:py-12 sm:py-20 md:py-32 bg-background"
         style={{
           backgroundImage: `url('https://static.wixstatic.com/media/556c5c_8fa7d834ed1349b3b5ef9ffa2cee64d1~mv2.png')`,
           backgroundSize: 'cover',
@@ -687,15 +712,15 @@ export default function HomePage() {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="max-w-[100rem] mx-auto px-6 md:px-12">
+        <div className="max-w-[100rem] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUpVariant}
-            className="text-center mb-16"
+            className="text-center mb-12 max-sm:mb-10 sm:mb-16"
           >
-            <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
+            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl md:text-5xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-[1.2]">
               产品与经销<span className="text-primary">支持对比</span>
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto"></div>
@@ -711,9 +736,9 @@ export default function HomePage() {
             <table className="w-full min-w-[800px] border-collapse">
               <thead>
                 <tr>
-                  <th className="p-6 text-left font-heading text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">比较项目</th>
-                  <th className="p-6 text-left font-heading text-2xl text-primary border-b-2 border-primary w-1/3 bg-secondary/30">Locanex</th>
-                  <th className="p-6 text-left font-heading text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">一般供应商</th>
+                  <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">比较项目</th>
+                  <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-2xl text-primary border-b-2 border-primary w-1/3 bg-secondary/30">Locanex</th>
+                  <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">一般供应商</th>
                 </tr>
               </thead>
               <tbody className="font-paragraph">
@@ -726,11 +751,11 @@ export default function HomePage() {
                   { label: '长期支持', pro: '✓ 根据市场反馈持续优化产品', con: '以供货为主，支持有限' },
                 ].map((row, i) => (
                   <tr key={i} className="group hover:bg-secondary/20 transition-colors">
-                    <td className="p-6 border-b border-muted-gray/20 text-foreground/80 font-bold">{row.label}</td>
-                    <td className="p-6 border-b border-muted-gray/20 text-foreground bg-secondary/10 group-hover:bg-secondary/30 transition-colors flex items-center gap-3">
+                    <td className="p-4 max-sm:p-3 sm:p-6 border-b border-muted-gray/20 text-foreground/80 font-bold text-sm max-sm:text-xs sm:text-base">{row.label}</td>
+                    <td className="p-4 max-sm:p-3 sm:p-6 border-b border-muted-gray/20 text-foreground bg-secondary/10 group-hover:bg-secondary/30 transition-colors flex items-center gap-3 text-sm max-sm:text-xs sm:text-base">
                       <CheckCircle className="w-5 h-5 text-primary shrink-0" /> {row.pro}
                     </td>
-                    <td className="p-6 border-b border-muted-gray/20 text-foreground/50">{row.con}</td>
+                    <td className="p-4 max-sm:p-3 sm:p-6 border-b border-muted-gray/20 text-foreground/50 text-sm max-sm:text-xs sm:text-base">{row.con}</td>
                   </tr>
                 ))}
               </tbody>
@@ -740,7 +765,7 @@ export default function HomePage() {
       </section>
 
       {/* --- SAMPLE PROGRAM (WORKFLOW) --- */}
-      <section id="sample-program" className="relative w-full py-20 md:py-32 overflow-hidden">
+      <section id="sample-program" className="relative w-full py-16 max-sm:py-12 sm:py-20 md:py-32 overflow-hidden">
         {/* Background with overlay */}
         <div 
           className="absolute inset-0 z-0"
@@ -752,23 +777,23 @@ export default function HomePage() {
           }}
         ></div>
 
-        <div className="relative z-10 max-w-[100rem] mx-auto px-6 md:px-12">
+        <div className="relative z-10 max-w-[100rem] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
           {/* Title Section */}
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16 md:mb-20"
+            className="text-center mb-12 max-sm:mb-10 sm:mb-16 md:mb-20"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/50 text-primary text-sm font-heading mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/50 text-primary text-xs max-sm:text-xs sm:text-sm font-heading mb-4 max-sm:mb-4 sm:mb-6">
               <Settings className="w-4 h-4" /> 经销商样品测试计划
             </div>
-            <h2 className="font-heading text-3xl md:text-5xl text-foreground mb-4 leading-tight">
+            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-5xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-tight">
               申请加入泰国经销商<br />
               <span className="text-primary">产品测试计划</span>
             </h2>
-            <p className="font-paragraph text-base md:text-lg text-foreground/80 max-w-3xl mx-auto">
+            <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/80 max-w-3xl mx-auto leading-[1.6]">
               通过样品测试了解真实产品表现，并根据测试反馈制定长期合作方案。
             </p>
           </motion.div>
@@ -779,7 +804,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="mb-12"
+            className="mb-8 max-sm:mb-8 sm:mb-12"
           >
             {/* Desktop: Horizontal Layout */}
             <div className="hidden md:flex items-center justify-between gap-2 mb-12">
@@ -818,7 +843,7 @@ export default function HomePage() {
             </div>
 
             {/* Mobile: Vertical Layout */}
-            <div className="md:hidden space-y-6">
+            <div className="md:hidden space-y-4 max-sm:space-y-4 sm:space-y-6">
               {[
                 { num: 1, title: '提交经销商申请', desc: '填写申请表\n提交基本信息' },
                 { num: 2, title: '添加 LINE', desc: '添加官方 LINE\n保持沟通' },
@@ -828,15 +853,15 @@ export default function HomePage() {
                 { num: 6, title: '制定合作方案', desc: '根据测试反馈\n制定合作方案' }
               ].map((step, index) => (
                 <div key={step.num}>
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 max-sm:gap-3 sm:gap-4">
                     <div className="w-10 h-10 rounded-full bg-secondary border-2 border-primary flex items-center justify-center text-primary font-heading text-sm flex-shrink-0">
                       {step.num}
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-heading text-sm text-foreground mb-1">
+                      <h3 className="font-heading text-sm max-sm:text-sm text-foreground mb-1">
                         {step.title}
                       </h3>
-                      <p className="font-paragraph text-xs text-foreground/70 leading-tight">
+                      <p className="font-paragraph text-xs max-sm:text-xs text-foreground/70 leading-tight">
                         {step.desc}
                       </p>
                     </div>
@@ -857,9 +882,9 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="border border-primary/60 bg-black/40 px-6 py-4 mb-8 text-center"
+            className="border border-primary/60 bg-black/40 px-4 max-sm:px-4 sm:px-6 py-3 max-sm:py-3 sm:py-4 mb-6 max-sm:mb-6 sm:mb-8 text-center"
           >
-            <p className="font-paragraph text-sm text-foreground">
+            <p className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground">
               样品数量有限 ｜ 申请不代表自动获得样品 ｜ 需提供真实经营信息
             </p>
           </motion.div>
@@ -870,16 +895,16 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col items-center gap-4"
+            className="flex flex-col items-center gap-3 max-sm:gap-3 sm:gap-4"
           >
             <Button 
               size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-base md:text-lg px-8 md:px-12 py-3 md:py-4 h-auto rounded-none"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-8 md:px-12 py-3 max-sm:py-3 md:py-4 h-auto rounded-none"
               onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
             >
               申请免费样品评估
             </Button>
-            <p className="font-paragraph text-xs md:text-sm text-muted-gray-foreground text-center max-w-2xl">
+            <p className="font-paragraph text-xs max-sm:text-xs md:text-sm text-muted-gray-foreground text-center max-w-2xl leading-[1.5]">
               * 免费样品需经经销商资质审核，样品型号与数量由双方沟通后确定。
             </p>
           </motion.div>
@@ -887,22 +912,22 @@ export default function HomePage() {
       </section>
 
       {/* --- COMPANY & SUPPLY CAPABILITY --- */}
-      <section id="company" className="relative w-full py-32 bg-background">
-        <div className="max-w-[100rem] mx-auto px-6 md:px-12">
+      <section id="company" className="relative w-full py-16 max-sm:py-12 sm:py-20 md:py-32 bg-background">
+        <div className="max-w-[100rem] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUpVariant}
-            className="text-center mb-20"
+            className="text-center mb-12 max-sm:mb-10 sm:mb-20"
           >
-            <h2 className="font-heading text-4xl md:text-5xl text-foreground mb-4">
+            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl md:text-5xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-[1.2]">
               公司实力、<span className="text-primary">产品展示</span>与供货能力
             </h2>
             <div className="w-20 h-1 bg-primary mx-auto"></div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-sm:gap-4 sm:gap-6 md:gap-8">
             {[
               { title: '工厂与生产线', desc: '现代化生产线，稳定的生产与交付能力', image: 'https://static.wixstatic.com/media/556c5c_35ab86ea4b674d54a597438efd805d7e~mv2.png' },
               { title: '产品展示间', desc: '产品系列集中展示，方便选品与样品确认', image: 'https://static.wixstatic.com/media/556c5c_45196851bba147288f733a9256fc8b92~mv2.png' },
@@ -914,7 +939,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="group relative h-80 overflow-hidden border border-muted-gray/20"
+                className="group relative h-64 max-sm:h-64 sm:h-72 md:h-80 overflow-hidden border border-muted-gray/20"
               >
                 <Image 
                   src={item.image}
@@ -923,9 +948,9 @@ export default function HomePage() {
                   width={600}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 w-full p-8">
-                  <h3 className="font-heading text-2xl text-foreground mb-2">{item.title}</h3>
-                  <p className="font-paragraph text-foreground/70">{item.desc}</p>
+                <div className="absolute bottom-0 left-0 w-full p-4 max-sm:p-4 sm:p-6 md:p-8">
+                  <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl md:text-2xl text-foreground mb-1 max-sm:mb-1 sm:mb-2">{item.title}</h3>
+                  <p className="font-paragraph text-sm max-sm:text-sm text-foreground/70 leading-[1.4]">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -935,37 +960,37 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mt-12 text-center"
+            className="mt-8 max-sm:mt-8 sm:mt-12 text-center"
           >
-            <p className="font-heading text-xl text-primary tracking-wide">我们正在寻找首批泰国市场合作伙伴。</p>
+            <p className="font-heading text-lg max-sm:text-lg sm:text-xl text-primary tracking-wide">我们正在寻找首批泰国市场合作伙伴。</p>
           </motion.div>
         </div>
       </section>
 
       {/* --- IDEAL DISTRIBUTOR & APPLICATION FORM (SPLIT LAYOUT) --- */}
       <section id="application-section" className="relative w-full bg-secondary/30 border-t border-muted-gray/20">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 max-sm:grid-cols-1 lg:grid-cols-2">
           
           {/* Left Side: Ideal Distributor */}
-          <div className="p-12 md:p-20 lg:p-32 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-muted-gray/20">
+          <div className="p-6 max-sm:p-4 sm:p-12 md:p-20 lg:p-32 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-muted-gray/20">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="font-heading text-3xl md:text-4xl text-foreground mb-12">
+              <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-8 max-sm:mb-8 sm:mb-12">
                 哪些合作伙伴<span className="text-primary">适合申请？</span>
               </h2>
               
-              <div className="space-y-12">
+              <div className="space-y-8 max-sm:space-y-8 sm:space-y-12">
                 <div>
-                  <h3 className="font-heading text-xl text-foreground mb-6 flex items-center gap-2">
+                  <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
                     <CheckCircle className="text-green-500 w-6 h-6" /> 适合申请
                   </h3>
-                  <ul className="space-y-4 font-paragraph text-foreground/80">
+                  <ul className="space-y-2 max-sm:space-y-2 sm:space-y-4 font-paragraph text-foreground/80">
                     {['电动工具经销商', '五金店/建材店', '工业用品供应商', '电商卖家', '批发商', '拥有区域渠道的公司'].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3">
+                      <li key={i} className="flex items-center gap-3 text-sm max-sm:text-sm sm:text-base">
                         <div className="w-1.5 h-1.5 rounded-full bg-primary"></div> {item}
                       </li>
                     ))}
@@ -973,12 +998,12 @@ export default function HomePage() {
                 </div>
                 
                 <div>
-                  <h3 className="font-heading text-xl text-foreground mb-6 flex items-center gap-2">
+                  <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full border-2 border-red-500 flex items-center justify-center text-red-500 text-sm font-bold">X</div> 暂不适合
                   </h3>
-                  <ul className="space-y-4 font-paragraph text-foreground/60">
+                  <ul className="space-y-2 max-sm:space-y-2 sm:space-y-4 font-paragraph text-foreground/60">
                     {['仅希望购买个人试用品', '没有相关销售渠道', '无法提供真实经营信息', '不接受核心产品测试反馈'].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3">
+                      <li key={i} className="flex items-center gap-3 text-sm max-sm:text-sm sm:text-base">
                         <div className="w-1.5 h-1.5 rounded-full bg-muted-gray"></div> {item}
                       </li>
                     ))}
@@ -989,7 +1014,7 @@ export default function HomePage() {
           </div>
 
           {/* Right Side: Application Form */}
-          <div id="application" className="p-12 md:p-20 lg:p-32 bg-background relative overflow-hidden">
+          <div id="application" className="p-6 max-sm:p-4 sm:p-12 md:p-20 lg:p-32 bg-background relative overflow-hidden">
             <div className="industrial-noise"></div>
             <motion.div
               initial={{ opacity: 0, x: 30 }}
@@ -998,53 +1023,53 @@ export default function HomePage() {
               transition={{ duration: 0.8 }}
               className="relative z-10 max-w-md mx-auto lg:mx-0"
             >
-              <h2 className="font-heading text-3xl md:text-4xl text-foreground mb-4">
+              <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-2 max-sm:mb-2 sm:mb-4">
                 申请成为<span className="text-primary">Locanex经销商</span>
               </h2>
-              <p className="font-paragraph text-foreground/60 mb-10">填写基本信息，获取产品资料与评估资格。</p>
+              <p className="font-paragraph text-foreground/60 mb-6 max-sm:mb-6 sm:mb-10 text-sm max-sm:text-sm sm:text-base">填写基本信息，获取产品资料与评估资格。</p>
 
               {/* Step Indicator */}
-              <div className="flex items-center mb-10">
+              <div className="flex items-center mb-8 max-sm:mb-8 sm:mb-10">
                 <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
-                <div className="font-paragraph text-sm ml-3 mr-4 text-foreground/80">步骤 1: 基本信息</div>
+                <div className="font-paragraph text-xs max-sm:text-xs sm:text-sm ml-3 mr-4 text-foreground/80">步骤 1: 基本信息</div>
                 <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
                 <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
-                <div className="font-paragraph text-sm ml-3 text-foreground/80">步骤 2: 联系方式</div>
+                <div className="font-paragraph text-xs max-sm:text-xs sm:text-sm ml-3 text-foreground/80">步骤 2: 联系方式</div>
               </div>
 
-              <div className="bg-secondary/20 border border-muted-gray/20 p-8">
+              <div className="bg-secondary/20 border border-muted-gray/20 p-4 max-sm:p-4 sm:p-8">
                 {applicationStep === 1 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="space-y-6"
+                    className="space-y-4 max-sm:space-y-4 sm:space-y-6"
                   >
-                    <div className="space-y-2">
-                      <Label htmlFor="companyName" className="font-paragraph text-foreground/80">公司名称 *</Label>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="companyName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司名称 *</Label>
                       <Input
                         id="companyName"
                         value={formData.companyName}
                         onChange={(e) => handleInputChange('companyName', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
                         placeholder="请输入公司全称"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="contactPersonName" className="font-paragraph text-foreground/80">联系人姓名 *</Label>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="contactPersonName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系人姓名 *</Label>
                       <Input
                         id="contactPersonName"
                         value={formData.contactPersonName}
                         onChange={(e) => handleInputChange('contactPersonName', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
                         placeholder="请输入联系人姓名"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="companyType" className="font-paragraph text-foreground/80">公司类型 *</Label>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="companyType" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司类型 *</Label>
                       <Select value={formData.companyType} onValueChange={(value) => handleInputChange('companyType', value)}>
-                        <SelectTrigger className="bg-background border-muted-gray/30 text-foreground focus:ring-primary rounded-none h-12">
+                        <SelectTrigger className="bg-background border-muted-gray/30 text-foreground focus:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm">
                           <SelectValue placeholder="请选择公司类型" />
                         </SelectTrigger>
                         <SelectContent className="bg-secondary border-muted-gray/30 text-foreground">
@@ -1060,7 +1085,7 @@ export default function HomePage() {
                     </div>
 
                     <Button
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-lg py-6 h-auto rounded-none mt-4"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm py-3 max-sm:py-3 sm:py-6 h-auto rounded-none mt-3 max-sm:mt-3 sm:mt-4"
                       onClick={handleNextStep}
                       disabled={!formData.companyName || !formData.contactPersonName || !formData.companyType}
                     >
@@ -1073,41 +1098,41 @@ export default function HomePage() {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="space-y-6"
+                    className="space-y-4 max-sm:space-y-4 sm:space-y-6"
                   >
-                    <div className="space-y-2">
-                      <Label htmlFor="contactPhone" className="font-paragraph text-foreground/80">联系电话 *</Label>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="contactPhone" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系电话 *</Label>
                       <Input
                         id="contactPhone"
                         value={formData.contactPhone}
                         onChange={(e) => handleInputChange('contactPhone', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
                         placeholder="请输入联系电话"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="font-paragraph text-foreground/80">电子邮箱 *</Label>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="email" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">电子邮箱 *</Label>
                       <Input
                         id="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-12"
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
                         placeholder="请输入电子邮箱"
                       />
                     </div>
 
-                    <div className="flex gap-4 mt-4">
+                    <div className="flex gap-2 max-sm:gap-2 sm:gap-4 mt-4 max-sm:mt-4 sm:mt-4">
                       <Button
                         variant="outline"
-                        className="w-1/3 border-muted-gray/50 text-foreground hover:bg-secondary font-heading py-6 h-auto rounded-none"
+                        className="w-1/3 border-muted-gray/50 text-foreground hover:bg-secondary font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
                         onClick={() => setApplicationStep(1)}
                       >
                         返回
                       </Button>
                       <Button
-                        className="w-2/3 bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-lg py-6 h-auto rounded-none"
+                        className="w-2/3 bg-primary hover:bg-primary/90 text-primary-foreground font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
                         onClick={handleSubmitApplication}
                         disabled={!formData.contactPhone || !formData.email || isSubmitting}
                       >
