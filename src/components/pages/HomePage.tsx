@@ -318,14 +318,24 @@ export default function HomePage() {
       <section id="opportunities" className="relative w-full overflow-hidden py-16 max-sm:py-12 sm:py-20 md:py-32 flex items-center">
         {/* Background with warehouse image and 30% black overlay */}
         <div className="absolute inset-0 z-0">
+          {/* Desktop/Tablet: Original warehouse background */}
           <Image 
             src="https://static.wixstatic.com/media/556c5c_f85184c7b62946029429c579009fc6be~mv2.png"
             alt="Industrial warehouse background"
-            className="w-full h-full object-cover"
+            className="hidden sm:block w-full h-full object-cover"
             width={1920}
           />
-          {/* 30% black overlay */}
-          <div className="absolute inset-0 bg-black/30"></div>
+          {/* Mobile: New background image */}
+          <Image 
+            src="https://static.wixstatic.com/media/556c5c_6f86a0666f48483985f986158f9a1c4e~mv2.png"
+            alt="Mobile dealer advantages background"
+            className="block sm:hidden w-full h-full object-cover"
+            width={1920}
+          />
+          {/* 30% black overlay for desktop/tablet */}
+          <div className="hidden sm:block absolute inset-0 bg-black/30"></div>
+          {/* 80% dark overlay (#030506) for mobile */}
+          <div className="block sm:hidden absolute inset-0" style={{ backgroundColor: 'rgba(3, 5, 6, 0.8)' }}></div>
           <div className="industrial-noise"></div>
         </div>
 
