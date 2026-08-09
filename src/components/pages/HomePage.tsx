@@ -184,7 +184,7 @@ export default function HomePage() {
       <Header />
 
       {/* --- HERO SECTION --- */}
-      <section id="hero" className="relative w-full max-sm:min-h-[820px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-20 max-sm:pt-16 sm:pt-24 md:pt-0">
+      <section id="hero" className="relative w-full max-sm:min-h-[820px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0">
         <motion.div 
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
@@ -209,30 +209,30 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </motion.div>
 
-        <div className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-5 sm:px-6 md:px-12 h-full max-sm:flex max-sm:flex-col max-sm:justify-between md:flex md:items-center">
+        <div className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 h-full max-sm:flex max-sm:flex-col max-sm:justify-start md:flex md:items-center">
           {/* Mobile: Top section - Text and CTA | Desktop: Left side ~45% */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="w-full max-sm:pt-8 md:w-[45%] flex flex-col justify-center"
+            className="w-full max-sm:pt-10 md:w-[45%] flex flex-col justify-start"
           >
-            <motion.div variants={fadeUpVariant} className="mb-3 max-sm:mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit max-sm:text-[10px] max-sm:px-2 max-sm:py-1">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse max-sm:w-1.5 max-sm:h-1.5"></span>
+            <motion.div variants={fadeUpVariant} className="mb-4 max-sm:mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-none bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit max-sm:text-[10px] max-sm:px-3 max-sm:py-1.5 max-sm:h-7 max-sm:text-[9px] max-sm:leading-none">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse max-sm:w-1.5 max-sm:h-1.5 flex-shrink-0"></span>
               <span className="font-paragraph text-xs sm:text-sm tracking-wider text-foreground/90 uppercase max-sm:whitespace-nowrap">Thailand Dealer Recruitment Program</span>
             </motion.div>
             
-            <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-[32px] sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-3 max-sm:mb-4 sm:mb-6 max-sm:leading-[1.1] md:leading-[1.2] tracking-tight text-left">
+            <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-[30px] sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 max-sm:leading-[1.1] md:leading-[1.2] tracking-tight text-left">
               寻找泰国本地<br />
               <span className="text-primary">电动工具经销商</span>
             </motion.h1>
             
-            <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-[15px] sm:text-base md:text-lg text-foreground/80 mb-4 max-sm:mb-5 sm:mb-8 max-sm:leading-[1.65] md:leading-[1.6] text-left">
+            <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-[14px] sm:text-base md:text-lg text-foreground/80 mb-5 max-sm:mb-5 sm:mb-8 max-sm:leading-[1.65] md:leading-[1.6] text-left">
               有竞争力的经销价格、稳定供货和市场支持。<br />
               符合条件的经销商可申请免费产品样品。
             </motion.p>
             
-            <motion.div variants={fadeUpVariant} className="flex flex-col gap-2 max-sm:gap-3 sm:gap-4 items-stretch sm:items-start mb-3 max-sm:mb-4 sm:mb-6 max-sm:w-full">
+            <motion.div variants={fadeUpVariant} className="flex flex-col gap-3 max-sm:gap-3 sm:gap-4 items-stretch sm:items-start mb-4 max-sm:mb-4 sm:mb-6 max-sm:w-full">
               <Button 
                 size="lg" 
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 max-sm:py-3 sm:py-6 max-sm:h-[52px] sm:h-auto rounded-none relative overflow-hidden group max-sm:w-full sm:w-auto"
@@ -253,7 +253,7 @@ export default function HomePage() {
               </Button>
             </motion.div>
 
-            <motion.p variants={fadeUpVariant} className="font-paragraph text-xs max-sm:text-xs text-muted-gray-foreground text-left">
+            <motion.p variants={fadeUpVariant} className="font-paragraph text-xs max-sm:text-[10px] text-muted-gray-foreground text-left">
               申请约需60秒｜无需支付申请费用｜审核通过后安排样品
             </motion.p>
 
