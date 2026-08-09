@@ -180,9 +180,7 @@ export default function HomePage() {
           border-radius: 0;
         }
       `}</style>
-
       <Header />
-
       {/* --- HERO SECTION --- */}
       <section 
         id="hero" 
@@ -315,7 +313,6 @@ export default function HomePage() {
 
         </div>
       </section>
-
       {/* --- DEALER OPPORTUNITIES (B2B) --- */}
       <section id="opportunities" className="relative w-full overflow-hidden py-16 max-sm:py-12 sm:py-20 md:py-32 flex items-center">
         {/* Background with warehouse image and 30% black overlay */}
@@ -409,7 +406,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* --- CORE PRODUCTS SHOWCASE (21V PROFESSIONAL SERIES) --- */}
       <section id="products" className="relative w-full py-12 max-sm:py-12 sm:py-20 md:py-32 overflow-hidden">
         {/* Background with industrial image and 60-75% dark overlay */}
@@ -747,7 +743,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* --- DIFFERENTIATION (COMPARISON) --- */}
       <section 
         id="differentiation" 
@@ -810,7 +805,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* --- SAMPLE PROGRAM (WORKFLOW) --- */}
       <section id="sample-program" className="relative w-full py-16 max-sm:py-12 sm:py-20 md:py-32 overflow-hidden">
         {/* Background with overlay */}
@@ -957,7 +951,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* --- COMPANY & SUPPLY CAPABILITY --- */}
       <section id="company" className="relative w-full py-16 max-sm:py-12 sm:py-20 md:py-32 bg-background">
         <div className="max-w-[100rem] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
@@ -1013,7 +1006,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* --- IDEAL DISTRIBUTOR & APPLICATION FORM (SPLIT LAYOUT) --- */}
       <section id="application-section" className="relative w-full bg-secondary/30 border-t border-muted-gray/20">
         <div className="grid grid-cols-1 max-sm:grid-cols-1 lg:grid-cols-2">
@@ -1193,7 +1185,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* --- FAQ SECTION --- */}
       <section id="faq" className="relative w-full py-32 bg-background">
         <div className="max-w-[60rem] mx-auto px-6 md:px-12">
@@ -1247,7 +1238,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* --- FINAL CTA --- */}
       <section id="final-cta" className="relative w-full py-32 overflow-hidden bg-primary">
         <div className="absolute inset-0 opacity-10 mix-blend-overlay">
@@ -1292,7 +1282,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       <Footer />
     </div>
   );
