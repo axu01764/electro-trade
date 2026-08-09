@@ -233,7 +233,7 @@ export default function HomePage() {
         </motion.div>
 
         <div 
-          className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 md:h-full md:flex md:items-center max-sm:!absolute max-sm:!top-0 max-sm:!left-0 max-sm:!right-0 max-sm:!bottom-auto max-sm:!w-full max-sm:!h-auto max-sm:!m-0 max-sm:!translate-y-0 max-sm:!px-4 max-sm:!pt-7 max-sm:!pb-0 max-sm:!z-[2]"
+          className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 md:h-full md:flex md:items-center max-sm:!absolute max-sm:!top-[36px] max-sm:!left-0 max-sm:!right-0 max-sm:!bottom-auto max-sm:!w-full max-sm:!h-auto max-sm:!m-0 max-sm:!translate-y-0 max-sm:!px-4 max-sm:!pt-7 max-sm:!pb-0 max-sm:!z-[2]"
           style={{
             position: 'relative',
             display: 'flex',
