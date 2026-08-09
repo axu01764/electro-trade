@@ -184,7 +184,7 @@ export default function HomePage() {
       <Header />
 
       {/* --- HERO SECTION --- */}
-      <section id="hero" className="relative w-full max-sm:min-h-[820px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0">
+      <section id="hero" className="relative w-full max-sm:min-h-[760px] max-sm:h-auto sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0 max-sm:overflow-hidden">
         <motion.div 
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
@@ -215,7 +215,7 @@ export default function HomePage() {
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="w-full max-sm:pt-0 md:w-[45%] flex flex-col justify-start"
+            className="w-full max-sm:pt-[32px] md:w-[45%] flex flex-col justify-start"
           >
             <motion.div variants={fadeUpVariant} className="mb-4 max-sm:mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-none bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit max-sm:text-[10px] max-sm:px-3 max-sm:py-1.5 max-sm:h-7 max-sm:text-[9px] max-sm:leading-none">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse max-sm:w-1.5 max-sm:h-1.5 flex-shrink-0"></span>
