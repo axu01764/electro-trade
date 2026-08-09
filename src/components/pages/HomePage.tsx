@@ -184,7 +184,7 @@ export default function HomePage() {
       <Header />
 
       {/* --- HERO SECTION --- */}
-      <section id="hero" className="relative w-full min-h-[500px] max-sm:min-h-[600px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-20 max-sm:pt-16 sm:pt-24 md:pt-0">
+      <section id="hero" className="relative w-full max-sm:min-h-[820px] sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-20 max-sm:pt-16 sm:pt-24 md:pt-0">
         <motion.div 
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
@@ -192,41 +192,41 @@ export default function HomePage() {
           <Image 
             src="https://static.wixstatic.com/media/556c5c_03f932509c344150a4ec208291edf3d0~mv2.png"
             alt="Locanex power tools background"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover max-sm:object-center"
             width={1920}
           />
-          {/* Gradient mask: 60% black on left to 10-15% on right */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/20 md:from-black/60 md:via-black/30 md:to-black/10"></div>
+          {/* Mobile: Top-to-bottom gradient for text readability | Desktop: Left-to-right gradient */}
+          <div className="absolute inset-0 max-sm:bg-gradient-to-b max-sm:from-black/70 max-sm:via-black/40 max-sm:to-transparent md:bg-gradient-to-r md:from-black/70 md:via-black/50 md:to-black/20 lg:from-black/60 lg:via-black/30 lg:to-black/10"></div>
           <div className="industrial-noise"></div>
         </motion.div>
 
-        <div className="relative z-10 w-full max-w-[1300px] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12 h-full flex items-center">
-          {/* Left side: ~45% - Text and CTA */}
+        <div className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-5 sm:px-6 md:px-12 h-full max-sm:flex max-sm:flex-col max-sm:justify-between md:flex md:items-center">
+          {/* Mobile: Top section - Text and CTA | Desktop: Left side ~45% */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
-            className="w-full md:w-[45%] flex flex-col justify-center"
+            className="w-full max-sm:pt-8 md:w-[45%] flex flex-col justify-center"
           >
-            <motion.div variants={fadeUpVariant} className="mb-3 max-sm:mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-              <span className="font-paragraph text-xs sm:text-sm tracking-wider text-foreground/90 uppercase">Thailand Dealer Recruitment Program</span>
+            <motion.div variants={fadeUpVariant} className="mb-3 max-sm:mb-4 sm:mb-6 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-secondary/80 border border-muted-gray/50 backdrop-blur-md w-fit max-sm:text-[10px] max-sm:px-2 max-sm:py-1">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse max-sm:w-1.5 max-sm:h-1.5"></span>
+              <span className="font-paragraph text-xs sm:text-sm tracking-wider text-foreground/90 uppercase max-sm:whitespace-nowrap">Thailand Dealer Recruitment Program</span>
             </motion.div>
             
-            <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-3 max-sm:mb-4 sm:mb-6 leading-[1.2] tracking-tight text-left">
+            <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-[32px] sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-3 max-sm:mb-4 sm:mb-6 max-sm:leading-[1.1] md:leading-[1.2] tracking-tight text-left">
               寻找泰国本地<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-500">电动工具经销商</span>
+              <span className="text-primary">电动工具经销商</span>
             </motion.h1>
             
-            <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/80 mb-4 max-sm:mb-5 sm:mb-8 leading-[1.6] text-left">
+            <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-[15px] sm:text-base md:text-lg text-foreground/80 mb-4 max-sm:mb-5 sm:mb-8 max-sm:leading-[1.65] md:leading-[1.6] text-left">
               有竞争力的经销价格、稳定供货和市场支持。<br />
               符合条件的经销商可申请免费产品样品。
             </motion.p>
             
-            <motion.div variants={fadeUpVariant} className="flex flex-col gap-2 max-sm:gap-2 sm:gap-4 items-stretch sm:items-start mb-3 max-sm:mb-4 sm:mb-6">
+            <motion.div variants={fadeUpVariant} className="flex flex-col gap-2 max-sm:gap-3 sm:gap-4 items-stretch sm:items-start mb-3 max-sm:mb-4 sm:mb-6 max-sm:w-full">
               <Button 
                 size="lg" 
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 py-3 max-sm:py-3 sm:py-6 h-12 max-sm:h-12 sm:h-auto rounded-none relative overflow-hidden group w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 max-sm:py-3 sm:py-6 max-sm:h-[52px] sm:h-auto rounded-none relative overflow-hidden group max-sm:w-full sm:w-auto"
                 onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <span className="relative z-10 flex items-center justify-center sm:justify-start gap-2">
@@ -237,7 +237,7 @@ export default function HomePage() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 py-3 max-sm:py-3 sm:py-6 h-12 max-sm:h-12 sm:h-auto rounded-none transition-colors w-full sm:w-auto"
+                className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 max-sm:py-3 sm:py-6 max-sm:h-[52px] sm:h-auto rounded-none transition-colors max-sm:w-full sm:w-auto"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 添加LINE咨询
@@ -248,8 +248,8 @@ export default function HomePage() {
               申请约需60秒｜无需支付申请费用｜审核通过后安排样品
             </motion.p>
 
-            {/* Trust points */}
-            <motion.div variants={fadeUpVariant} className="mt-4 max-sm:mt-4 sm:mt-10 grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 gap-2 max-sm:gap-2 sm:gap-4 text-left">
+            {/* Trust points - Hidden on mobile */}
+            <motion.div variants={fadeUpVariant} className="mt-4 max-sm:hidden sm:mt-10 grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 gap-2 max-sm:gap-2 sm:gap-4 text-left">
               {[
                 '有竞争力的经销价格',
                 '样品测试机会',
@@ -264,8 +264,20 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
 
-          {/* Right side: ~55% - Product showcase (handled by background image) */}
-          <div className="hidden md:block w-[55%]"></div>
+          {/* Mobile: Bottom section - Product visual | Desktop: Right side ~55% */}
+          <motion.div 
+            variants={fadeUpVariant}
+            className="w-full max-sm:flex max-sm:flex-col max-sm:items-center max-sm:justify-center max-sm:pb-8 max-sm:pt-8 md:w-[55%] md:hidden"
+          >
+            <div className="w-[92%] max-w-[400px] aspect-auto">
+              <Image 
+                src="https://static.wixstatic.com/media/556c5c_03f932509c344150a4ec208291edf3d0~mv2.png"
+                alt="Locanex power tools product"
+                className="w-full h-auto object-contain"
+                width={400}
+              />
+            </div>
+          </motion.div>
         </div>
       </section>
 
