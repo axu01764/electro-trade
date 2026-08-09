@@ -36,6 +36,8 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [capabilityCarouselIndex, setCapabilityCarouselIndex] = useState(0);
+  const capabilityCarouselRef = useRef<HTMLDivElement>(null);
 
   // --- DATA FETCHING LOGIC ---
   useEffect(() => {
@@ -87,6 +89,20 @@ export default function HomePage() {
       const scrollLeft = index * (cardWidth + gap);
       carouselRef.current.scrollTo({
         left: scrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollCapabilityCarouselToIndex = (index: number) => {
+    if (capabilityCarouselRef.current) {
+      const containerWidth = capabilityCarouselRef.current.offsetWidth;
+      const cardWidth = containerWidth * 0.88; // 88% of container
+      const gap = 12;
+      const peekWidth = (containerWidth - cardWidth) / 2; // Space for peek
+      const scrollLeft = index * (cardWidth + gap) - peekWidth;
+      capabilityCarouselRef.current.scrollTo({
+        left: Math.max(0, scrollLeft),
         behavior: 'smooth'
       });
     }
@@ -225,6 +241,27 @@ export default function HomePage() {
           }
           .product-carousel-item {
             flex: 0 0 calc(100% - 36px);
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+          }
+        }
+        /* Mobile Capability Carousel Styles */
+        @media (max-width: 767px) {
+          .capability-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            gap: 12px;
+            padding: 0 16px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .capability-carousel::-webkit-scrollbar {
+            display: none;
+          }
+          .capability-carousel-item {
+            flex: 0 0 calc(88% - 3.36px);
             scroll-snap-align: start;
             scroll-snap-stop: always;
           }
