@@ -273,20 +273,7 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
 
-          {/* Mobile: Bottom section - Product visual | Desktop: Right side ~55% */}
-          <motion.div 
-            variants={fadeUpVariant}
-            className="w-full max-sm:flex max-sm:flex-col max-sm:items-center max-sm:justify-center max-sm:pb-8 max-sm:pt-8 md:w-[55%] md:hidden"
-          >
-            <div className="w-[92%] max-w-[400px] aspect-auto">
-              <Image 
-                src="https://static.wixstatic.com/media/556c5c_03f932509c344150a4ec208291edf3d0~mv2.png"
-                alt="Locanex power tools product"
-                className="w-full h-auto object-contain"
-                width={400}
-              />
-            </div>
-          </motion.div>
+
         </div>
       </section>
 
