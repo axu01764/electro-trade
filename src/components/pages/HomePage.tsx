@@ -189,14 +189,23 @@ export default function HomePage() {
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
         >
+          {/* Desktop/Tablet Background */}
           <Image 
             src="https://static.wixstatic.com/media/556c5c_03f932509c344150a4ec208291edf3d0~mv2.png"
             alt="Locanex power tools background"
-            className="w-full h-full object-cover max-sm:object-center"
+            className="hidden md:block w-full h-full object-cover object-center"
+            width={1920}
+          />
+          {/* Mobile Background */}
+          <Image 
+            src="https://static.wixstatic.com/media/556c5c_af548caae38c4dc7bdeef8e9e74a4efc~mv2.png"
+            alt="Locanex power tools mobile background"
+            className="block md:hidden w-full h-full object-cover object-bottom"
+            style={{ backgroundColor: '#080909' }}
             width={1920}
           />
           {/* Mobile: Top-to-bottom gradient for text readability | Desktop: Left-to-right gradient */}
-          <div className="absolute inset-0 max-sm:bg-gradient-to-b max-sm:from-black/70 max-sm:via-black/40 max-sm:to-transparent md:bg-gradient-to-r md:from-black/70 md:via-black/50 md:to-black/20 lg:from-black/60 lg:via-black/30 lg:to-black/10"></div>
+          <div className="absolute inset-0 max-sm:bg-gradient-to-b max-sm:from-black/80 max-sm:via-black/40 max-sm:to-transparent md:bg-gradient-to-r md:from-black/70 md:via-black/50 md:to-black/20 lg:from-black/60 lg:via-black/30 lg:to-black/10"></div>
           <div className="industrial-noise"></div>
         </motion.div>
 
