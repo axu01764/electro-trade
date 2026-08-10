@@ -1,9 +1,9 @@
 // HPI 1.7-V
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
-  ChevronDown, CheckCircle, Package, TrendingUp, Shield, 
-  Users, Zap, Award, Clock, Globe, Phone, Mail, 
+import {
+  ChevronDown, CheckCircle, Package, TrendingUp, Shield,
+  Users, Zap, Award, Clock, Globe, Phone, Mail,
   MessageCircle, ArrowRight, Settings, Wrench, Factory,
   ChevronRight
 } from 'lucide-react';
@@ -19,6 +19,119 @@ import { Coreproducts, Faq, Distributorapplications } from '@/entities';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+type ApplicationFormData = {
+  companyName: string;
+  contactPersonName: string;
+  contactPhone: string;
+  email: string;
+  companyType: string;
+  purchaseToolTypes: string[];
+  purchasePreference: string;
+  cordlessVoltagePlatforms: string[];
+  cordedPowerRange: string;
+  applicantRole: string;
+  privacyConsent: boolean;
+};
+
+type FormQuestionProps = {
+  value: string;
+  number: number;
+  title: string;
+  complete: boolean;
+  incompleteLabel?: string;
+  children: React.ReactNode;
+};
+
+const purchaseToolOptions = [
+  '冲击钻/电钻',
+  '冲击扳手',
+  '角磨机',
+  '电圆锯',
+  '电链锯',
+  '电锤/电镐',
+  '砂光机/抛光机',
+  '其他电动工具'
+];
+
+const purchasePreferenceOptions = ['无绳工具为主', '有绳工具为主', '无绳与有绳都采购'];
+const cordlessVoltageOptions = ['12V', '16V', '18V', '20V', '21V', '36V', '40V', '其他'];
+const cordedPowerOptions = ['600W及以下', '601W–1000W', '1001W–1500W', '1501W–2000W', '2000W以上'];
+const companyTypeOptions = [
+  '电动工具经销商',
+  '五金店/建材店',
+  '工业用品供应商',
+  '电商平台卖家',
+  '批发商',
+  '建筑工具供应商',
+  '拥有区域渠道的公司',
+  '其他'
+];
+const applicantRoleOptions = ['公司负责人/老板', '采购负责人', '销售负责人', '店铺经理', '电商运营负责人', '其他'];
+
+const createInitialFormData = (): ApplicationFormData => ({
+  companyName: '',
+  contactPersonName: '',
+  contactPhone: '',
+  email: '',
+  companyType: '',
+  purchaseToolTypes: [],
+  purchasePreference: '',
+  cordlessVoltagePlatforms: [],
+  cordedPowerRange: '',
+  applicantRole: '',
+  privacyConsent: false
+});
+
+function FormQuestion({
+  value,
+  number,
+  title,
+  complete,
+  incompleteLabel = '请选择',
+  children
+}: FormQuestionProps) {
+  return (
+    <AccordionItem value={value} className="border border-muted-gray/25 bg-background/40 px-4 sm:px-5">
+      <AccordionTrigger className="py-4 text-left hover:no-underline [&>svg]:text-primary">
+        <div className="flex min-w-0 flex-1 items-center gap-3 pr-3">
+          <span className={`flex h-7 w-7 shrink-0 items-center justify-center border text-[11px] font-heading ${complete ? 'border-primary bg-primary text-black' : 'border-primary/50 text-primary'}`}>
+            {String(number).padStart(2, '0')}
+          </span>
+          <span className="font-paragraph text-sm font-medium text-foreground">{title}</span>
+          <span className={`ml-auto shrink-0 text-[11px] ${complete ? 'text-green-400' : 'text-foreground/45'}`}>
+            {complete ? '✓ 已完成' : incompleteLabel}
+          </span>
+        </div>
+      </AccordionTrigger>
+      <AccordionContent className="pb-5 pt-1">{children}</AccordionContent>
+    </AccordionItem>
+  );
+}
+
+type ChoiceButtonProps = {
+  selected: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+};
+
+function ChoiceButton({ selected, onClick, children }: ChoiceButtonProps) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      className={`min-h-11 border px-3 py-2 text-left font-paragraph text-sm transition-colors ${selected ? 'border-primary bg-primary/15 text-foreground' : 'border-muted-gray/30 bg-secondary/20 text-foreground/75 hover:border-primary/60 hover:text-foreground'}`}
+    >
+      <span className="flex items-center gap-2">
+        <span className={`flex h-4 w-4 shrink-0 items-center justify-center border text-[10px] ${selected ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
+          {selected ? '✓' : ''}
+        </span>
+        {children}
+      </span>
+    </button>
+  );
+}
+
 export default function HomePage() {
   // --- CANONICAL DATA SOURCES & STATE ---
   const [products, setProducts] = useState<Coreproducts[]>([]);
@@ -26,13 +139,8 @@ export default function HomePage() {
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const [isLoadingFaqs, setIsLoadingFaqs] = useState(true);
   const [applicationStep, setApplicationStep] = useState(1);
-  const [formData, setFormData] = useState({
-    companyName: '',
-    contactPersonName: '',
-    contactPhone: '',
-    email: '',
-    companyType: ''
-  });
+  const [openFormQuestion, setOpenFormQuestion] = useState('');
+  const [formData, setFormData] = useState<ApplicationFormData>(createInitialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -109,36 +217,94 @@ export default function HomePage() {
   };
 
   // --- FORM HANDLING LOGIC ---
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof ApplicationFormData, value: string | string[] | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const toggleMultiSelect = (
+    field: 'purchaseToolTypes' | 'cordlessVoltagePlatforms',
+    value: string
+  ) => {
+    setFormData(prev => {
+      const selectedValues = prev[field];
+      return {
+        ...prev,
+        [field]: selectedValues.includes(value)
+          ? selectedValues.filter(item => item !== value)
+          : [...selectedValues, value]
+      };
+    });
+  };
+
+  const handlePurchasePreferenceChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      purchasePreference: value,
+      cordlessVoltagePlatforms: value === '有绳工具为主' ? [] : prev.cordlessVoltagePlatforms,
+      cordedPowerRange: value === '无绳工具为主' ? '' : prev.cordedPowerRange
+    }));
+    setOpenFormQuestion('');
+  };
+
+  const purchasesCordless = formData.purchasePreference === '无绳工具为主' || formData.purchasePreference === '无绳与有绳都采购';
+  const purchasesCorded = formData.purchasePreference === '有绳工具为主' || formData.purchasePreference === '无绳与有绳都采购';
+  const isPurchaseStepComplete =
+    formData.purchaseToolTypes.length > 0 &&
+    Boolean(formData.purchasePreference) &&
+    (!purchasesCordless || formData.cordlessVoltagePlatforms.length > 0) &&
+    (!purchasesCorded || Boolean(formData.cordedPowerRange));
+  const isCompanyStepComplete =
+    Boolean(formData.contactPersonName.trim()) &&
+    Boolean(formData.companyName.trim()) &&
+    Boolean(formData.companyType) &&
+    Boolean(formData.applicantRole) &&
+    /^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim()) &&
+    formData.privacyConsent;
+
+  // 保留原手机端两步表单的前进逻辑，避免本次桌面/平板优化影响移动端。
   const handleNextStep = () => {
     if (applicationStep === 1) {
       setApplicationStep(2);
     }
   };
 
+  const handlePurchaseStepNext = () => {
+    if (!isPurchaseStepComplete) return;
+    setApplicationStep(2);
+    setOpenFormQuestion('');
+  };
+
   const handleSubmitApplication = async () => {
     setIsSubmitting(true);
     try {
-      await BaseCrudService.create<Distributorapplications>('distributorapplications', {
+      const purchaseProfile = [
+        `常购工具：${formData.purchaseToolTypes.join('、') || '未填写'}`,
+        `采购类型：${formData.purchasePreference || '未填写'}`,
+        `无绳电压平台：${formData.cordlessVoltagePlatforms.join('、') || '不适用/未填写'}`,
+        `有绳功率范围：${formData.cordedPowerRange || '不适用/未填写'}`
+      ].join('；');
+
+      const applicationRecord = {
         _id: crypto.randomUUID(),
         companyName: formData.companyName,
         contactPersonName: formData.contactPersonName,
         contactPhone: formData.contactPhone,
         email: formData.email,
-        companyType: formData.companyType
-      });
-      
-      setFormData({
-        companyName: '',
-        contactPersonName: '',
-        contactPhone: '',
-        email: '',
-        companyType: ''
-      });
+        companyType: formData.companyType,
+        applicantRole: formData.applicantRole,
+        purchaseToolTypes: formData.purchaseToolTypes.join('、'),
+        purchasePreference: formData.purchasePreference,
+        cordlessVoltagePlatforms: formData.cordlessVoltagePlatforms.join('、'),
+        cordedPowerRange: formData.cordedPowerRange,
+        purchaseProfile,
+        privacyConsent: formData.privacyConsent
+      } as unknown as Distributorapplications;
+
+      await BaseCrudService.create<Distributorapplications>('distributorapplications', applicationRecord);
+
+      setFormData(createInitialFormData());
       setApplicationStep(1);
+      setOpenFormQuestion('');
       alert('申请已成功提交！我们的团队将在48小时内与您联系。');
     } catch (error) {
       console.error('Failed to submit application:', error);
@@ -269,8 +435,8 @@ export default function HomePage() {
       `}</style>
       <Header />
       {/* --- HERO SECTION --- */}
-      <section 
-        id="hero" 
+      <section
+        id="hero"
         className="relative w-full sm:min-h-[680px] md:h-[680px] lg:h-[720px] flex items-center justify-center overflow-hidden bg-black pt-0 sm:pt-24 md:pt-0 max-sm:!relative max-sm:!min-h-[800px] max-sm:!h-auto max-sm:!overflow-hidden max-sm:!pt-0 max-sm:!mt-0"
         style={{
           minHeight: 'auto',
@@ -295,19 +461,19 @@ export default function HomePage() {
             }
           }
         `}</style>
-        <motion.div 
+        <motion.div
           className="absolute inset-0 z-0"
           style={{ y: heroY, opacity: heroOpacity }}
         >
           {/* Desktop/Tablet Background */}
-          <Image 
+          <Image
             src="https://static.wixstatic.com/media/556c5c_03f932509c344150a4ec208291edf3d0~mv2.png"
             alt="Locanex power tools background"
             className="hidden md:block w-full h-full object-cover object-center"
             width={1920}
           />
           {/* Mobile Background */}
-          <Image 
+          <Image
             src="https://static.wixstatic.com/media/556c5c_af548caae38c4dc7bdeef8e9e74a4efc~mv2.png"
             alt="Locanex power tools mobile background"
             className="block md:hidden w-full h-full object-cover object-bottom"
@@ -319,7 +485,7 @@ export default function HomePage() {
           <div className="industrial-noise"></div>
         </motion.div>
 
-        <div 
+        <div
           className="relative z-10 w-full max-w-[1300px] mx-auto max-sm:px-4 sm:px-6 md:px-12 md:h-full md:flex md:items-center max-sm:!absolute max-sm:!top-[64px] max-sm:!left-0 max-sm:!right-0 max-sm:!bottom-auto max-sm:!w-full max-sm:!h-auto max-sm:!m-0 max-sm:!translate-y-0 max-sm:!px-4 max-sm:!pt-7 max-sm:!pb-0 max-sm:!z-[2]"
           style={{
             position: 'relative',
@@ -346,20 +512,20 @@ export default function HomePage() {
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse max-sm:w-1.5 max-sm:h-1.5 flex-shrink-0"></span>
               <span className="font-paragraph text-xs sm:text-sm tracking-wider text-foreground/90 uppercase max-sm:whitespace-nowrap">Thailand Dealer Recruitment Program</span>
             </motion.div>
-            
+
             <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-[30px] sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 max-sm:leading-[1.1] md:leading-[1.2] tracking-tight text-left">
               寻找泰国本地<br />
               <span className="text-primary">电动工具经销商</span>
             </motion.h1>
-            
+
             <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-[14px] sm:text-base md:text-lg text-foreground/80 mb-5 max-sm:mb-5 sm:mb-8 max-sm:leading-[1.65] md:leading-[1.6] text-left">
               有竞争力的经销价格、稳定供货和市场支持。<br />
               符合条件的经销商可申请免费产品样品。
             </motion.p>
-            
+
             <motion.div variants={fadeUpVariant} className="flex flex-col gap-3 max-sm:gap-3 sm:gap-4 items-stretch sm:items-start mb-4 max-sm:mb-4 sm:mb-6 max-sm:w-full">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 max-sm:py-3 sm:py-6 max-sm:h-[52px] sm:h-auto rounded-none relative overflow-hidden group max-sm:w-full sm:w-auto"
                 onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
               >
@@ -368,9 +534,9 @@ export default function HomePage() {
                 </span>
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 max-sm:py-3 sm:py-6 max-sm:h-[52px] sm:h-auto rounded-none transition-colors max-sm:w-full sm:w-auto"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
@@ -406,14 +572,14 @@ export default function HomePage() {
         {/* Background with warehouse image and 30% black overlay */}
         <div className="absolute inset-0 z-0">
           {/* Desktop/Tablet: Original warehouse background */}
-          <Image 
+          <Image
             src="https://static.wixstatic.com/media/556c5c_f85184c7b62946029429c579009fc6be~mv2.png"
             alt="Industrial warehouse background"
             className="hidden sm:block w-full h-full object-cover"
             width={1920}
           />
           {/* Mobile: New background image */}
-          <Image 
+          <Image
             src="https://static.wixstatic.com/media/556c5c_6f86a0666f48483985f986158f9a1c4e~mv2.png"
             alt="Mobile dealer advantages background"
             className="block sm:hidden w-full h-full object-cover"
@@ -439,7 +605,7 @@ export default function HomePage() {
             <span className="hidden max-sm:block text-[#FF9D00] text-xs font-bold tracking-widest uppercase mb-2 block">
               Dealer Advantages
             </span>
-            
+
             <h2 className="font-heading text-2xl max-sm:text-[25px] sm:text-3xl md:text-5xl lg:text-5xl text-foreground mb-3 max-sm:mb-2 sm:mb-4 leading-[1.2] max-sm:leading-[1.3]">
               <span className="max-sm:block">为什么 Locanex 值得成为</span>
               <span className="max-sm:block">你的下一个<span className="text-primary">合作品牌？</span></span>
@@ -454,41 +620,41 @@ export default function HomePage() {
           <div className="grid grid-cols-1 max-sm:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 max-sm:gap-[10px] sm:gap-3 md:gap-4">
             {/* 6 Advantage Cards */}
             {[
-              { 
+              {
                 number: '01',
-                icon: TrendingUp, 
-                title: '有竞争力的经销价格', 
-                desc: '通过资质审核后获取经销商合作报价' 
+                icon: TrendingUp,
+                title: '有竞争力的经销价格',
+                desc: '通过资质审核后获取经销商合作报价'
               },
-              { 
+              {
                 number: '02',
-                icon: Package, 
-                title: '阶梯采购政策', 
-                desc: '根据采购数量提供不同级别的合作方案' 
+                icon: Package,
+                title: '阶梯采购政策',
+                desc: '根据采购数量提供不同级别的合作方案'
               },
-              { 
+              {
                 number: '03',
-                icon: Zap, 
-                title: '统一无线电池平台', 
-                desc: '多款无线工具共享电池平台，带来持续销售机会' 
+                icon: Zap,
+                title: '统一无线电池平台',
+                desc: '多款无线工具共享电池平台，带来持续销售机会'
               },
-              { 
+              {
                 number: '04',
-                icon: Award, 
-                title: '组合销售机会', 
-                desc: '工具、电池、充电器和配件可组合销售' 
+                icon: Award,
+                title: '组合销售机会',
+                desc: '工具、电池、充电器和配件可组合销售'
               },
-              { 
+              {
                 number: '05',
-                icon: Clock, 
-                title: '稳定供货', 
-                desc: '提供稳定供货和长期补货支持' 
+                icon: Clock,
+                title: '稳定供货',
+                desc: '提供稳定供货和长期补货支持'
               },
-              { 
+              {
                 number: '06',
-                icon: Globe, 
-                title: '泰国市场支持', 
-                desc: '提供泰文产品资料、图片、视频和营销支持' 
+                icon: Globe,
+                title: '泰国市场支持',
+                desc: '提供泰文产品资料、图片、视频和营销支持'
               }
             ].map((item, index) => (
               <motion.div
@@ -515,7 +681,7 @@ export default function HomePage() {
       <section id="products" className="relative w-full py-12 max-sm:py-12 sm:py-20 md:py-32 overflow-hidden">
         {/* Background with industrial image and 60-75% dark overlay */}
         <div className="absolute inset-0 z-0">
-          <Image 
+          <Image
             src="https://static.wixstatic.com/media/556c5c_f85184c7b62946029429c579009fc6be~mv2.png"
             alt="Industrial warehouse background"
             className="w-full h-full object-cover"
@@ -525,7 +691,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/65"></div>
           <div className="industrial-noise"></div>
         </div>
-        
+
         <div className="relative z-10 max-w-[120rem] mx-auto px-4 max-sm:px-4 sm:px-6 md:px-12">
           {/* Section Header */}
           <motion.div
@@ -549,7 +715,7 @@ export default function HomePage() {
           {/* 5 Product Cards - Desktop: 5 in row | Tablet: 2 columns | Mobile: Carousel */}
           <div className="min-h-[400px] max-sm:min-h-[auto]">
             {/* Desktop & Tablet Grid */}
-            <motion.div 
+            <motion.div
               className="hidden sm:grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
               initial="hidden"
               whileInView="visible"
@@ -563,7 +729,7 @@ export default function HomePage() {
               >
                 {/* Product Image - Full Cover */}
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
-                  <Image 
+                  <Image
                     src="https://static.wixstatic.com/media/556c5c_8aae7f52450e4b5bb621c5beaa1fbd8b~mv2.png"
                     alt="Locanex 21V Impact Drill"
                     className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -571,7 +737,7 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                
+
                 {/* Product Info */}
                 <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
                   <div className="mb-2 max-sm:mb-2 sm:mb-3">
@@ -579,11 +745,11 @@ export default function HomePage() {
                       LOCANEX 21V
                     </span>
                   </div>
-                  
+
                   <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷冲击钻
                   </h3>
-                  
+
                   <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
@@ -592,7 +758,7 @@ export default function HomePage() {
                       钻孔、紧固、安装与维修作业
                     </p>
                   </div>
-                  
+
                   <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
@@ -601,8 +767,8 @@ export default function HomePage() {
                       高频施工工具，同时覆盖钻孔与紧固需求。
                     </p>
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
@@ -617,7 +783,7 @@ export default function HomePage() {
                 className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
-                  <Image 
+                  <Image
                     src="https://static.wixstatic.com/media/556c5c_12ea91a36dc44157a25ecf3cabd84403~mv2.png"
                     alt="Locanex 21V Impact Wrench"
                     className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -625,18 +791,18 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                
+
                 <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
                   <div className="mb-2 max-sm:mb-2 sm:mb-3">
                     <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
-                  
+
                   <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷冲击扳手
                   </h3>
-                  
+
                   <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
@@ -645,7 +811,7 @@ export default function HomePage() {
                       轮胎、机械、钢结构及螺栓拆装
                     </p>
                   </div>
-                  
+
                   <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
@@ -654,8 +820,8 @@ export default function HomePage() {
                       专业紧固定位，适合汽修、工程与设备维护渠道。
                     </p>
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
@@ -670,7 +836,7 @@ export default function HomePage() {
                 className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
-                  <Image 
+                  <Image
                     src="https://static.wixstatic.com/media/556c5c_7457eb978ebd4fbcaec544aa7c991a4f~mv2.png"
                     alt="Locanex 21V Chainsaw"
                     className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -678,18 +844,18 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                
+
                 <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
                   <div className="mb-2 max-sm:mb-2 sm:mb-3">
                     <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
-                  
+
                   <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷无绳链锯
                   </h3>
-                  
+
                   <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
@@ -698,7 +864,7 @@ export default function HomePage() {
                       木材切割、园林修枝与现场木工作业
                     </p>
                   </div>
-                  
+
                   <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
@@ -707,8 +873,8 @@ export default function HomePage() {
                       无绳作业更灵活，用途直观，方便门店演示。
                     </p>
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
@@ -723,7 +889,7 @@ export default function HomePage() {
                 className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
-                  <Image 
+                  <Image
                     src="https://static.wixstatic.com/media/556c5c_a6b7cb813d1c45b8839817121694b305~mv2.png"
                     alt="Locanex 21V Circular Saw"
                     className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -731,18 +897,18 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                
+
                 <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
                   <div className="mb-2 max-sm:mb-2 sm:mb-3">
                     <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
-                  
+
                   <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷电圆锯
                   </h3>
-                  
+
                   <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
@@ -751,7 +917,7 @@ export default function HomePage() {
                       木板、模板、板材与施工现场切割
                     </p>
                   </div>
-                  
+
                   <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
@@ -760,8 +926,8 @@ export default function HomePage() {
                       专业切割场景明确，适合木工、建筑与装修渠道。
                     </p>
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
@@ -776,7 +942,7 @@ export default function HomePage() {
                 className="group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300"
               >
                 <div className="relative w-full aspect-[3/4] bg-black/80 overflow-hidden">
-                  <Image 
+                  <Image
                     src="https://static.wixstatic.com/media/556c5c_554ad7a1a9ec4d3b8e6cc4a0ccc41b1e~mv2.png"
                     alt="Locanex 21V Angle Grinder"
                     className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -784,18 +950,18 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                
+
                 <div className="p-3 max-sm:p-3 sm:p-4 md:p-5 flex-grow flex flex-col relative z-30 bg-black/70">
                   <div className="mb-2 max-sm:mb-2 sm:mb-3">
                     <span className="font-heading text-xs max-sm:text-xs md:text-sm font-bold text-primary tracking-widest uppercase">
                       LOCANEX 21V
                     </span>
                   </div>
-                  
+
                   <h3 className="font-heading text-sm max-sm:text-sm md:text-lg text-foreground font-bold mb-2 max-sm:mb-2 sm:mb-3 md:mb-4 line-clamp-2 leading-tight">
                     无刷角磨机
                   </h3>
-                  
+
                   <div className="mb-2 max-sm:mb-2 sm:mb-3 md:mb-4">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       专业用途
@@ -804,7 +970,7 @@ export default function HomePage() {
                       金属切割、打磨、去毛刺与表面处理
                     </p>
                   </div>
-                  
+
                   <div className="mb-3 max-sm:mb-3 sm:mb-4 md:mb-6">
                     <p className="font-paragraph text-xs max-sm:text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">
                       经销商看点
@@ -813,8 +979,8 @@ export default function HomePage() {
                       覆盖高频金工任务，适合维修、工程与工业渠道。
                     </p>
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                   >
@@ -827,14 +993,14 @@ export default function HomePage() {
             {/* Mobile Carousel */}
             <div className="sm:hidden">
               {/* Carousel Container */}
-              <div 
+              <div
                 ref={carouselRef}
                 className="product-carousel mb-6"
               >
                 {/* Product 1 */}
                 <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
                   <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
-                    <Image 
+                    <Image
                       src="https://static.wixstatic.com/media/556c5c_8aae7f52450e4b5bb621c5beaa1fbd8b~mv2.png"
                       alt="Locanex 21V Impact Drill"
                       className="w-full h-full object-contain object-center"
@@ -854,7 +1020,7 @@ export default function HomePage() {
                       <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
                       <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">高频施工工具，同时覆盖钻孔与紧固需求。</p>
                     </div>
-                    <Button 
+                    <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                     >
@@ -866,7 +1032,7 @@ export default function HomePage() {
                 {/* Product 2 */}
                 <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
                   <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
-                    <Image 
+                    <Image
                       src="https://static.wixstatic.com/media/556c5c_12ea91a36dc44157a25ecf3cabd84403~mv2.png"
                       alt="Locanex 21V Impact Wrench"
                       className="w-full h-full object-contain object-center"
@@ -886,7 +1052,7 @@ export default function HomePage() {
                       <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
                       <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">专业紧固定位，适合汽修、工程与设备维护渠道。</p>
                     </div>
-                    <Button 
+                    <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                     >
@@ -898,7 +1064,7 @@ export default function HomePage() {
                 {/* Product 3 */}
                 <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
                   <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
-                    <Image 
+                    <Image
                       src="https://static.wixstatic.com/media/556c5c_7457eb978ebd4fbcaec544aa7c991a4f~mv2.png"
                       alt="Locanex 21V Chainsaw"
                       className="w-full h-full object-contain object-center"
@@ -918,7 +1084,7 @@ export default function HomePage() {
                       <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
                       <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">无绳作业更灵活，用途直观，方便门店演示。</p>
                     </div>
-                    <Button 
+                    <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                     >
@@ -930,7 +1096,7 @@ export default function HomePage() {
                 {/* Product 4 */}
                 <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
                   <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
-                    <Image 
+                    <Image
                       src="https://static.wixstatic.com/media/556c5c_a6b7cb813d1c45b8839817121694b305~mv2.png"
                       alt="Locanex 21V Circular Saw"
                       className="w-full h-full object-contain object-center"
@@ -950,7 +1116,7 @@ export default function HomePage() {
                       <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
                       <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">专业切割场景明确，适合木工、建筑与装修渠道。</p>
                     </div>
-                    <Button 
+                    <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                     >
@@ -962,7 +1128,7 @@ export default function HomePage() {
                 {/* Product 5 */}
                 <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
                   <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
-                    <Image 
+                    <Image
                       src="https://static.wixstatic.com/media/556c5c_554ad7a1a9ec4d3b8e6cc4a0ccc41b1e~mv2.png"
                       alt="Locanex 21V Angle Grinder"
                       className="w-full h-full object-contain object-center"
@@ -982,7 +1148,7 @@ export default function HomePage() {
                       <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
                       <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">覆盖高频金工任务，适合维修、工程与工业渠道。</p>
                     </div>
-                    <Button 
+                    <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
                     >
@@ -1052,8 +1218,8 @@ export default function HomePage() {
             <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mb-6 max-sm:mb-5 sm:mb-8 leading-[1.6]">
               符合条件的泰国经销商可申请指定产品样品进行评估与测试。样品数量有限，申请需经资质审核。
             </p>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-10 md:px-12 py-3 max-sm:py-3 md:py-6 md:py-7 h-auto rounded-none uppercase tracking-wider font-bold"
               onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -1063,8 +1229,8 @@ export default function HomePage() {
         </div>
       </section>
       {/* --- DIFFERENTIATION (COMPARISON) --- */}
-      <section 
-        id="differentiation" 
+      <section
+        id="differentiation"
         className="relative w-full py-16 max-sm:py-12 sm:py-20 md:py-32 bg-background"
         style={{
           backgroundImage: `url('https://static.wixstatic.com/media/556c5c_8fa7d834ed1349b3b5ef9ffa2cee64d1~mv2.png')`,
@@ -1199,7 +1365,7 @@ export default function HomePage() {
                 从工厂直供到市场测试，为泰国经销商提供更灵活的合作支持。
               </p>
             </div>
-            
+
             {/* Desktop/Tablet: Original centered layout */}
             <div className="hidden sm:block">
               <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl md:text-5xl text-foreground mb-3 sm:mb-4 leading-[1.2]">
@@ -1209,7 +1375,7 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1286,7 +1452,7 @@ export default function HomePage() {
       {/* --- SAMPLE PROGRAM (WORKFLOW) --- */}
       <section id="sample-program" className="relative w-full py-16 max-sm:py-12 sm:py-20 md:py-32 overflow-hidden">
         {/* Background with overlay */}
-        <div 
+        <div
           className="absolute inset-0 z-0"
           style={{
             backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(https://static.wixstatic.com/media/556c5c_bf739abb11f348c09b52556495b9071f~mv2.png)',
@@ -1416,8 +1582,8 @@ export default function HomePage() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex flex-col items-center gap-3 max-sm:gap-3 sm:gap-4"
           >
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-8 md:px-12 py-3 max-sm:py-3 md:py-4 h-auto rounded-none"
               onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -1459,7 +1625,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="group relative h-64 max-sm:h-64 sm:h-72 md:h-80 overflow-hidden border border-muted-gray/20 max-sm:flex-shrink-0 max-sm:scroll-snap-align-start max-sm:w-[calc(100vw-64px)]"
               >
-                <Image 
+                <Image
                   src={item.image}
                   alt={item.title}
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
@@ -1473,8 +1639,8 @@ export default function HomePage() {
               </motion.div>
             ))}
           </div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -1487,7 +1653,7 @@ export default function HomePage() {
       {/* --- IDEAL DISTRIBUTOR & APPLICATION FORM (SPLIT LAYOUT) --- */}
       <section id="application-section" className="relative w-full bg-secondary/30 border-t border-muted-gray/20">
         <div className="grid grid-cols-1 max-sm:grid-cols-1 lg:grid-cols-2">
-          
+
           {/* Left Side: Ideal Distributor */}
           <div className="p-6 max-sm:p-4 sm:p-12 md:p-20 lg:p-32 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-muted-gray/20">
             <motion.div
@@ -1499,7 +1665,7 @@ export default function HomePage() {
               <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-8 max-sm:mb-8 sm:mb-12">
                 哪些合作伙伴<span className="text-primary">适合申请？</span>
               </h2>
-              
+
               <div className="space-y-8 max-sm:space-y-8 sm:space-y-12">
                 <div>
                   <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
@@ -1513,7 +1679,7 @@ export default function HomePage() {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div>
                   <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full border-2 border-red-500 flex items-center justify-center text-red-500 text-sm font-bold">X</div> 暂不适合
@@ -1543,121 +1709,419 @@ export default function HomePage() {
               <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-2 max-sm:mb-2 sm:mb-4">
                 申请成为<span className="text-primary">Locanex经销商</span>
               </h2>
-              <p className="font-paragraph text-foreground/60 mb-6 max-sm:mb-6 sm:mb-10 text-sm max-sm:text-sm sm:text-base">填写基本信息，获取产品资料与评估资格。</p>
+              <p className="hidden md:block font-paragraph text-foreground/60 mb-10 text-base">先填写采购需求，再补充公司身份与联系方式。</p>
+              <p className="md:hidden font-paragraph text-foreground/60 mb-6 text-sm">填写基本信息，获取产品资料与评估资格。</p>
 
               {/* Step Indicator */}
-              <div className="flex items-center mb-8 max-sm:mb-8 sm:mb-10">
+              <div className="hidden md:flex items-center mb-10">
                 <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
-                <div className="font-paragraph text-xs max-sm:text-xs sm:text-sm ml-3 mr-4 text-foreground/80">步骤 1: 基本信息</div>
+                <div className="font-paragraph text-sm ml-3 mr-4 text-foreground/80">步骤 1: 采购需求</div>
                 <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
                 <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
-                <div className="font-paragraph text-xs max-sm:text-xs sm:text-sm ml-3 text-foreground/80">步骤 2: 联系方式</div>
+                <div className="font-paragraph text-sm ml-3 text-foreground/80">步骤 2: 公司与联系信息</div>
+              </div>
+              <div className="flex md:hidden items-center mb-8">
+                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
+                <div className="font-paragraph text-xs ml-3 mr-4 text-foreground/80">步骤 1: 基本信息</div>
+                <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
+                <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
+                <div className="font-paragraph text-xs ml-3 text-foreground/80">步骤 2: 联系方式</div>
               </div>
 
               <div className="bg-secondary/20 border border-muted-gray/20 p-4 max-sm:p-4 sm:p-8">
-                {applicationStep === 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="space-y-4 max-sm:space-y-4 sm:space-y-6"
-                  >
-                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                      <Label htmlFor="companyName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司名称 *</Label>
-                      <Input
-                        id="companyName"
-                        value={formData.companyName}
-                        onChange={(e) => handleInputChange('companyName', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
-                        placeholder="请输入公司全称"
-                      />
-                    </div>
-
-                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                      <Label htmlFor="contactPersonName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系人姓名 *</Label>
-                      <Input
-                        id="contactPersonName"
-                        value={formData.contactPersonName}
-                        onChange={(e) => handleInputChange('contactPersonName', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
-                        placeholder="请输入联系人姓名"
-                      />
-                    </div>
-
-                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                      <Label htmlFor="companyType" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司类型 *</Label>
-                      <Select value={formData.companyType} onValueChange={(value) => handleInputChange('companyType', value)}>
-                        <SelectTrigger className="bg-background border-muted-gray/30 text-foreground focus:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm">
-                          <SelectValue placeholder="请选择公司类型" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-secondary border-muted-gray/30 text-foreground">
-                          <SelectItem value="五金工具经销商">五金工具经销商</SelectItem>
-                          <SelectItem value="建材市场经销商">建材市场经销商</SelectItem>
-                          <SelectItem value="工业用品供应商">工业用品供应商</SelectItem>
-                          <SelectItem value="电商平台卖家">电商平台卖家</SelectItem>
-                          <SelectItem value="批发商">批发商</SelectItem>
-                          <SelectItem value="零售连锁店">零售连锁店</SelectItem>
-                          <SelectItem value="其他">其他</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <Button
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm py-3 max-sm:py-3 sm:py-6 h-auto rounded-none mt-3 max-sm:mt-3 sm:mt-4"
-                      onClick={handleNextStep}
-                      disabled={!formData.companyName || !formData.contactPersonName || !formData.companyType}
-                    >
-                      下一步
-                    </Button>
-                  </motion.div>
-                )}
-
-                {applicationStep === 2 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="space-y-4 max-sm:space-y-4 sm:space-y-6"
-                  >
-                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                      <Label htmlFor="contactPhone" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系电话 *</Label>
-                      <Input
-                        id="contactPhone"
-                        value={formData.contactPhone}
-                        onChange={(e) => handleInputChange('contactPhone', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
-                        placeholder="请输入联系电话"
-                      />
-                    </div>
-
-                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                      <Label htmlFor="email" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">电子邮箱 *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
-                        placeholder="请输入电子邮箱"
-                      />
-                    </div>
-
-                    <div className="flex gap-2 max-sm:gap-2 sm:gap-4 mt-4 max-sm:mt-4 sm:mt-4">
-                      <Button
-                        variant="outline"
-                        className="w-1/3 border-muted-gray/50 text-foreground hover:bg-secondary font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
-                        onClick={() => setApplicationStep(1)}
+                {/* Desktop and tablet: accordion-style dealer qualification form */}
+                <div className="hidden md:block">
+                  {applicationStep === 1 && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                      <Accordion
+                        type="single"
+                        collapsible
+                        value={openFormQuestion}
+                        onValueChange={setOpenFormQuestion}
+                        className="space-y-3"
                       >
-                        返回
-                      </Button>
+                        <FormQuestion
+                          value="purchaseToolTypes"
+                          number={1}
+                          title="经常采购的电动工具类型"
+                          complete={formData.purchaseToolTypes.length > 0}
+                        >
+                          <div className="grid grid-cols-2 gap-2">
+                            {purchaseToolOptions.map(option => (
+                              <ChoiceButton
+                                key={option}
+                                selected={formData.purchaseToolTypes.includes(option)}
+                                onClick={() => toggleMultiSelect('purchaseToolTypes', option)}
+                              >
+                                {option}
+                              </ChoiceButton>
+                            ))}
+                          </div>
+                          <Button
+                            type="button"
+                            size="sm"
+                            className="mt-4 bg-primary text-black hover:bg-primary/90 rounded-none"
+                            disabled={formData.purchaseToolTypes.length === 0}
+                            onClick={() => setOpenFormQuestion('')}
+                          >
+                            确认选择
+                          </Button>
+                        </FormQuestion>
+
+                        <FormQuestion
+                          value="purchasePreference"
+                          number={2}
+                          title="主要采购无绳还是有绳工具"
+                          complete={Boolean(formData.purchasePreference)}
+                        >
+                          <div className="grid grid-cols-1 gap-2">
+                            {purchasePreferenceOptions.map(option => (
+                              <ChoiceButton
+                                key={option}
+                                selected={formData.purchasePreference === option}
+                                onClick={() => handlePurchasePreferenceChange(option)}
+                              >
+                                {option}
+                              </ChoiceButton>
+                            ))}
+                          </div>
+                        </FormQuestion>
+
+                        {purchasesCordless && (
+                          <FormQuestion
+                            value="cordlessVoltagePlatforms"
+                            number={3}
+                            title="常购无绳工具电压平台"
+                            complete={formData.cordlessVoltagePlatforms.length > 0}
+                          >
+                            <div className="grid grid-cols-2 gap-2">
+                              {cordlessVoltageOptions.map(option => (
+                                <ChoiceButton
+                                  key={option}
+                                  selected={formData.cordlessVoltagePlatforms.includes(option)}
+                                  onClick={() => toggleMultiSelect('cordlessVoltagePlatforms', option)}
+                                >
+                                  {option}
+                                </ChoiceButton>
+                              ))}
+                            </div>
+                            <Button
+                              type="button"
+                              size="sm"
+                              className="mt-4 bg-primary text-black hover:bg-primary/90 rounded-none"
+                              disabled={formData.cordlessVoltagePlatforms.length === 0}
+                              onClick={() => setOpenFormQuestion('')}
+                            >
+                              确认选择
+                            </Button>
+                          </FormQuestion>
+                        )}
+
+                        {purchasesCorded && (
+                          <FormQuestion
+                            value="cordedPowerRange"
+                            number={4}
+                            title="经常采购的有绳工具功率范围"
+                            complete={Boolean(formData.cordedPowerRange)}
+                          >
+                            <div className="grid grid-cols-1 gap-2">
+                              {cordedPowerOptions.map(option => (
+                                <ChoiceButton
+                                  key={option}
+                                  selected={formData.cordedPowerRange === option}
+                                  onClick={() => {
+                                    handleInputChange('cordedPowerRange', option);
+                                    setOpenFormQuestion('');
+                                  }}
+                                >
+                                  {option}
+                                </ChoiceButton>
+                              ))}
+                            </div>
+                          </FormQuestion>
+                        )}
+                      </Accordion>
+
+                      <p className="mt-5 font-paragraph text-xs text-foreground/50">
+                        点击问题标题展开填写；同一时间只展开一个问题，已填写内容会自动保留。
+                      </p>
                       <Button
-                        className="w-2/3 bg-primary hover:bg-primary/90 text-primary-foreground font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
-                        onClick={handleSubmitApplication}
-                        disabled={!formData.contactPhone || !formData.email || isSubmitting}
+                        className="mt-5 w-full rounded-none bg-primary py-6 font-heading text-sm text-primary-foreground hover:bg-primary/90"
+                        onClick={handlePurchaseStepNext}
+                        disabled={!isPurchaseStepComplete}
                       >
-                        {isSubmitting ? '提交中...' : '提交申请'}
+                        下一步：公司身份与联系方式
                       </Button>
-                    </div>
-                  </motion.div>
-                )}
+                    </motion.div>
+                  )}
+
+                  {applicationStep === 2 && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                      <Accordion
+                        type="single"
+                        collapsible
+                        value={openFormQuestion}
+                        onValueChange={setOpenFormQuestion}
+                        className="space-y-3"
+                      >
+                        <FormQuestion
+                          value="contactPersonName"
+                          number={1}
+                          title="联系人姓名"
+                          complete={Boolean(formData.contactPersonName.trim())}
+                          incompleteLabel="请填写"
+                        >
+                          <Label htmlFor="desktopContactPersonName" className="sr-only">联系人姓名</Label>
+                          <Input
+                            id="desktopContactPersonName"
+                            value={formData.contactPersonName}
+                            onChange={(event) => handleInputChange('contactPersonName', event.target.value)}
+                            className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
+                            placeholder="请输入联系人姓名"
+                            autoComplete="name"
+                          />
+                          <Button
+                            type="button"
+                            size="sm"
+                            className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
+                            disabled={!formData.contactPersonName.trim()}
+                            onClick={() => setOpenFormQuestion('')}
+                          >
+                            保存并收起
+                          </Button>
+                        </FormQuestion>
+
+                        <FormQuestion
+                          value="companyName"
+                          number={2}
+                          title="公司或店铺名称"
+                          complete={Boolean(formData.companyName.trim())}
+                          incompleteLabel="请填写"
+                        >
+                          <Label htmlFor="desktopCompanyName" className="sr-only">公司或店铺名称</Label>
+                          <Input
+                            id="desktopCompanyName"
+                            value={formData.companyName}
+                            onChange={(event) => handleInputChange('companyName', event.target.value)}
+                            className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
+                            placeholder="请输入公司或店铺名称"
+                            autoComplete="organization"
+                          />
+                          <Button
+                            type="button"
+                            size="sm"
+                            className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
+                            disabled={!formData.companyName.trim()}
+                            onClick={() => setOpenFormQuestion('')}
+                          >
+                            保存并收起
+                          </Button>
+                        </FormQuestion>
+
+                        <FormQuestion
+                          value="companyType"
+                          number={3}
+                          title="公司类型"
+                          complete={Boolean(formData.companyType)}
+                        >
+                          <div className="grid grid-cols-2 gap-2">
+                            {companyTypeOptions.map(option => (
+                              <ChoiceButton
+                                key={option}
+                                selected={formData.companyType === option}
+                                onClick={() => {
+                                  handleInputChange('companyType', option);
+                                  setOpenFormQuestion('');
+                                }}
+                              >
+                                {option}
+                              </ChoiceButton>
+                            ))}
+                          </div>
+                        </FormQuestion>
+
+                        <FormQuestion
+                          value="applicantRole"
+                          number={4}
+                          title="申请人身份/职位"
+                          complete={Boolean(formData.applicantRole)}
+                        >
+                          <div className="grid grid-cols-2 gap-2">
+                            {applicantRoleOptions.map(option => (
+                              <ChoiceButton
+                                key={option}
+                                selected={formData.applicantRole === option}
+                                onClick={() => {
+                                  handleInputChange('applicantRole', option);
+                                  setOpenFormQuestion('');
+                                }}
+                              >
+                                {option}
+                              </ChoiceButton>
+                            ))}
+                          </div>
+                        </FormQuestion>
+
+                        <FormQuestion
+                          value="contactPhone"
+                          number={5}
+                          title="手机号码"
+                          complete={/^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim())}
+                          incompleteLabel="请填写"
+                        >
+                          <Label htmlFor="desktopContactPhone" className="sr-only">手机号码</Label>
+                          <Input
+                            id="desktopContactPhone"
+                            type="tel"
+                            inputMode="tel"
+                            value={formData.contactPhone}
+                            onChange={(event) => handleInputChange('contactPhone', event.target.value)}
+                            className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
+                            placeholder="例如：0937281730 或 +66..."
+                            autoComplete="tel"
+                          />
+                          <p className="mt-2 font-paragraph text-xs text-foreground/45">请输入 8–20 位数字，可包含 +、空格或连字符。</p>
+                          <Button
+                            type="button"
+                            size="sm"
+                            className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
+                            disabled={!/^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim())}
+                            onClick={() => setOpenFormQuestion('')}
+                          >
+                            保存并收起
+                          </Button>
+                        </FormQuestion>
+                      </Accordion>
+
+                      <button
+                        type="button"
+                        role="checkbox"
+                        aria-checked={formData.privacyConsent}
+                        onClick={() => handleInputChange('privacyConsent', !formData.privacyConsent)}
+                        className="mt-5 flex w-full items-start gap-3 text-left font-paragraph text-xs leading-5 text-foreground/65"
+                      >
+                        <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border text-[10px] ${formData.privacyConsent ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
+                          {formData.privacyConsent ? '✓' : ''}
+                        </span>
+                        <span>我同意公司根据隐私政策收集和使用我的信息，用于经销商申请评估、联系、样品安排、市场调研和合作沟通。</span>
+                      </button>
+
+                      <div className="mt-5 flex gap-4">
+                        <Button
+                          variant="outline"
+                          className="w-1/3 rounded-none border-muted-gray/50 py-6 font-heading text-sm text-foreground hover:bg-secondary"
+                          onClick={() => {
+                            setApplicationStep(1);
+                            setOpenFormQuestion('');
+                          }}
+                        >
+                          返回
+                        </Button>
+                        <Button
+                          className="w-2/3 rounded-none bg-primary py-6 font-heading text-sm text-primary-foreground hover:bg-primary/90"
+                          onClick={handleSubmitApplication}
+                          disabled={!isCompanyStepComplete || isSubmitting}
+                        >
+                          {isSubmitting ? '提交中...' : '提交申请并获取经销商方案'}
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Mobile: preserve the existing two-step form unchanged */}
+                <div className="md:hidden">
+                  {applicationStep === 1 && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 max-sm:space-y-4 sm:space-y-6">
+                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                        <Label htmlFor="companyName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司名称 *</Label>
+                        <Input
+                          id="companyName"
+                          value={formData.companyName}
+                          onChange={(e) => handleInputChange('companyName', e.target.value)}
+                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                          placeholder="请输入公司全称"
+                        />
+                      </div>
+                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                        <Label htmlFor="contactPersonName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系人姓名 *</Label>
+                        <Input
+                          id="contactPersonName"
+                          value={formData.contactPersonName}
+                          onChange={(e) => handleInputChange('contactPersonName', e.target.value)}
+                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                          placeholder="请输入联系人姓名"
+                        />
+                      </div>
+                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                        <Label htmlFor="companyType" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司类型 *</Label>
+                        <Select value={formData.companyType} onValueChange={(value) => handleInputChange('companyType', value)}>
+                          <SelectTrigger className="bg-background border-muted-gray/30 text-foreground focus:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm">
+                            <SelectValue placeholder="请选择公司类型" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-secondary border-muted-gray/30 text-foreground">
+                            <SelectItem value="五金工具经销商">五金工具经销商</SelectItem>
+                            <SelectItem value="建材市场经销商">建材市场经销商</SelectItem>
+                            <SelectItem value="工业用品供应商">工业用品供应商</SelectItem>
+                            <SelectItem value="电商平台卖家">电商平台卖家</SelectItem>
+                            <SelectItem value="批发商">批发商</SelectItem>
+                            <SelectItem value="零售连锁店">零售连锁店</SelectItem>
+                            <SelectItem value="其他">其他</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <Button
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm py-3 max-sm:py-3 sm:py-6 h-auto rounded-none mt-3 max-sm:mt-3 sm:mt-4"
+                        onClick={handleNextStep}
+                        disabled={!formData.companyName || !formData.contactPersonName || !formData.companyType}
+                      >
+                        下一步
+                      </Button>
+                    </motion.div>
+                  )}
+
+                  {applicationStep === 2 && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 max-sm:space-y-4 sm:space-y-6">
+                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                        <Label htmlFor="contactPhone" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系电话 *</Label>
+                        <Input
+                          id="contactPhone"
+                          value={formData.contactPhone}
+                          onChange={(e) => handleInputChange('contactPhone', e.target.value)}
+                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                          placeholder="请输入联系电话"
+                        />
+                      </div>
+                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                        <Label htmlFor="email" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">电子邮箱 *</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                          placeholder="请输入电子邮箱"
+                        />
+                      </div>
+                      <div className="flex gap-2 max-sm:gap-2 sm:gap-4 mt-4 max-sm:mt-4 sm:mt-4">
+                        <Button
+                          variant="outline"
+                          className="w-1/3 border-muted-gray/50 text-foreground hover:bg-secondary font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
+                          onClick={() => setApplicationStep(1)}
+                        >
+                          返回
+                        </Button>
+                        <Button
+                          className="w-2/3 bg-primary hover:bg-primary/90 text-primary-foreground font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
+                          onClick={handleSubmitApplication}
+                          disabled={!formData.contactPhone || !formData.email || isSubmitting}
+                        >
+                          {isSubmitting ? '提交中...' : '提交申请'}
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               </div>
             </motion.div>
           </div>
@@ -1693,8 +2157,8 @@ export default function HomePage() {
               >
                 <Accordion type="single" collapsible className="space-y-4">
                   {faqs.map((faq, index) => (
-                    <AccordionItem 
-                      key={faq._id} 
+                    <AccordionItem
+                      key={faq._id}
                       value={`item-${index}`}
                       className="bg-secondary/20 border border-muted-gray/20 px-6 rounded-none data-[state=open]:border-primary/50 transition-colors"
                     >
@@ -1719,14 +2183,14 @@ export default function HomePage() {
       {/* --- FINAL CTA --- */}
       <section id="final-cta" className="relative w-full py-32 overflow-hidden bg-primary">
         <div className="absolute inset-0 opacity-10 mix-blend-overlay">
-           <Image 
+           <Image
             src="https://static.wixstatic.com/media/556c5c_e0859bd4b0844dfdb2784bdbbeb0dab7~mv2.png?originWidth=1920&originHeight=1024"
             alt="Texture"
             className="w-full h-full object-cover"
             width={1920}
           />
         </div>
-        
+
         <div className="relative z-10 max-w-[80rem] mx-auto px-6 md:px-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -1741,16 +2205,16 @@ export default function HomePage() {
               提交经销商申请，获取产品资料、经销价格和免费产品评估资格。
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-black hover:bg-black/80 text-white font-heading text-lg px-12 py-7 h-auto rounded-none shadow-2xl"
                 onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 申请免费样品评估
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <Button
+                size="lg"
+                variant="outline"
                 className="border-2 border-black text-black hover:bg-black hover:text-white font-heading text-lg px-12 py-7 h-auto rounded-none transition-colors"
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
