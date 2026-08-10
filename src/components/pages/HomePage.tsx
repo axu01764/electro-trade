@@ -93,12 +93,17 @@ function FormQuestion({
   return (
     <AccordionItem value={value} className="border border-muted-gray/25 bg-background/40 px-4 sm:px-5">
       <AccordionTrigger className="py-4 text-left hover:no-underline [&>svg]:text-primary">
-        <div className="flex min-w-0 flex-1 items-center gap-3 pr-3">
+        <div className="flex min-w-0 flex-1 items-start gap-3 pr-2 sm:items-center sm:pr-3">
           <span className={`flex h-7 w-7 shrink-0 items-center justify-center border text-[11px] font-heading ${complete ? 'border-primary bg-primary text-black' : 'border-primary/50 text-primary'}`}>
             {String(number).padStart(2, '0')}
           </span>
-          <span className="font-paragraph text-sm font-medium text-foreground">{title}</span>
-          <span className={`ml-auto shrink-0 text-[11px] ${complete ? 'text-green-400' : 'text-foreground/45'}`}>
+          <span className="min-w-0 flex-1">
+            <span className="block font-paragraph text-sm font-medium leading-5 text-foreground">{title}</span>
+            <span className={`mt-1 block text-[11px] sm:hidden ${complete ? 'text-green-400' : 'text-foreground/45'}`}>
+              {complete ? '✓ 已完成' : incompleteLabel}
+            </span>
+          </span>
+          <span className={`ml-auto hidden shrink-0 text-[11px] sm:block ${complete ? 'text-green-400' : 'text-foreground/45'}`}>
             {complete ? '✓ 已完成' : incompleteLabel}
           </span>
         </div>
@@ -607,9 +612,12 @@ export default function HomePage() {
             </span>
 
             <h2 className="font-heading text-2xl max-sm:text-[25px] sm:text-3xl md:text-5xl lg:text-5xl text-foreground mb-3 max-sm:mb-2 sm:mb-4 leading-[1.2] max-sm:leading-[1.3]">
-              <span className="max-sm:block">为什么 Locanex 值得成为</span>
-              <span className="max-sm:block">你的下一个<span className="text-primary">合作品牌？</span></span>
-              <span className="hidden sm:inline">为什么 Locanex 值得成为您的<br />下一个<span className="text-primary">合作品牌？</span></span>
+              <span className="block sm:hidden">
+                为什么 Locanex 值得成为你的下一个<span className="text-primary">合作伙伴？</span>
+              </span>
+              <span className="hidden sm:inline">
+                为什么 Locanex 值得成为你的<br />下一个<span className="text-primary">合作伙伴？</span>
+              </span>
             </h2>
             <p className="font-paragraph text-xs max-sm:text-[12px] sm:text-base md:text-lg text-[#AEB4B9] max-w-3xl max-sm:max-w-none mx-auto mt-3 max-sm:mt-2 sm:mt-4 leading-[1.6] max-sm:leading-[1.6]">
               不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。
@@ -1709,8 +1717,7 @@ export default function HomePage() {
               <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-2 max-sm:mb-2 sm:mb-4">
                 申请成为<span className="text-primary">Locanex经销商</span>
               </h2>
-              <p className="hidden md:block font-paragraph text-foreground/60 mb-10 text-base">先填写采购需求，再补充公司身份与联系方式。</p>
-              <p className="md:hidden font-paragraph text-foreground/60 mb-6 text-sm">填写基本信息，获取产品资料与评估资格。</p>
+              <p className="mb-6 font-paragraph text-sm text-foreground/60 md:mb-10 md:text-base">先填写采购需求，再补充公司身份与联系方式。</p>
 
               {/* Step Indicator */}
               <div className="hidden md:flex items-center mb-10">
@@ -1722,15 +1729,15 @@ export default function HomePage() {
               </div>
               <div className="flex md:hidden items-center mb-8">
                 <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
-                <div className="font-paragraph text-xs ml-3 mr-4 text-foreground/80">步骤 1: 基本信息</div>
+                <div className="font-paragraph text-xs ml-2 mr-2 text-foreground/80">步骤 1：采购需求</div>
                 <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
-                <div className="font-paragraph text-xs ml-3 text-foreground/80">步骤 2: 联系方式</div>
+                <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-2 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
+                <div className="font-paragraph text-xs ml-2 text-foreground/80">步骤 2：公司信息</div>
               </div>
 
               <div className="bg-secondary/20 border border-muted-gray/20 p-4 max-sm:p-4 sm:p-8">
-                {/* Desktop and tablet: accordion-style dealer qualification form */}
-                <div className="hidden md:block">
+                {/* All breakpoints: accordion-style dealer qualification form */}
+                <div className="block">
                   {applicationStep === 1 && (
                     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                       <Accordion
@@ -1746,7 +1753,7 @@ export default function HomePage() {
                           title="经常采购的电动工具类型"
                           complete={formData.purchaseToolTypes.length > 0}
                         >
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             {purchaseToolOptions.map(option => (
                               <ChoiceButton
                                 key={option}
@@ -1794,7 +1801,7 @@ export default function HomePage() {
                             title="常购无绳工具电压平台"
                             complete={formData.cordlessVoltagePlatforms.length > 0}
                           >
-                            <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                               {cordlessVoltageOptions.map(option => (
                                 <ChoiceButton
                                   key={option}
@@ -1924,7 +1931,7 @@ export default function HomePage() {
                           title="公司类型"
                           complete={Boolean(formData.companyType)}
                         >
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             {companyTypeOptions.map(option => (
                               <ChoiceButton
                                 key={option}
@@ -1946,7 +1953,7 @@ export default function HomePage() {
                           title="申请人身份/职位"
                           complete={Boolean(formData.applicantRole)}
                         >
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             {applicantRoleOptions.map(option => (
                               <ChoiceButton
                                 key={option}
@@ -2029,8 +2036,8 @@ export default function HomePage() {
                   )}
                 </div>
 
-                {/* Mobile: preserve the existing two-step form unchanged */}
-                <div className="md:hidden">
+                {/* Legacy mobile form retained in source for rollback, but no longer rendered. */}
+                <div className="hidden">
                   {applicationStep === 1 && (
                     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 max-sm:space-y-4 sm:space-y-6">
                       <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
