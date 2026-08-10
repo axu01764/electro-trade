@@ -1445,7 +1445,7 @@ export default function HomePage() {
             <div className="w-20 h-1 bg-primary mx-auto"></div>
           </motion.div>
 
-          <div className="grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-sm:gap-4 sm:gap-6 md:gap-8">
+          <div className="max-sm:flex max-sm:overflow-x-auto max-sm:scroll-snap-type-x-mandatory max-sm:gap-3 max-sm:pl-5 max-sm:-mx-4 max-sm:px-4 max-sm:pb-2 sm:grid sm:grid-cols-2 md:grid-cols-3 sm:gap-6 md:gap-8 max-sm:[&::-webkit-scrollbar]:hidden max-sm:scrollbar-hide">
             {[
               { title: '工厂与生产线', desc: '现代化生产线，稳定的生产与交付能力', image: 'https://static.wixstatic.com/media/556c5c_35ab86ea4b674d54a597438efd805d7e~mv2.png' },
               { title: '产品展示间', desc: '产品系列集中展示，方便选品与样品确认', image: 'https://static.wixstatic.com/media/556c5c_45196851bba147288f733a9256fc8b92~mv2.png' },
@@ -1457,7 +1457,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="group relative h-64 max-sm:h-64 sm:h-72 md:h-80 overflow-hidden border border-muted-gray/20"
+                className="group relative h-64 max-sm:h-64 sm:h-72 md:h-80 overflow-hidden border border-muted-gray/20 max-sm:flex-shrink-0 max-sm:scroll-snap-align-start max-sm:w-[calc(100vw-64px)]"
               >
                 <Image 
                   src={item.image}
