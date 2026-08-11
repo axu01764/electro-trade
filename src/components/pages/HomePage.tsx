@@ -1,23 +1,29 @@
 // HPI 1.7-V
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import {
-  ChevronDown, CheckCircle, Package, TrendingUp, Shield,
-  Users, Zap, Award, Clock, Globe, Phone, Mail,
-  MessageCircle, ArrowRight, Settings, Wrench, Factory,
-  ChevronRight
-} from 'lucide-react';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Image } from '@/components/ui/image';
+import { Coreproducts, Distributorapplications, Faq } from '@/entities';
 import { BaseCrudService } from '@/integrations';
-import { Coreproducts, Faq, Distributorapplications } from '@/entities';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import {
+  ArrowRight,
+  Award,
+  CheckCircle,
+  ChevronDown,
+  ChevronRight,
+  Clock, Globe,
+  MessageCircle,
+  Package,
+  Settings,
+  TrendingUp,
+  Zap
+} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type ApplicationFormData = {
   companyName: string;
@@ -68,6 +74,11 @@ const companyTypeOptions = [
 ];
 const applicantRoleOptions = ['公司负责人/老板', '采购负责人', '销售负责人', '店铺经理', '电商运营负责人', '其他'];
 const LINE_CONTACT_URL = 'https://line.me/ti/p/G_saKyMNTQ';
+const MOBILE_PRODUCT_CARD_COUNT = 6;
+
+// Upload the approved MT2081 product image to Wix Media, then paste its
+// https://static.wixstatic.com/media/... URL between the quotation marks.
+const MT2081_IMAGE_URL = 'https://static.wixstatic.com/media/556c5c_54b8f299430a4095bbc35c1e25c5f3ba~mv2.png';
 
 const createInitialFormData = (): ApplicationFormData => ({
   companyName: '',
@@ -215,7 +226,7 @@ export default function HomePage() {
   };
 
   const handleCarouselNext = () => {
-    if (carouselIndex < products.length - 1) {
+    if (carouselIndex < MOBILE_PRODUCT_CARD_COUNT - 1) {
       setCarouselIndex(carouselIndex + 1);
       scrollCarouselToIndex(carouselIndex + 1);
     }
@@ -223,7 +234,8 @@ export default function HomePage() {
 
   const scrollCarouselToIndex = (index: number) => {
     if (carouselRef.current) {
-      const cardWidth = carouselRef.current.offsetWidth - 32; // 100% - 16px padding on each side
+      const firstCard = carouselRef.current.querySelector<HTMLElement>('.product-carousel-item');
+      const cardWidth = firstCard?.offsetWidth ?? carouselRef.current.offsetWidth - 32;
       const gap = 12;
       const scrollLeft = index * (cardWidth + gap);
       carouselRef.current.scrollTo({
@@ -231,6 +243,18 @@ export default function HomePage() {
         behavior: 'smooth'
       });
     }
+  };
+
+  // Keep the counter and dots synchronized when the visitor swipes by touch.
+  const handleCarouselScroll = () => {
+    if (!carouselRef.current) return;
+
+    const firstCard = carouselRef.current.querySelector<HTMLElement>('.product-carousel-item');
+    const cardWidth = firstCard?.offsetWidth ?? carouselRef.current.offsetWidth - 32;
+    const index = Math.round(carouselRef.current.scrollLeft / (cardWidth + 12));
+    const boundedIndex = Math.min(MOBILE_PRODUCT_CARD_COUNT - 1, Math.max(0, index));
+
+    setCarouselIndex((currentIndex) => currentIndex === boundedIndex ? currentIndex : boundedIndex);
   };
 
   const scrollCapabilityCarouselToIndex = (index: number) => {
@@ -740,16 +764,14 @@ export default function HomePage() {
               <span className="text-primary">专业无刷电动工具系列</span>
             </h2>
             <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/80 max-w-4xl mx-auto leading-[1.6] mt-3 max-sm:mt-3 sm:mt-6">
-              <span className="hidden sm:inline">为专业施工、安装、维修与工业用户打造<br />
-              五款21V专业工具覆盖高频作业场景<br />
-              适合经销商门店展示与样品测试</span>
-              <span className="sm:hidden">为专业施工、安装、维修与工业用户打造<br />
-              六款21V专业产品覆盖高频作业与续航需求<br />
-              适合经销商门店展示与样品测试</span>
+              为专业施工、安装、维修与工业用户打造<br />
+              <span className="sm:hidden">六款21V专业产品覆盖高频作业与续航需求</span>
+              <span className="hidden sm:inline">五款21V专业工具覆盖高频作业场景</span><br />
+              适合经销商门店展示与样品测试
             </p>
           </motion.div>
 
-          {/* 5 Product Cards - Desktop: 5 in row | Tablet: 2 columns | Mobile: Carousel */}
+          {/* Desktop/tablet keep the existing 5 cards; mobile uses a 6-card carousel. */}
           <div className="min-h-[400px] max-sm:min-h-[auto]">
             {/* Desktop & Tablet Grid */}
             <motion.div
@@ -1033,6 +1055,8 @@ export default function HomePage() {
               <div
                 ref={carouselRef}
                 className="product-carousel mb-6"
+                onScroll={handleCarouselScroll}
+                aria-label="Locanex 21V 产品横向轮播，共6款"
               >
                 {/* Product 1 */}
                 <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
@@ -1193,6 +1217,47 @@ export default function HomePage() {
                     </Button>
                   </div>
                 </div>
+
+                {/* Product 6: MT2081 Battery Pack */}
+                <div className="product-carousel-item group relative bg-black/70 border border-muted-gray/40 overflow-hidden flex flex-col h-full hover:border-primary/60 transition-colors duration-300">
+                  <div className="relative w-full h-[220px] bg-black/80 overflow-hidden">
+                    {MT2081_IMAGE_URL ? (
+                      <Image
+                        src={MT2081_IMAGE_URL}
+                        alt="Locanex 21V MT2081 8.0Ah Battery Pack"
+                        className="w-full h-full object-cover object-center"
+                        width={600}
+                      />
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-3 border border-dashed border-primary/35 bg-secondary/30 px-6 text-center">
+                        <Package className="h-8 w-8 text-primary/80" />
+                        <span className="font-paragraph text-xs leading-5 text-foreground/60">
+                          请将 MT2081 图片上传至 Wix，并填写 MT2081_IMAGE_URL
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-3 flex-grow flex flex-col relative z-30 bg-black/70">
+                    <div className="mb-2">
+                      <span className="font-heading text-xs font-bold text-primary tracking-widest uppercase">LOCANEX 21V</span>
+                    </div>
+                    <h3 className="font-heading text-sm text-foreground font-bold mb-2 line-clamp-2 leading-tight">MT2081 大容量锂电池包</h3>
+                    <div className="mb-2">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">专业用途</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">为21V无绳工具提供长时间供电，适合高频钻孔、紧固、切割与打磨。</p>
+                    </div>
+                    <div className="mb-3">
+                      <p className="font-paragraph text-xs text-foreground/60 uppercase tracking-wider font-semibold mb-1">经销商看点</p>
+                      <p className="font-paragraph text-xs text-foreground/80 leading-[1.4]">8.0Ah / 148Wh大容量，适合作为升级和备用电池销售，带动工具、电池组合销售与复购。</p>
+                    </div>
+                    <Button
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
+                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    >
+                      申请该产品样品
+                    </Button>
+                  </div>
+                </div>
               </div>
 
               {/* Mobile Carousel Controls */}
@@ -1200,7 +1265,7 @@ export default function HomePage() {
                 {/* Product Counter */}
                 <div className="text-center flex-1">
                   <span className="font-heading text-sm text-primary font-bold">
-                    {String(carouselIndex + 1).padStart(2, '0')} / 05
+                    {String(carouselIndex + 1).padStart(2, '0')} / {String(MOBILE_PRODUCT_CARD_COUNT).padStart(2, '0')}
                   </span>
                 </div>
 
@@ -1215,7 +1280,7 @@ export default function HomePage() {
                   </button>
                   <button
                     onClick={handleCarouselNext}
-                    disabled={carouselIndex === 4}
+                    disabled={carouselIndex === MOBILE_PRODUCT_CARD_COUNT - 1}
                     className="w-10 h-10 flex items-center justify-center border border-primary/50 text-primary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-primary/10 transition-colors"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -1225,7 +1290,7 @@ export default function HomePage() {
 
               {/* Pagination Dots */}
               <div className="flex justify-center gap-2 mt-4">
-                {[0, 1, 2, 3, 4].map((index) => (
+                {Array.from({ length: MOBILE_PRODUCT_CARD_COUNT }, (_, index) => index).map((index) => (
                   <button
                     key={index}
                     onClick={() => {
