@@ -1,29 +1,23 @@
 // HPI 1.7-V
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
-import { Image } from '@/components/ui/image';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Coreproducts, Distributorapplications, Faq } from '@/entities';
-import { BaseCrudService } from '@/integrations';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
-  ArrowRight,
-  Award,
-  CheckCircle,
-  ChevronDown,
-  ChevronRight,
-  Clock, Globe,
-  MessageCircle,
-  Package,
-  Settings,
-  TrendingUp,
-  Zap
+  ChevronDown, CheckCircle, Package, TrendingUp, Shield,
+  Users, Zap, Award, Clock, Globe, Phone, Mail,
+  MessageCircle, ArrowRight, Settings, Wrench, Factory,
+  ChevronRight
 } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Image } from '@/components/ui/image';
+import { BaseCrudService } from '@/integrations';
+import { Coreproducts, Faq, Distributorapplications } from '@/entities';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 type ApplicationFormData = {
   companyName: string;
@@ -79,6 +73,346 @@ const MOBILE_PRODUCT_CARD_COUNT = 6;
 // Upload the approved MT2081 product image to Wix Media, then paste its
 // https://static.wixstatic.com/media/... URL between the quotation marks.
 const MT2081_IMAGE_URL = 'https://static.wixstatic.com/media/556c5c_54b8f299430a4095bbc35c1e25c5f3ba~mv2.png';
+
+type SiteLanguage = 'zh' | 'th';
+
+const LANGUAGE_STORAGE_KEY = 'locanex-site-language';
+
+/*
+ * Keep the commercial form values in Chinese as stable database values.
+ * This dictionary only translates rendered text, so changing language never
+ * changes saved applications, filters, validation logic, images or layout.
+ */
+const ZH_TO_TH_TEXT: Record<string, string> = {
+  // Header and footer
+  '首页': 'หน้าแรก',
+  '合作机会': 'โอกาสทางธุรกิจ',
+  '产品系列': 'ผลิตภัณฑ์',
+  '合作权益': 'สิทธิประโยชน์ตัวแทนจำหน่าย',
+  '申请流程': 'ขั้นตอนการสมัคร',
+  '常见问题': 'คำถามที่พบบ่อย',
+  'LINE咨询': 'ปรึกษาทาง LINE',
+  '添加LINE咨询': 'เพิ่ม LINE เพื่อปรึกษา',
+  '申请经销': 'สมัครเป็นตัวแทนจำหน่าย',
+  '快速链接': 'ลิงก์ด่วน',
+  '关于我们': 'เกี่ยวกับเรา',
+  '经销商申请': 'สมัครตัวแทนจำหน่าย',
+  '联系方式': 'ข้อมูลติดต่อ',
+  '营业时间': 'เวลาทำการ',
+  '电子邮箱': 'อีเมล',
+  '联系电话': 'โทรศัพท์',
+  '联系 电话': 'โทรศัพท์',
+  'LINE 咨询': 'ติดต่อทาง LINE',
+  '周一至周五': 'จันทร์–ศุกร์',
+  '周六': 'วันเสาร์',
+  '周日及公众假期': 'วันอาทิตย์และวันหยุดนักขัตฤกษ์',
+  '休息': 'ปิดทำการ',
+  '隐私政策': 'นโยบายความเป็นส่วนตัว',
+  '使用条款': 'ข้อกำหนดการใช้งาน',
+  '专业电动工具制造商': 'ผู้ผลิตเครื่องมือไฟฟ้ามืออาชีพ',
+  '致力于为全球市场提供高品质产品': 'มุ่งมั่นนำเสนอผลิตภัณฑ์คุณภาพสูงสู่ตลาดทั่วโลก',
+
+  // Shared form states and options
+  '请选择': 'โปรดเลือก',
+  '请填写': 'โปรดกรอก',
+  '✓ 已完成': '✓ กรอกแล้ว',
+  '冲击钻/电钻': 'สว่านกระแทก / สว่านไฟฟ้า',
+  '冲击扳手': 'บล็อกกระแทก',
+  '角磨机': 'เครื่องเจียรไฟฟ้า',
+  '电圆锯': 'เลื่อยวงเดือนไฟฟ้า',
+  '电链锯': 'เลื่อยโซ่ไฟฟ้า',
+  '电锤/电镐': 'สว่านโรตารี่ / เครื่องสกัดไฟฟ้า',
+  '砂光机/抛光机': 'เครื่องขัดกระดาษทราย / เครื่องขัดเงา',
+  '其他电动工具': 'เครื่องมือไฟฟ้าอื่น ๆ',
+  '无绳工具为主': 'เครื่องมือไร้สายเป็นหลัก',
+  '有绳工具为主': 'เครื่องมือแบบมีสายเป็นหลัก',
+  '无绳与有绳都采购': 'จัดซื้อทั้งแบบไร้สายและมีสาย',
+  '其他': 'อื่น ๆ',
+  '600W及以下': 'ไม่เกิน 600W',
+  '601W–1000W': '601W–1000W',
+  '1001W–1500W': '1001W–1500W',
+  '1501W–2000W': '1501W–2000W',
+  '2000W以上': 'มากกว่า 2000W',
+  '电动工具经销商': 'ผู้จัดจำหน่ายเครื่องมือไฟฟ้า',
+  '五金店/建材店': 'ร้านฮาร์ดแวร์ / ร้านวัสดุก่อสร้าง',
+  '工业用品供应商': 'ผู้จำหน่ายอุปกรณ์อุตสาหกรรม',
+  '电商平台卖家': 'ผู้ขายบนแพลตฟอร์มอีคอมเมิร์ซ',
+  '电商卖家': 'ผู้ขายออนไลน์',
+  '批发商': 'ผู้ค้าส่ง',
+  '建筑工具供应商': 'ผู้จำหน่ายเครื่องมือก่อสร้าง',
+  '拥有区域渠道的公司': 'บริษัทที่มีเครือข่ายจำหน่ายในภูมิภาค',
+  '公司负责人/老板': 'เจ้าของกิจการ / ผู้บริหารบริษัท',
+  '采购负责人': 'ผู้จัดการฝ่ายจัดซื้อ',
+  '销售负责人': 'ผู้จัดการฝ่ายขาย',
+  '店铺经理': 'ผู้จัดการร้าน',
+  '电商运营负责人': 'ผู้ดูแลอีคอมเมิร์ซ',
+
+  // Hero
+  '寻找泰国本地': 'กำลังมองหาพันธมิตรในประเทศไทย',
+  '电动工具合作伙伴': 'สำหรับธุรกิจเครื่องมือไฟฟ้า',
+  '有竞争力的经销价格、稳定供货和市场支持。': 'ราคาสำหรับตัวแทนจำหน่ายที่แข่งขันได้ พร้อมการจัดส่งที่มั่นคงและการสนับสนุนด้านตลาด',
+  '符合条件的经销商可申请免费产品样品。': 'ตัวแทนจำหน่ายที่ผ่านเกณฑ์สามารถสมัครขอรับตัวอย่างสินค้าเพื่อทดสอบได้',
+  '申请免费样品评估': 'สมัครประเมินตัวอย่างสินค้า',
+  '申请约需60秒｜无需支付申请费用｜审核通过后安排样品': 'ใช้เวลาสมัครประมาณ 60 วินาที｜ไม่มีค่าธรรมเนียม｜จัดส่งตัวอย่างหลังผ่านการประเมิน',
+  '有竞争力的经销价格': 'ราคาตัวแทนจำหน่ายที่แข่งขันได้',
+  '样品测试机会': 'โอกาสทดสอบตัวอย่างสินค้า',
+  '营销支持': 'การสนับสนุนด้านการตลาด',
+  '售后支持': 'การสนับสนุนหลังการขาย',
+
+  // Dealer advantages
+  '为什么 Locanex 值得成为你的下一个': 'ทำไม Locanex จึงควรเป็นพันธมิตรธุรกิจรายต่อไป',
+  '为什么 Locanex 值得成为你的': 'ทำไม Locanex จึงควรเป็น',
+  '下一个': 'พันธมิตรธุรกิจรายต่อไป',
+  '合作伙伴？': 'ของคุณ?',
+  '不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。': 'เราไม่ได้เพียงจัดหาสินค้า แต่ยังมอบแนวทางความร่วมมือที่สร้างศักยภาพการขายในระยะยาวให้ตัวแทนจำหน่าย',
+  '阶梯采购政策': 'นโยบายราคาตามปริมาณสั่งซื้อ',
+  '通过资质审核后获取经销商合作报价': 'รับใบเสนอราคาสำหรับตัวแทนจำหน่ายหลังผ่านการประเมินคุณสมบัติ',
+  '根据采购数量提供不同级别的合作方案': 'เสนอเงื่อนไขความร่วมมือหลายระดับตามปริมาณการสั่งซื้อ',
+  '统一无线电池平台': 'แพลตฟอร์มแบตเตอรี่ไร้สายร่วมกัน',
+  '多款无线工具共享电池平台，带来持续销售机会': 'เครื่องมือไร้สายหลายรุ่นใช้แบตเตอรี่ร่วมกัน ช่วยสร้างโอกาสการขายต่อเนื่อง',
+  '组合销售机会': 'โอกาสขายเป็นชุด',
+  '工具、电池、充电器和配件可组合销售': 'สามารถจัดชุดขายเครื่องมือ แบตเตอรี่ เครื่องชาร์จ และอุปกรณ์เสริมได้',
+  '稳定供货': 'การจัดส่งที่มั่นคง',
+  '提供稳定供货和长期补货支持': 'รองรับการจัดส่งและเติมสินค้าอย่างต่อเนื่องในระยะยาว',
+  '泰国市场支持': 'การสนับสนุนตลาดไทย',
+  '提供泰文产品资料、图片、视频和营销支持': 'มีข้อมูลสินค้า ภาพ วิดีโอ และสื่อการตลาดภาษาไทย',
+
+  // Products
+  '专业无刷电动工具系列': 'เครื่องมือไฟฟ้าไร้แปรงถ่านระดับมืออาชีพ',
+  '为专业施工、安装、维修与工业用户打造': 'ออกแบบสำหรับงานก่อสร้าง ติดตั้ง ซ่อมบำรุง และงานอุตสาหกรรมระดับมืออาชีพ',
+  '六款21V专业产品覆盖高频作业与续航需求': 'ผลิตภัณฑ์มืออาชีพ 21V จำนวน 6 รุ่น ครอบคลุมงานใช้งานบ่อยและความต้องการด้านระยะเวลาทำงาน',
+  '五款21V专业工具覆盖高频作业场景': 'เครื่องมือมืออาชีพ 21V จำนวน 5 รุ่น ครอบคลุมงานใช้งานบ่อย',
+  '适合经销商门店展示与样品测试': 'เหมาะสำหรับจัดแสดงในร้านตัวแทนจำหน่ายและใช้ทดสอบตัวอย่างสินค้า',
+  '无刷冲击钻': 'สว่านกระแทกไร้แปรงถ่าน',
+  '无刷冲击扳手': 'บล็อกกระแทกไร้แปรงถ่าน',
+  '无刷无绳链锯': 'เลื่อยโซ่ไร้สายไร้แปรงถ่าน',
+  '无刷电圆锯': 'เลื่อยวงเดือนไร้แปรงถ่าน',
+  '无刷角磨机': 'เครื่องเจียรไร้แปรงถ่าน',
+  'MT2081 大容量锂电池包': 'แบตเตอรี่ลิเธียมความจุสูง MT2081',
+  '专业用途': 'การใช้งานระดับมืออาชีพ',
+  '经销商看点': 'จุดขายสำหรับตัวแทนจำหน่าย',
+  '钻孔、紧固、安装与维修作业': 'งานเจาะ ขันยึด ติดตั้ง และซ่อมบำรุง',
+  '高频施工工具，同时覆盖钻孔与紧固需求。': 'เครื่องมือใช้งานบ่อยในงานก่อสร้าง ครอบคลุมทั้งงานเจาะและขันยึด',
+  '轮胎、机械、钢结构及螺栓拆装': 'งานถอดประกอบล้อ เครื่องจักร โครงสร้างเหล็ก และสลักเกลียว',
+  '专业紧固定位，适合汽修、工程与设备维护渠道。': 'เหมาะกับงานขันยึดมืออาชีพ สำหรับช่องทางซ่อมรถ งานวิศวกรรม และบำรุงรักษาอุปกรณ์',
+  '木材切割、园林修枝与现场木工作业': 'ตัดไม้ ตัดแต่งกิ่ง และงานไม้ภาคสนาม',
+  '无绳作业更灵活，用途直观，方便门店演示。': 'ใช้งานไร้สายคล่องตัว เข้าใจการใช้งานง่าย และสาธิตในร้านได้สะดวก',
+  '木板、模板、板材与施工现场切割': 'ตัดไม้ แผ่นแบบ แผ่นวัสดุ และงานตัดในไซต์ก่อสร้าง',
+  '专业切割场景明确，适合木工、建筑与装修渠道。': 'จุดใช้งานด้านการตัดชัดเจน เหมาะกับช่องทางงานไม้ ก่อสร้าง และตกแต่ง',
+  '金属切割、打磨、去毛刺与表面处理': 'ตัดและเจียรโลหะ ลบคม และเตรียมพื้นผิว',
+  '覆盖高频金工任务，适合维修、工程与工业渠道。': 'ครอบคลุมงานโลหะที่ใช้บ่อย เหมาะกับช่องทางซ่อมบำรุง วิศวกรรม และอุตสาหกรรม',
+  '为21V无绳工具提供长时间供电，适合高频钻孔、紧固、切割与打磨。': 'จ่ายพลังงานต่อเนื่องให้เครื่องมือไร้สาย 21V เหมาะกับงานเจาะ ขันยึด ตัด และเจียรที่ใช้งานบ่อย',
+  '8.0Ah / 148Wh大容量，适合作为升级和备用电池销售，带动工具、电池组合销售与复购。': 'ความจุสูง 8.0Ah / 148Wh เหมาะสำหรับขายเป็นแบตเตอรี่สำรองหรืออัปเกรด ช่วยเพิ่มยอดขายแบบชุดและการซื้อซ้ำ',
+  '申请该产品样品': 'สมัครทดสอบตัวอย่างรุ่นนี้',
+  '想先测试哪一款？': 'ต้องการทดสอบรุ่นใดก่อน?',
+  '符合条件的泰国经销商可申请指定产品样品进行评估与测试。样品数量有限，申请需经资质审核。': 'ตัวแทนจำหน่ายในประเทศไทยที่ผ่านเกณฑ์สามารถสมัครทดสอบตัวอย่างรุ่นที่สนใจได้ ตัวอย่างมีจำนวนจำกัดและต้องผ่านการประเมินคุณสมบัติ',
+  '请将 MT2081 图片上传至 Wix，并填写 MT2081_IMAGE_URL': 'โปรดอัปโหลดภาพ MT2081 ไปยัง Wix และระบุ MT2081_IMAGE_URL',
+  'Locanex 21V 产品横向轮播，共6款': 'แกลเลอรีผลิตภัณฑ์ Locanex 21V แบบเลื่อน จำนวน 6 รุ่น',
+
+  // Comparison
+  '产品与经销': 'ผลิตภัณฑ์และ',
+  '支持对比': 'การสนับสนุนตัวแทนจำหน่าย',
+  '从工厂直供到市场测试，为泰国经销商提供更灵活的合作支持。': 'ตั้งแต่การจัดส่งตรงจากโรงงานถึงการทดสอบตลาด เรามอบการสนับสนุนที่ยืดหยุ่นให้ตัวแทนจำหน่ายในประเทศไทย',
+  '比较项目': 'หัวข้อเปรียบเทียบ',
+  '我们': 'Locanex',
+  '一般供应商': 'ผู้จำหน่ายทั่วไป',
+  '工厂供货': 'จัดส่งจากโรงงาน',
+  '自有工厂直供，价格优势明显': 'โรงงานของเราเองจัดส่งโดยตรง จึงได้เปรียบด้านราคา',
+  '多级代理，成本较高': 'ผ่านตัวแทนหลายระดับ ต้นทุนสูงกว่า',
+  '✓ 工厂直供，利润空间更大': '✓ ส่งตรงจากโรงงาน เพิ่มโอกาสด้านกำไร',
+  '中间环节多，成本更高': 'มีหลายขั้นตอน ต้นทุนสูงกว่า',
+  'OEM贴牌': 'บริการ OEM',
+  'OEM 贴牌': 'บริการ OEM',
+  '支持小批量定制，灵活度高': 'รองรับการปรับแต่งในปริมาณยืดหยุ่น',
+  '起订量要求极高': 'กำหนดปริมาณขั้นต่ำสูง',
+  '✓ 品牌、Logo、包装均可定制': '✓ ปรับแต่งแบรนด์ Logo และบรรจุภัณฑ์ได้',
+  '以标准产品为主': 'เน้นจำหน่ายสินค้ามาตรฐาน',
+  'ODM开发': 'พัฒนา ODM',
+  'ODM 开发': 'พัฒนา ODM',
+  '专业研发团队，支持功能定制': 'ทีมวิจัยและพัฒนามืออาชีพ รองรับการปรับฟังก์ชัน',
+  '仅提供公模产品': 'มีเฉพาะสินค้ารุ่นมาตรฐาน',
+  '✓ 根据你的客户需求开发产品': '✓ พัฒนาสินค้าตามความต้องการของลูกค้าคุณ',
+  '只能选择现有产品': 'เลือกได้เฉพาะสินค้าที่มีอยู่',
+  '产品差异化': 'ความแตกต่างของสินค้า',
+  '独特工业设计，避免价格战': 'ดีไซน์อุตสาหกรรมเฉพาะ ช่วยลดการแข่งขันด้านราคา',
+  '同质化严重，竞争激烈': 'สินค้าเหมือนกันมากและแข่งขันสูง',
+  '✓ 打造专属配置与产品系列': '✓ สร้างสเปกและกลุ่มผลิตภัณฑ์เฉพาะของคุณ',
+  '产品同质化严重': 'สินค้ามีความคล้ายกันสูง',
+  '市场测试': 'ทดสอบตลาด',
+  '支持样机试销，降低风险': 'รองรับตัวอย่างสำหรับทดลองขาย ช่วยลดความเสี่ยง',
+  '需大批量进货': 'ต้องสั่งซื้อจำนวนมาก',
+  '✓ 先测试市场，再扩大采购': '✓ ทดสอบตลาดก่อน แล้วจึงเพิ่มปริมาณสั่งซื้อ',
+  '批量采购，试错成本高': 'ต้องซื้อจำนวนมากและมีต้นทุนการทดลองสูง',
+  '长期支持': 'การสนับสนุนระยะยาว',
+  '提供品牌营销与售后全方位支持': 'สนับสนุนด้านแบรนด์ การตลาด และบริการหลังการขาย',
+  '仅负责产品销售': 'เน้นจำหน่ายสินค้าเท่านั้น',
+  '✓ 根据市场反馈持续优化产品': '✓ ปรับปรุงสินค้าอย่างต่อเนื่องตามข้อมูลตลาด',
+  '以供货为主，支持有限': 'เน้นการจัดส่งสินค้า การสนับสนุนมีจำกัด',
+
+  // Sample testing process
+  '经销商样品测试计划': 'โครงการทดสอบตัวอย่างสำหรับตัวแทนจำหน่าย',
+  '申请加入泰国经销商': 'สมัครเข้าร่วมโครงการตัวแทนจำหน่ายไทย',
+  '产品测试计划': 'เพื่อทดสอบผลิตภัณฑ์',
+  '通过样品测试了解真实产品表现，并根据测试反馈制定长期合作方案。': 'ประเมินประสิทธิภาพจริงผ่านการทดสอบตัวอย่าง และวางแผนความร่วมมือระยะยาวจากผลตอบรับ',
+  '提交经销商申请': 'ส่งใบสมัครตัวแทนจำหน่าย',
+  '填写申请表 提交基本信息': 'กรอกใบสมัคร\nและข้อมูลพื้นฐาน',
+  '添加 LINE': 'เพิ่ม LINE',
+  '添加官方 LINE 保持沟通': 'เพิ่ม LINE Official\nเพื่อประสานงาน',
+  '资质评估': 'ประเมินคุณสมบัติ',
+  '评估经销商资质 与经营能力': 'ประเมินคุณสมบัติ\nและศักยภาพทางธุรกิจ',
+  '确认样品': 'ยืนยันตัวอย่าง',
+  '确认可申请的产品 与样品数量': 'ยืนยันรุ่นสินค้า\nและจำนวนตัวอย่าง',
+  '产品测试': 'ทดสอบผลิตภัณฑ์',
+  '签收样品并进行 产品测试': 'รับตัวอย่างและ\nทดสอบผลิตภัณฑ์',
+  '制定合作方案': 'วางแผนความร่วมมือ',
+  '根据测试反馈 制定合作方案': 'จัดทำแผนความร่วมมือ\nจากผลการทดสอบ',
+  '样品数量有限 ｜ 申请不代表自动获得样品 ｜ 需提供真实经营信息': 'ตัวอย่างมีจำนวนจำกัด ｜ การสมัครไม่ได้หมายถึงได้รับตัวอย่างโดยอัตโนมัติ ｜ ต้องให้ข้อมูลธุรกิจที่เป็นจริง',
+  '* 免费样品需经经销商资质审核，样品型号与数量由双方沟通后确定。': '* ตัวอย่างฟรีต้องผ่านการประเมินคุณสมบัติตัวแทนจำหน่าย โดยรุ่นและจำนวนจะยืนยันร่วมกัน',
+
+  // Company capability and eligibility
+  '公司实力、': 'ศักยภาพบริษัท ',
+  '产品展示': 'การจัดแสดงสินค้า',
+  '与供货能力': 'และความสามารถในการจัดส่ง',
+  '工厂与生产线': 'โรงงานและสายการผลิต',
+  '现代化生产线，稳定的生产与交付能力': 'สายการผลิตสมัยใหม่ รองรับการผลิตและส่งมอบอย่างมั่นคง',
+  '产品展示间': 'โชว์รูมผลิตภัณฑ์',
+  '产品系列集中展示，方便选品与样品确认': 'จัดแสดงผลิตภัณฑ์เป็นหมวดหมู่ เพื่อสะดวกต่อการคัดเลือกและยืนยันตัวอย่าง',
+  '仓库与库存': 'คลังสินค้าและสต็อก',
+  '完善的库存管理，支持稳定供货与及时补货': 'บริหารสต็อกอย่างเป็นระบบ รองรับการจัดส่งและเติมสินค้าอย่างทันท่วงที',
+  '我们正在寻找首批泰国市场合作伙伴。': 'เรากำลังคัดเลือกพันธมิตรกลุ่มแรกสำหรับตลาดประเทศไทย',
+  '哪些合作伙伴': 'พันธมิตรประเภทใด',
+  '适合申请？': 'เหมาะสำหรับการสมัคร?',
+  '适合申请': 'เหมาะสำหรับสมัคร',
+  '暂不适合': 'ยังไม่เหมาะสำหรับสมัคร',
+  '仅希望购买个人试用品': 'ต้องการสินค้าทดลองเพื่อใช้ส่วนตัวเท่านั้น',
+  '没有相关销售渠道': 'ไม่มีช่องทางการขายที่เกี่ยวข้อง',
+  '无法提供真实经营信息': 'ไม่สามารถให้ข้อมูลธุรกิจที่ตรวจสอบได้',
+  '不接受核心产品测试反馈': 'ไม่พร้อมให้ผลตอบรับจากการทดสอบผลิตภัณฑ์หลัก',
+
+  // Application form
+  '申请成为': 'สมัครเป็น',
+  'Locanex经销商': 'ตัวแทนจำหน่าย Locanex',
+  '先填写采购需求，再补充公司身份与联系方式。': 'เริ่มจากข้อมูลความต้องการจัดซื้อ จากนั้นกรอกข้อมูลบริษัทและช่องทางติดต่อ',
+  '步骤 1: 采购需求': 'ขั้นตอน 1: ความต้องการจัดซื้อ',
+  '步骤 2: 公司与联系信息': 'ขั้นตอน 2: บริษัทและข้อมูลติดต่อ',
+  '步骤 1：采购需求': 'ขั้นตอน 1: ความต้องการจัดซื้อ',
+  '步骤 2：公司信息': 'ขั้นตอน 2: ข้อมูลบริษัท',
+  '经常采购的电动工具类型': 'ประเภทเครื่องมือไฟฟ้าที่จัดซื้อเป็นประจำ',
+  '确认选择': 'ยืนยันตัวเลือก',
+  '主要采购无绳还是有绳工具': 'โดยหลักจัดซื้อเครื่องมือไร้สายหรือแบบมีสาย',
+  '常购无绳工具电压平台': 'แพลตฟอร์มแรงดันของเครื่องมือไร้สายที่จัดซื้อประจำ',
+  '经常采购的有绳工具功率范围': 'ช่วงกำลังไฟของเครื่องมือแบบมีสายที่จัดซื้อประจำ',
+  '点击问题标题展开填写；同一时间只展开一个问题，已填写内容会自动保留。': 'แตะหัวข้อเพื่อเปิดกรอก โดยเปิดได้ครั้งละหนึ่งหัวข้อ และระบบจะเก็บคำตอบที่กรอกแล้วโดยอัตโนมัติ',
+  '下一步：公司身份与联系方式': 'ถัดไป: ข้อมูลบริษัทและผู้ติดต่อ',
+  '联系人姓名': 'ชื่อผู้ติดต่อ',
+  '请输入联系人姓名': 'กรุณากรอกชื่อผู้ติดต่อ',
+  '保存并收起': 'บันทึกและปิด',
+  '公司或店铺名称': 'ชื่อบริษัทหรือร้านค้า',
+  '请输入公司或店铺名称': 'กรุณากรอกชื่อบริษัทหรือร้านค้า',
+  '公司类型': 'ประเภทธุรกิจ',
+  '申请人身份/职位': 'ตำแหน่งของผู้สมัคร',
+  '手机号码': 'หมายเลขโทรศัพท์มือถือ',
+  '例如：0937281730 或 +66...': 'เช่น 0937281730 หรือ +66...',
+  '请输入 8–20 位数字，可包含 +、空格或连字符。': 'กรอกตัวเลข 8–20 หลัก โดยใส่ + เว้นวรรค หรือขีดกลางได้',
+  '我同意公司根据隐私政策收集和使用我的信息，用于经销商申请评估、联系、样品安排、市场调研和合作沟通。': 'ฉันยินยอมให้บริษัทเก็บรวบรวมและใช้ข้อมูลตามนโยบายความเป็นส่วนตัว เพื่อประเมินใบสมัคร ติดต่อ จัดส่งตัวอย่าง สำรวจตลาด และประสานความร่วมมือ',
+  '返回': 'ย้อนกลับ',
+  '提交中...': 'กำลังส่ง...',
+  '提交申请并获取经销商方案': 'ส่งใบสมัครและรับข้อเสนอสำหรับตัวแทนจำหน่าย',
+  '提交申请': 'ส่งใบสมัคร',
+  '公司名称 *': 'ชื่อบริษัท *',
+  '请输入公司全称': 'กรุณากรอกชื่อบริษัทเต็ม',
+  '联系人姓名 *': 'ชื่อผู้ติดต่อ *',
+  '公司类型 *': 'ประเภทธุรกิจ *',
+  '请选择公司类型': 'กรุณาเลือกประเภทธุรกิจ',
+  '五金工具经销商': 'ผู้จัดจำหน่ายเครื่องมือและฮาร์ดแวร์',
+  '建材市场经销商': 'ผู้จัดจำหน่ายวัสดุก่อสร้าง',
+  '零售连锁店': 'ร้านค้าปลีกแบบเครือข่าย',
+  '下一步': 'ถัดไป',
+  '联系电话 *': 'หมายเลขโทรศัพท์ *',
+  '请输入联系电话': 'กรุณากรอกหมายเลขโทรศัพท์',
+  '电子邮箱 *': 'อีเมล *',
+  '请输入电子邮箱': 'กรุณากรอกอีเมล',
+
+  // FAQ and final CTA
+  '常见': 'คำถามที่',
+  '问题': 'พบบ่อย',
+  '暂无常见问题': 'ยังไม่มีคำถามที่พบบ่อย',
+  '如何申请成为你们的合作经销商？': 'สมัครเป็นตัวแทนจำหน่ายของคุณได้อย่างไร?',
+  '您可以通过页面表单提交基本信息，或直接添加我们的 Line / WhatsApp 联系我们。我们的团队会了解您的销售渠道、客户类型和市场需求，并为您推荐适合的供货、OEM 或 ODM 合作方案。对于符合条件的合作伙伴，我们还可以安排样品测试与进一步洽谈。': 'คุณสามารถส่งข้อมูลพื้นฐานผ่านแบบฟอร์มบนหน้าเว็บไซต์ หรือติดต่อเราทาง Line / WhatsApp ทีมงานจะสอบถามช่องทางการขาย กลุ่มลูกค้า และความต้องการของตลาด เพื่อแนะนำรูปแบบความร่วมมือด้านการจัดส่งสินค้า OEM หรือ ODM ที่เหมาะสม สำหรับพันธมิตรที่ผ่านเกณฑ์ เรายังสามารถจัดส่งตัวอย่างเพื่อทดสอบและหารือรายละเอียดเพิ่มเติมได้',
+  '你们是工厂直接供货吗？': 'คุณจัดส่งสินค้าตรงจากโรงงานหรือไม่?',
+  '是的，我们是源头工厂，可直接为泰国本地五金工具经销商供货，减少中间环节，帮助您获得更有竞争力的价格和更稳定的供货支持。': 'ใช่ เราเป็นโรงงานผู้ผลิตโดยตรง สามารถจัดส่งให้ตัวแทนจำหน่ายเครื่องมือและฮาร์ดแวร์ในประเทศไทย ช่วยลดขั้นตอนคนกลาง เพื่อให้ได้ราคาที่แข่งขันได้และการจัดส่งที่มั่นคงยิ่งขึ้น',
+  '你们可以提供 OEM 贴牌服务吗？': 'มีบริการ OEM ภายใต้แบรนด์ของลูกค้าหรือไม่?',
+  '可以。我们支持品牌、Logo、包装、说明书等 OEM 定制，帮助您打造自己的品牌产品，增强市场竞争力。': 'มี เรารองรับการปรับแต่ง OEM เช่น แบรนด์ Logo บรรจุภัณฑ์ และคู่มือ เพื่อช่วยพัฒนาผลิตภัณฑ์ภายใต้แบรนด์ของคุณและเพิ่มความสามารถในการแข่งขัน',
+  '你们可以提供 ODM 定制开发吗？': 'รองรับการพัฒนา ODM หรือไม่?',
+  '可以。我们可根据您的客户群体、价格带和市场需求，开发更适合本地销售的产品，帮助您形成差异化优势。': 'รองรับ เราสามารถพัฒนาสินค้าให้เหมาะกับกลุ่มลูกค้า ระดับราคา และความต้องการของตลาดในพื้นที่ เพื่อสร้างความแตกต่างในการแข่งขัน',
+  '第一次合作可以先申请样品测试吗？': 'เริ่ม合作ครั้งแรกสามารถขอทดสอบตัวอย่างก่อนได้หรือไม่?',
+  '可以。对于符合条件的合作伙伴，我们支持样品测试，让您先验证产品质量和市场反馈，再决定后续合作方向。': 'ได้ สำหรับพันธมิตรที่ผ่านเกณฑ์ เรารองรับการทดสอบตัวอย่าง เพื่อให้คุณตรวจสอบคุณภาพสินค้าและผลตอบรับของตลาดก่อนตัดสินใจความร่วมมือขั้นต่อไป',
+  '最低起订量是多少？': 'ปริมาณสั่งซื้อขั้นต่ำเท่าไร?',
+  '不同产品及合作模式对应的 MOQ 不同。标准产品起订更灵活，OEM / ODM 项目会根据具体定制内容确认起订量。': 'MOQ แตกต่างกันตามผลิตภัณฑ์และรูปแบบความร่วมมือ สินค้ามาตรฐานมีปริมาณเริ่มต้นที่ยืดหยุ่นกว่า ส่วนโครงการ OEM / ODM จะยืนยันตามรายละเอียดการปรับแต่ง',
+  '合作后你们能提供哪些支持？': 'หลังเริ่ม合作 คุณให้การสนับสนุนด้านใดบ้าง?',
+  '我们可提供产品供货、OEM/ODM沟通、样品支持、包装定制、产品资料支持以及后续产品优化建议，帮助经销商更好地开拓市场。': 'เราสนับสนุนการจัดส่งสินค้า การประสานงาน OEM/ODM ตัวอย่างสินค้า การออกแบบบรรจุภัณฑ์ ข้อมูลผลิตภัณฑ์ และข้อเสนอแนะในการปรับปรุงสินค้า เพื่อช่วยตัวแทนจำหน่ายพัฒนาตลาดได้ดียิ่งขึ้น',
+  '可以建立长期合作关系吗？': 'สามารถสร้างความร่วมมือระยะยาวได้หรือไม่?',
+  '可以。我们希望与有渠道能力和市场规划的泰国本地经销商建立长期稳定合作，共同开发市场。': 'ได้ เราต้องการสร้างความร่วมมือระยะยาวและมั่นคงกับตัวแทนจำหน่ายในประเทศไทยที่มีช่องทางการขายและแผนพัฒนาตลาด เพื่อร่วมกันขยายตลาด',
+  '准备与 Locanex 一起开拓': 'พร้อมร่วมพัฒนาตลาดกับ Locanex',
+  '泰国电动工具市场吗？': 'ในธุรกิจเครื่องมือไฟฟ้าของไทยหรือยัง?',
+  '提交经销商申请，获取产品资料、经销价格和免费产品评估资格。': 'ส่งใบสมัครตัวแทนจำหน่ายเพื่อรับข้อมูลสินค้า ราคาสำหรับตัวแทนจำหน่าย และสิทธิ์ประเมินตัวอย่างสินค้า'
+};
+
+const TH_TO_ZH_TEXT = Object.entries(ZH_TO_TH_TEXT).reduce<Record<string, string>>(
+  (result, [chinese, thai]) => {
+    result[thai.replace(/\s+/g, ' ').trim()] = chinese;
+    return result;
+  },
+  {}
+);
+
+// Restore intentional line breaks when the visitor switches back to Chinese.
+Object.assign(TH_TO_ZH_TEXT, {
+  'กรอกใบสมัคร และข้อมูลพื้นฐาน': '填写申请表\n提交基本信息',
+  'เพิ่ม LINE Official เพื่อประสานงาน': '添加官方 LINE\n保持沟通',
+  'ประเมินคุณสมบัติ และศักยภาพทางธุรกิจ': '评估经销商资质\n与经营能力',
+  'ยืนยันรุ่นสินค้า และจำนวนตัวอย่าง': '确认可申请的产品\n与样品数量',
+  'รับตัวอย่างและ ทดสอบผลิตภัณฑ์': '签收样品并进行\n产品测试',
+  'จัดทำแผนความร่วมมือ จากผลการทดสอบ': '根据测试反馈\n制定合作方案'
+});
+
+const normalizeTranslationKey = (value: string) => value.replace(/\s+/g, ' ').trim();
+
+const translateRenderedPage = (language: SiteLanguage) => {
+  if (typeof document === 'undefined') return;
+
+  const translationMap = language === 'th' ? ZH_TO_TH_TEXT : TH_TO_ZH_TEXT;
+  // Use the numeric SHOW_TEXT value to remain compatible with Wix preview
+  // sandboxes where the global NodeFilter object may not be exposed.
+  const walker = document.createTreeWalker(document.body, 4);
+  const textNodes: Text[] = [];
+
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode as Text);
+  }
+
+  textNodes.forEach((node) => {
+    const parentTag = node.parentElement?.tagName;
+    if (!node.nodeValue || parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'NOSCRIPT') return;
+
+    const normalized = normalizeTranslationKey(node.nodeValue);
+    const translated = translationMap[normalized];
+    if (!translated || normalized === normalizeTranslationKey(translated)) return;
+
+    const leadingWhitespace = node.nodeValue.match(/^\s*/)?.[0] ?? '';
+    const trailingWhitespace = node.nodeValue.match(/\s*$/)?.[0] ?? '';
+    node.nodeValue = `${leadingWhitespace}${translated}${trailingWhitespace}`;
+  });
+
+  document.querySelectorAll<HTMLElement>('[placeholder], [aria-label], [title]').forEach((element) => {
+    ['placeholder', 'aria-label', 'title'].forEach((attributeName) => {
+      const value = element.getAttribute(attributeName);
+      if (!value) return;
+      const translated = translationMap[normalizeTranslationKey(value)];
+      if (translated) element.setAttribute(attributeName, translated.replace(/\n/g, ' '));
+    });
+  });
+};
 
 const createInitialFormData = (): ApplicationFormData => ({
   companyName: '',
@@ -151,6 +485,8 @@ function ChoiceButton({ selected, onClick, children }: ChoiceButtonProps) {
 
 export default function HomePage() {
   // --- CANONICAL DATA SOURCES & STATE ---
+  const [siteLanguage, setSiteLanguage] = useState<SiteLanguage>('zh');
+  const [languageReady, setLanguageReady] = useState(false);
   const [products, setProducts] = useState<Coreproducts[]>([]);
   const [faqs, setFaqs] = useState<Faq[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -164,11 +500,66 @@ export default function HomePage() {
   const [capabilityCarouselIndex, setCapabilityCarouselIndex] = useState(0);
   const capabilityCarouselRef = useRef<HTMLDivElement>(null);
 
+  const scheduleRenderedTranslation = () => {
+    if (typeof window === 'undefined') return;
+    window.requestAnimationFrame(() => translateRenderedPage(siteLanguage));
+  };
+
   // --- DATA FETCHING LOGIC ---
   useEffect(() => {
     loadProducts();
     loadFaqs();
   }, []);
+
+  // Read browser preference after mount to avoid an SSR/hydration mismatch in Wix.
+  useEffect(() => {
+    let savedLanguage: string | null = null;
+    try {
+      savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    } catch (error) {
+      console.warn('Language preference storage is unavailable:', error);
+    }
+
+    const preferredLanguage: SiteLanguage =
+      savedLanguage === 'zh' || savedLanguage === 'th'
+        ? savedLanguage
+        : window.navigator.language.toLowerCase().startsWith('th')
+          ? 'th'
+          : 'zh';
+
+    setSiteLanguage(preferredLanguage);
+    setLanguageReady(true);
+  }, []);
+
+  // Translate only after React renders. Do not continuously observe document.body:
+  // a global MutationObserver can overload the Wix Vibe preview runtime.
+  useEffect(() => {
+    if (!languageReady) return;
+
+    try {
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, siteLanguage);
+    } catch (error) {
+      console.warn('Language preference could not be saved:', error);
+    }
+    document.documentElement.lang = siteLanguage === 'th' ? 'th' : 'zh-CN';
+    document.documentElement.dataset.locanexLanguage = siteLanguage;
+    document.title = siteLanguage === 'th'
+      ? 'Locanex | พันธมิตรเครื่องมือไฟฟ้าในประเทศไทย'
+      : 'Locanex | 寻找泰国本地电动工具合作伙伴';
+
+    const frameId = window.requestAnimationFrame(() => translateRenderedPage(siteLanguage));
+    return () => window.cancelAnimationFrame(frameId);
+  }, [
+    siteLanguage,
+    languageReady,
+    isLoadingProducts,
+    isLoadingFaqs,
+    applicationStep,
+    openFormQuestion,
+    isSubmitting,
+    carouselIndex,
+    capabilityCarouselIndex
+  ]);
 
   // Keep every LINE consultation CTA consistent across Header, HomePage and Footer.
   // Event delegation also covers the responsive desktop, tablet and mobile variants.
@@ -184,7 +575,13 @@ export default function HomePage() {
         .replace(/\s+/g, '')
         .toLowerCase();
 
-      if (!normalizedLabel.includes('line咨询')) return;
+      const isLineContact =
+        normalizedLabel.includes('line咨询') ||
+        normalizedLabel.includes('ปรึกษาทางline') ||
+        normalizedLabel.includes('เพิ่มlineเพื่อปรึกษา') ||
+        normalizedLabel.includes('ติดต่อทางline');
+
+      if (!isLineContact) return;
 
       event.preventDefault();
       event.stopPropagation();
@@ -360,10 +757,14 @@ export default function HomePage() {
       setFormData(createInitialFormData());
       setApplicationStep(1);
       setOpenFormQuestion('');
-      alert('申请已成功提交！我们的团队将在48小时内与您联系。');
+      alert(siteLanguage === 'th'
+        ? 'ส่งใบสมัครเรียบร้อยแล้ว ทีมงานของเราจะติดต่อคุณภายใน 48 ชั่วโมง'
+        : '申请已成功提交！我们的团队将在48小时内与您联系。');
     } catch (error) {
       console.error('Failed to submit application:', error);
-      alert('提交失败，请稍后重试。');
+      alert(siteLanguage === 'th'
+        ? 'ส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง'
+        : '提交失败，请稍后重试。');
     } finally {
       setIsSubmitting(false);
     }
@@ -388,7 +789,11 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-clip pb-24 max-sm:pb-32">
+    <div
+      className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-clip pb-24 max-sm:pb-32"
+      onClickCapture={scheduleRenderedTranslation}
+      onKeyUpCapture={scheduleRenderedTranslation}
+    >
       <style>{`
         .industrial-noise {
           position: absolute;
@@ -487,8 +892,39 @@ export default function HomePage() {
             scroll-snap-stop: always;
           }
         }
+        html[data-locanex-language='th'] body,
+        html[data-locanex-language='th'] .font-heading,
+        html[data-locanex-language='th'] .font-paragraph {
+          font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, Arial, sans-serif !important;
+        }
+        .locanex-language-switch {
+          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
+        }
       `}</style>
       <Header />
+      <div
+        className="locanex-language-switch fixed right-3 top-[72px] z-[70] flex items-center border border-primary/55 bg-black/90 p-1 backdrop-blur-md sm:right-5 sm:top-[84px]"
+        role="group"
+        aria-label="Language / ภาษา"
+      >
+        <Globe className="mx-1 h-3.5 w-3.5 text-primary" aria-hidden="true" />
+        <button
+          type="button"
+          onClick={() => setSiteLanguage('zh')}
+          aria-pressed={siteLanguage === 'zh'}
+          className={`min-h-8 px-2.5 font-paragraph text-[11px] transition-colors sm:text-xs ${siteLanguage === 'zh' ? 'bg-primary text-black' : 'text-white/70 hover:text-white'}`}
+        >
+          中文
+        </button>
+        <button
+          type="button"
+          onClick={() => setSiteLanguage('th')}
+          aria-pressed={siteLanguage === 'th'}
+          className={`min-h-8 px-2.5 font-paragraph text-[11px] transition-colors sm:text-xs ${siteLanguage === 'th' ? 'bg-primary text-black' : 'text-white/70 hover:text-white'}`}
+        >
+          ไทย
+        </button>
+      </div>
       {/* --- HERO SECTION --- */}
       <section
         id="hero"
@@ -570,7 +1006,7 @@ export default function HomePage() {
 
             <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-[30px] sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 max-sm:leading-[1.1] md:leading-[1.2] tracking-tight text-left">
               寻找泰国本地<br />
-              <span className="text-primary">电动工具经销商</span>
+              <span className="text-primary">电动工具合作伙伴</span>
             </motion.h1>
 
             <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-[14px] sm:text-base md:text-lg text-foreground/80 mb-5 max-sm:mb-5 sm:mb-8 max-sm:leading-[1.65] md:leading-[1.6] text-left">
