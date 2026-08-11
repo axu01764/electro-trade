@@ -67,6 +67,7 @@ const companyTypeOptions = [
   '其他'
 ];
 const applicantRoleOptions = ['公司负责人/老板', '采购负责人', '销售负责人', '店铺经理', '电商运营负责人', '其他'];
+const LINE_CONTACT_URL = 'https://line.me/ti/p/G_saKyMNTQ';
 
 const createInitialFormData = (): ApplicationFormData => ({
   companyName: '',
@@ -156,6 +157,31 @@ export default function HomePage() {
   useEffect(() => {
     loadProducts();
     loadFaqs();
+  }, []);
+
+  // Keep every LINE consultation CTA consistent across Header, HomePage and Footer.
+  // Event delegation also covers the responsive desktop, tablet and mobile variants.
+  useEffect(() => {
+    const handleLineContactClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const interactiveElement = target.closest('button, a');
+      if (!interactiveElement) return;
+
+      const normalizedLabel = (interactiveElement.textContent || '')
+        .replace(/\s+/g, '')
+        .toLowerCase();
+
+      if (!normalizedLabel.includes('line咨询')) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.assign(LINE_CONTACT_URL);
+    };
+
+    document.addEventListener('click', handleLineContactClick, true);
+    return () => document.removeEventListener('click', handleLineContactClick, true);
   }, []);
 
   const loadProducts = async () => {
