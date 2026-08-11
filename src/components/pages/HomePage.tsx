@@ -740,9 +740,12 @@ export default function HomePage() {
               <span className="text-primary">专业无刷电动工具系列</span>
             </h2>
             <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/80 max-w-4xl mx-auto leading-[1.6] mt-3 max-sm:mt-3 sm:mt-6">
-              为专业施工、安装、维修与工业用户打造<br />
+              <span className="hidden sm:inline">为专业施工、安装、维修与工业用户打造<br />
               五款21V专业工具覆盖高频作业场景<br />
-              适合经销商门店展示与样品测试
+              适合经销商门店展示与样品测试</span>
+              <span className="sm:hidden">为专业施工、安装、维修与工业用户打造<br />
+              六款21V专业产品覆盖高频作业与续航需求<br />
+              适合经销商门店展示与样品测试</span>
             </p>
           </motion.div>
 
