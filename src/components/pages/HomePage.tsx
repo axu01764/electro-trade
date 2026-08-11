@@ -1,23 +1,29 @@
 // HPI 1.7-V
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import {
-  ChevronDown, CheckCircle, Package, TrendingUp, Shield,
-  Users, Zap, Award, Clock, Globe, Phone, Mail,
-  MessageCircle, ArrowRight, Settings, Wrench, Factory,
-  ChevronRight
-} from 'lucide-react';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Image } from '@/components/ui/image';
+import { Coreproducts, Distributorapplications, Faq } from '@/entities';
 import { BaseCrudService } from '@/integrations';
-import { Coreproducts, Faq, Distributorapplications } from '@/entities';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import {
+  ArrowRight,
+  Award,
+  CheckCircle,
+  ChevronDown,
+  ChevronRight,
+  Clock, Globe,
+  MessageCircle,
+  Package,
+  Settings,
+  TrendingUp,
+  Zap
+} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type ApplicationFormData = {
   companyName: string;
@@ -375,6 +381,51 @@ Object.assign(TH_TO_ZH_TEXT, {
   'รับตัวอย่างและ ทดสอบผลิตภัณฑ์': '签收样品并进行\n产品测试',
   'จัดทำแผนความร่วมมือ จากผลการทดสอบ': '根据测试反馈\n制定合作方案'
 });
+
+// Thai FAQ copy is intentionally independent from Wix CMS. This guarantees
+// a complete Thai FAQ even when the Chinese CMS wording is edited or replaced.
+const THAI_FAQS = [
+  {
+    _id: 'thai-faq-1',
+    question: 'สมัครเป็นตัวแทนจำหน่ายของ Locanex ได้อย่างไร?',
+    answer: 'คุณสามารถส่งข้อมูลพื้นฐานผ่านแบบฟอร์มบนหน้าเว็บไซต์ หรือติดต่อเราทาง LINE / WhatsApp ทีมงานจะสอบถามช่องทางการขาย กลุ่มลูกค้า และความต้องการของตลาด เพื่อแนะนำรูปแบบความร่วมมือด้านการจัดส่งสินค้า OEM หรือ ODM ที่เหมาะสม สำหรับพันธมิตรที่ผ่านเกณฑ์ เรายังสามารถจัดส่งตัวอย่างเพื่อทดสอบและนัดหมายพูดคุยรายละเอียดเพิ่มเติมได้'
+  },
+  {
+    _id: 'thai-faq-2',
+    question: 'สินค้าจัดส่งตรงจากโรงงานหรือไม่?',
+    answer: 'ใช่ เราเป็นโรงงานผู้ผลิตโดยตรงและสามารถจัดส่งสินค้าให้ตัวแทนจำหน่ายเครื่องมือและฮาร์ดแวร์ในประเทศไทย ช่วยลดขั้นตอนคนกลาง เพื่อให้คุณได้รับราคาที่แข่งขันได้และการสนับสนุนด้านการจัดส่งที่มั่นคงยิ่งขึ้น'
+  },
+  {
+    _id: 'thai-faq-3',
+    question: 'มีบริการ OEM ภายใต้แบรนด์ของลูกค้าหรือไม่?',
+    answer: 'มี เรารองรับการปรับแต่ง OEM เช่น แบรนด์ Logo บรรจุภัณฑ์ และคู่มือ เพื่อช่วยให้คุณสร้างผลิตภัณฑ์ภายใต้แบรนด์ของตนเองและเพิ่มความสามารถในการแข่งขันในตลาด'
+  },
+  {
+    _id: 'thai-faq-4',
+    question: 'รองรับการพัฒนาผลิตภัณฑ์แบบ ODM หรือไม่?',
+    answer: 'รองรับ เราสามารถพัฒนาผลิตภัณฑ์ตามกลุ่มลูกค้า ระดับราคา และความต้องการของตลาดในพื้นที่ เพื่อช่วยให้คุณสร้างความแตกต่างและความได้เปรียบในการแข่งขัน'
+  },
+  {
+    _id: 'thai-faq-5',
+    question: 'สำหรับความร่วมมือครั้งแรก สามารถขอทดสอบตัวอย่างสินค้าก่อนได้หรือไม่?',
+    answer: 'ได้ สำหรับพันธมิตรที่ผ่านเกณฑ์ เรารองรับการทดสอบตัวอย่างสินค้า เพื่อให้คุณตรวจสอบคุณภาพสินค้าและผลตอบรับของตลาดก่อนตัดสินใจเกี่ยวกับความร่วมมือในขั้นต่อไป'
+  },
+  {
+    _id: 'thai-faq-6',
+    question: 'ปริมาณสั่งซื้อขั้นต่ำ (MOQ) เท่าไร?',
+    answer: 'MOQ แตกต่างกันตามผลิตภัณฑ์และรูปแบบความร่วมมือ สินค้ามาตรฐานมีปริมาณเริ่มต้นที่ยืดหยุ่นกว่า ส่วนโครงการ OEM / ODM จะยืนยันปริมาณขั้นต่ำตามรายละเอียดการปรับแต่ง'
+  },
+  {
+    _id: 'thai-faq-7',
+    question: 'หลังเริ่มความร่วมมือ Locanex ให้การสนับสนุนด้านใดบ้าง?',
+    answer: 'เราสนับสนุนการจัดส่งสินค้า การประสานงาน OEM / ODM ตัวอย่างสินค้า การปรับแต่งบรรจุภัณฑ์ ข้อมูลผลิตภัณฑ์ และข้อเสนอแนะในการพัฒนาสินค้าต่อเนื่อง เพื่อช่วยให้ตัวแทนจำหน่ายขยายตลาดได้ดียิ่งขึ้น'
+  },
+  {
+    _id: 'thai-faq-8',
+    question: 'สามารถสร้างความร่วมมือระยะยาวได้หรือไม่?',
+    answer: 'ได้ เราต้องการสร้างความร่วมมือระยะยาวและมั่นคงกับตัวแทนจำหน่ายในประเทศไทยที่มีช่องทางการขายและแผนพัฒนาตลาด เพื่อร่วมกันขยายตลาดอย่างยั่งยืน'
+  }
+];
 
 const normalizeTranslationKey = (value: string) => value.replace(/\s+/g, ' ').trim();
 
@@ -787,6 +838,8 @@ export default function HomePage() {
       transition: { staggerChildren: 0.1 }
     }
   };
+
+  const displayedFaqs = siteLanguage === 'th' ? THAI_FAQS : faqs;
 
   return (
     <div
@@ -2681,11 +2734,11 @@ export default function HomePage() {
           </motion.div>
 
           <div className="min-h-[300px]">
-            {isLoadingFaqs ? (
+            {isLoadingFaqs && siteLanguage === 'zh' ? (
                <div className="flex justify-center items-center h-32">
                  <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
                </div>
-            ) : faqs.length > 0 ? (
+            ) : displayedFaqs.length > 0 ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -2693,7 +2746,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6 }}
               >
                 <Accordion type="single" collapsible className="space-y-4">
-                  {faqs.map((faq, index) => (
+                  {displayedFaqs.map((faq, index) => (
                     <AccordionItem
                       key={faq._id}
                       value={`item-${index}`}
