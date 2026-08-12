@@ -18,15 +18,29 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '中文': '中文',
   'ไทย': 'ไทย',
   'LINE咨询': 'ปรึกษาทาง LINE',
-  'THAILAND DEALER PROGRAM': 'THAILAND DEALER PROGRAM',
+  'THAILAND PARTNER PROGRAM': 'THAILAND PARTNER PROGRAM',
   '申请成为 Locanex': 'สมัครเป็น Locanex',
-  '泰国合作经销商': 'ตัวแทนจำหน่ายในประเทศไทย',
-  '告诉我们您的采购需求与销售渠道，获取产品资料、经销方案及免费样品评估资格。': 'บอกเราถึงความต้องการจัดซื้อและช่องทางการขายของคุณ เพื่อรับข้อมูลสินค้า แนวทางการจำหน่าย และสิทธิ์ประเมินตัวอย่างสินค้าฟรี',
+  '泰国合作伙伴': 'สมัครเป็นพันธมิตร Locanex ในประเทศไทย',
+  '告诉我们您的采购需求与销售渠道，获取产品资料、合作方案及免费样品评估资格。': 'บอกเราถึงความต้องการจัดซื้อและช่องทางการขายของคุณ เพื่อรับข้อมูลสินค้า แนวทางการร่วมมือ และสิทธิ์ประเมินตัวอย่างสินค้าฟรี',
+  '与 Locanex 合作，你将获得': 'ความร่วมมือกับ Locanex คุณจะได้รับ',
   '工厂直接供货': 'จัดส่งตรงจากโรงงาน',
+  '提供具有竞争力的供货方案与长期稳定的产品支持。': 'ให้ความเห็นที่มีความสามารถในการแข่งขันและการสนับสนุนผลิตภัณฑ์ที่มั่นคง',
   'OEM / ODM 合作': 'ความร่วมมือ OEM / ODM',
-  '符合条件可申请样品测试': 'สามารถสมัครทดสอบตัวอย่างได้หากผ่านเกณฑ์',
-  '样品数量有限，申请不代表自动获得样品。我们将在审核经营信息后与您联系。': 'ตัวอย่างมีจำนวนจำกัด การสมัครไม่ได้หมายถึงได้รับตัวอย่างโดยอัตโนมัติ เราจะติดต่อคุณหลังจากตรวจสอบข้อมูลธุรกิจ',
-  '经销商申请': 'สมัครตัวแทนจำหน่าย',
+  '支持品牌Logo、包装及基于当地市场需求的产品开发。': 'สนับสนุนโลโก้แบรนด์ การบรรจุภัณฑ์ และการพัฒนาผลิตภัณฑ์ตามความต้องการของตลาดท้องถิ่น',
+  '21V专业产品平台': 'แพลตฟอร์มผลิตภัณฑ์มืออาชีพ 21V',
+  '覆盖电动工具、电池和充电器，便于组合销售与系列化经营。': 'ครอบคลุมเครื่องมือไฟฟ้า แบตเตอรี่ และเครื่องชาร์จ เพื่อให้ง่ายต่อการขายแบบรวมและการจัดการแบบอนุกรม',
+  '样品与市场测试': 'ตัวอย่างและการทดสอบตลาด',
+  '符合条件的合作伙伴可申请样品，先进行产品和市场评估。': 'พันธมิตรที่มีคุณสมบัติสามารถขอตัวอย่างเพื่อประเมินผลิตภัณฑ์และตลาดก่อน',
+  '泰国市场支持': 'การสนับสนุนตลาดไทย',
+  '提供产品资料、合作沟通及后续市场反馈优化支持。': 'ให้ข้อมูลผลิตภัณฑ์ การสื่อสารความร่วมมือ และการสนับสนุนการปรับปรุงข้อเสนอแนะตลาดในภายหลัง',
+  '适合申请的合作伙伴': 'พันธมิตรที่เหมาะสมสำหรับการสมัคร',
+  '电动工具渠道商': 'ผู้จัดจำหน่ายช่องทางเครื่องมือไฟฟ้า',
+  '五金／建材门店': 'ร้านฮาร์ดแวร์ / ร้านวัสดุก่อสร้าง',
+  '工业用品供应商': 'ผู้จำหน่ายอุปกรณ์อุตสาหกรรม',
+  '批发及电商渠道': 'ช่องทางส่งและอีคอมเมิร์ซ',
+  '样品数量有限，提交申请不代表自动获得样品。我们将在审核经营信息后与您联系。': 'ตัวอย่างมีจำนวนจำกัด การส่งใบสมัครไม่ได้หมายถึงได้รับตัวอย่างโดยอัตโนมัติ เราจะติดต่อคุณหลังจากตรวจสอบข้อมูลธุรกิจ',
+  '样品申请单': 'แบบฟอร์มขอรับตัวอย่างสินค้า',
+  '您的信息仅用于合作伙伴资格审核、样品评估与合作联系': 'ข้อมูลของท่านจะใช้เพื่อประเมินคุณสมบัติพันธมิตร การขอตัวอย่างสินค้า และการติดต่อด้านความร่วมมือเท่านั้น',
   '预计填写时间：约2分钟': 'เวลาที่คาดว่าจะใช้: ประมาณ 2 นาที',
   '采购需求': 'ความต้องการจัดซื้อ',
   '公司与联系方式': 'บริษัทและข้อมูลติดต่อ',
@@ -288,7 +302,7 @@ export default function DealerApplicationPage() {
       {/* Background */}
       <div className="fixed inset-0 z-0">
         <Image
-          src="https://static.wixstatic.com/media/556c5c_03f932509c344150a4ec208291edf3d0~mv2.png"
+          src="https://static.wixstatic.com/media/556c5c_a718721399d14b269036037ea11d83cb~mv2.png"
           alt="Industrial warehouse background"
           className="w-full h-full object-cover"
           width={1920}
@@ -347,44 +361,91 @@ export default function DealerApplicationPage() {
         <div className="pt-12 pb-24 px-4 sm:px-6 md:px-12">
           <div className="w-full max-w-[1440px] mx-auto">
             {/* Desktop: Two Column Layout */}
-            <div className="hidden lg:grid lg:grid-cols-[1fr_1.5fr] lg:gap-16 lg:items-start">
+            <div className="hidden lg:grid lg:grid-cols-[0.4fr_0.6fr] lg:gap-12 lg:items-start">
               {/* Left Column: Introduction */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <div className="mb-6">
-                  <span className="text-primary text-xs font-bold tracking-widest uppercase">THAILAND DEALER PROGRAM</span>
+                <div className="mb-4">
+                  <span className="text-primary text-xs font-bold tracking-widest uppercase">THAILAND PARTNER PROGRAM</span>
                 </div>
 
                 <h1 className="font-heading text-4xl text-foreground mb-4 leading-tight">
                   {translate('申请成为 Locanex')}<br />
-                  <span className="text-primary">{translate('泰国合作经销商')}</span>
+                  <span className="text-primary">{translate('泰国合作伙伴')}</span>
                 </h1>
 
                 <p className="font-paragraph text-base text-foreground/80 mb-8 leading-relaxed">
-                  {translate('告诉我们您的采购需求与销售渠道，获取产品资料、经销方案及免费样品评估资格。')}
+                  {translate('告诉我们您的采购需求与销售渠道，获取产品资料、合作方案及免费样品评估资格。')}
                 </p>
 
-                {/* Advantages */}
-                <div className="space-y-4 mb-8">
-                  {[
-                    { icon: '📦', text: translate('工厂直接供货') },
-                    { icon: '🔧', text: translate('OEM / ODM 合作') },
-                    { icon: '✓', text: translate('符合条件可申请样品测试') }
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <span className="text-primary text-lg">{item.icon}</span>
-                      <span className="font-paragraph text-sm text-foreground/80">{item.text}</span>
+                {/* Partnership Support Section */}
+                <div className="mb-8">
+                  <h3 className="font-heading text-lg text-foreground mb-6">{translate('与 Locanex 合作，你将获得')}</h3>
+                  
+                  {/* 2x2 Grid + Full Width Item */}
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    {[
+                      { 
+                        title: translate('工厂直接供货'), 
+                        desc: translate('提供具有竞争力的供货方案与长期稳定的产品支持。') 
+                      },
+                      { 
+                        title: translate('OEM / ODM 合作'), 
+                        desc: translate('支持品牌Logo、包装及基于当地市场需求的产品开发。') 
+                      },
+                      { 
+                        title: translate('21V专业产品平台'), 
+                        desc: translate('覆盖电动工具、电池和充电器，便于组合销售与系列化经营。') 
+                      },
+                      { 
+                        title: translate('样品与市场测试'), 
+                        desc: translate('符合条件的合作伙伴可申请样品，先进行产品和市场评估。') 
+                      }
+                    ].map((item, i) => (
+                      <div key={i} className="border border-primary/30 bg-black/40 p-3 rounded-lg">
+                        <div className="flex items-start gap-2 mb-2">
+                          <div className="w-1 h-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
+                          <h4 className="font-heading text-sm text-foreground">{item.title}</h4>
+                        </div>
+                        <p className="font-paragraph text-xs text-foreground/70 leading-relaxed">{item.desc}</p>
+                      </div>
+                    ))}
+                    
+                    {/* Full Width Item */}
+                    <div className="col-span-2 border border-primary/30 bg-black/40 p-3 rounded-lg">
+                      <div className="flex items-start gap-2 mb-2">
+                        <div className="w-1 h-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
+                        <h4 className="font-heading text-sm text-foreground">{translate('泰国市场支持')}</h4>
+                      </div>
+                      <p className="font-paragraph text-xs text-foreground/70 leading-relaxed">{translate('提供产品资料、合作沟通及后续市场反馈优化支持。')}</p>
                     </div>
-                  ))}
+                  </div>
+                </div>
+
+                {/* Partner Types */}
+                <div className="mb-8">
+                  <h4 className="font-heading text-sm text-foreground mb-3">{translate('适合申请的合作伙伴')}</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      translate('电动工具渠道商'),
+                      translate('五金／建材门店'),
+                      translate('工业用品供应商'),
+                      translate('批发及电商渠道')
+                    ].map((tag, i) => (
+                      <div key={i} className="border border-muted-gray/40 bg-black/30 px-3 py-2 rounded-lg">
+                        <p className="font-paragraph text-xs text-foreground/75">{tag}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Notice Box */}
                 <div className="border border-primary rounded-lg bg-black/40 p-4">
                   <p className="font-paragraph text-xs text-foreground/70 leading-relaxed">
-                    {translate('样品数量有限，申请不代表自动获得样品。我们将在审核经营信息后与您联系。')}
+                    {translate('样品数量有限，提交申请不代表自动获得样品。我们将在审核经营信息后与您联系。')}
                   </p>
                 </div>
               </motion.div>
@@ -396,7 +457,7 @@ export default function DealerApplicationPage() {
                 transition={{ duration: 0.6 }}
                 className="bg-black/95 border border-primary/30 rounded-2xl p-9 backdrop-blur-sm"
               >
-                <h2 className="font-heading text-2xl text-foreground mb-2">{translate('经销商申请')}</h2>
+                <h2 className="font-heading text-2xl text-foreground mb-2">{translate('样品申请单')}</h2>
                 <p className="font-paragraph text-xs text-foreground/60 mb-8">{translate('预计填写时间：约2分钟')}</p>
 
                 {/* Step Indicator */}
@@ -708,7 +769,7 @@ export default function DealerApplicationPage() {
                         <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border rounded-sm text-[10px] ${formData.privacyConsent ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
                           {formData.privacyConsent ? '✓' : ''}
                         </span>
-                        <span>{translate('您的信息仅用于经销商审核与合作联系')}</span>
+                        <span>{translate('您的信息仅用于合作伙伴资格审核、样品评估与合作联系')}</span>
                       </button>
 
                       {/* Buttons */}
@@ -735,7 +796,7 @@ export default function DealerApplicationPage() {
                 {/* Privacy Notice */}
                 <div className="mt-6 flex items-start gap-2">
                   <Lock className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <p className="font-paragraph text-xs text-foreground/60">{translate('您的信息仅用于经销商审核与合作联系')}</p>
+                  <p className="font-paragraph text-xs text-foreground/60">{translate('您的信息仅用于合作伙伴资格审核、样品评估与合作联系')}</p>
                 </div>
               </motion.div>
             </div>
@@ -1096,7 +1157,7 @@ export default function DealerApplicationPage() {
                           <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border rounded-sm text-[10px] flex-shrink-0 ${formData.privacyConsent ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
                             {formData.privacyConsent ? '✓' : ''}
                           </span>
-                          <span>{translate('您的信息仅用于经销商审核与合作联系')}</span>
+                          <span>{translate('您的信息仅用于合作伙伴资格审核、样品评估与合作联系')}</span>
                         </button>
 
                         {/* Buttons */}
@@ -1123,7 +1184,7 @@ export default function DealerApplicationPage() {
                   {/* Privacy Notice */}
                   <div className="mt-4 flex items-start gap-2">
                     <Lock className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
-                    <p className="font-paragraph text-xs text-foreground/60">{translate('您的信息仅用于经销商审核与合作联系')}</p>
+                    <p className="font-paragraph text-xs text-foreground/60">{translate('您的信息仅用于合作伙伴资格审核、样品评估与合作联系')}</p>
                   </div>
                 </div>
               </motion.div>
