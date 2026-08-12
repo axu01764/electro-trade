@@ -1978,7 +1978,7 @@ export default function HomePage() {
               <thead>
                 <tr>
                   <th>比较项目</th>
-                  <th>我们</th>
+                  <th translate="no" data-i18n-ignore="true">Locanex</th>
                   <th>一般供应商</th>
                 </tr>
               </thead>
@@ -2014,7 +2014,7 @@ export default function HomePage() {
               <thead>
                 <tr>
                   <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">比较项目</th>
-                  <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-2xl text-primary border-b-2 border-primary w-1/3 bg-secondary/30">Locanex</th>
+                  <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-2xl text-primary border-b-2 border-primary w-1/3 bg-secondary/30" translate="no" data-i18n-ignore="true">Locanex</th>
                   <th className="p-4 max-sm:p-3 sm:p-6 text-left font-heading text-lg max-sm:text-sm sm:text-xl text-foreground/60 border-b border-muted-gray/30 w-1/3">一般供应商</th>
                 </tr>
               </thead>
