@@ -32,6 +32,8 @@ export default function Header() {
             <button 
               onClick={() => scrollToSection('#hero')}
               className="font-heading text-2xl md:text-3xl text-primary font-bold hover:text-primary/80 transition-colors"
+              translate="no"
+              data-i18n-ignore="true"
             >
               Locanex
             </button>
