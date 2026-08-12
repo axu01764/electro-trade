@@ -65,7 +65,7 @@ export default function Header() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
               onClick={() => scrollToSection('#application')}
             >
-              申请经销
+              申请样品
             </Button>
           </div>
 
@@ -111,7 +111,7 @@ export default function Header() {
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   onClick={() => scrollToSection('#application')}
                 >
-                  申请经销
+                  申请样品
                 </Button>
               </div>
             </nav>
