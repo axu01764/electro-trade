@@ -300,14 +300,25 @@ export default function DealerApplicationPage() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       {/* Background */}
-      <div className="fixed inset-0 z-0">
-        <Image
-          src="https://static.wixstatic.com/media/556c5c_a718721399d14b269036037ea11d83cb~mv2.png"
-          alt="Industrial warehouse background"
-          className="w-full h-full object-cover"
-          width={1920}
-        />
-        <div className="absolute inset-0 bg-black/72"></div>
+      <div 
+        className="fixed inset-0 z-0 bg-cover bg-no-repeat bg-center md:bg-center bg-container"
+        style={{
+          backgroundImage: 'url("https://static.wixstatic.com/media/556c5c_d8734ff9975a41a382e42ae31016af5b~mv2.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'scroll'
+        }}
+      >
+        {/* Responsive background position for mobile */}
+        <style>{`
+          @media (max-width: 768px) {
+            .bg-container {
+              background-position: 42% center !important;
+            }
+          }
+        `}</style>
+        <div className="absolute inset-0 bg-black/35"></div>
       </div>
 
       {/* Content */}
