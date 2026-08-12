@@ -24,7 +24,7 @@ export default function Footer() {
             <h4 className="font-heading text-xl text-foreground mb-4">快速链接</h4>
             <ul className="space-y-3">
               {[
-                { label: '关于我们', href: '#company' },
+                { label: '关于Locanex', href: '#company' },
                 { label: '产品系列', href: '#products' },
                 { label: '经销商申请', href: '#application' },
                 { label: '常见问题', href: '#faq' }
