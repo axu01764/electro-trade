@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Globe, Lock, MessageCircle, ChevronDown, ChevronRight, Check } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Image } from '@/components/ui/image';
-import { BaseCrudService } from '@/integrations';
 import { Distributorapplications } from '@/entities';
+import { BaseCrudService } from '@/integrations';
+import { motion } from 'framer-motion';
+import { Globe, Lock, MessageCircle } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 type SiteLanguage = 'zh' | 'th';
 const LANGUAGE_STORAGE_KEY = 'locanex-site-language';
@@ -21,7 +19,9 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   'THAILAND PARTNER PROGRAM': 'THAILAND PARTNER PROGRAM',
   '申请成为 Locanex': 'สมัครเป็น Locanex',
   '泰国合作伙伴': 'สมัครเป็นพันธมิตร Locanex ในประเทศไทย',
+  '泰国合作经销商': 'ตัวแทนจำหน่ายพันธมิตรในประเทศไทย',
   '告诉我们您的采购需求与销售渠道，获取产品资料、合作方案及免费样品评估资格。': 'บอกเราถึงความต้องการจัดซื้อและช่องทางการขายของคุณ เพื่อรับข้อมูลสินค้า แนวทางการร่วมมือ และสิทธิ์ประเมินตัวอย่างสินค้าฟรี',
+  '告诉我们您的采购需求与销售渠道，获取产品资料、经销方案及免费样品评估资格。': 'บอกเราถึงความต้องการจัดซื้อและช่องทางการขาย เพื่อรับข้อมูลสินค้า แผนสำหรับตัวแทนจำหน่าย และสิทธิ์ประเมินตัวอย่างสินค้าฟรี',
   '与 Locanex 合作，你将获得': 'ความร่วมมือกับ Locanex คุณจะได้รับ',
   '工厂直接供货': 'จัดส่งตรงจากโรงงาน',
   '提供具有竞争力的供货方案与长期稳定的产品支持。': 'ให้ความเห็นที่มีความสามารถในการแข่งขันและการสนับสนุนผลิตภัณฑ์ที่มั่นคง',
@@ -39,10 +39,14 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '工业用品供应商': 'ผู้จำหน่ายอุปกรณ์อุตสาหกรรม',
   '批发及电商渠道': 'ช่องทางส่งและอีคอมเมิร์ซ',
   '样品数量有限，提交申请不代表自动获得样品。我们将在审核经营信息后与您联系。': 'ตัวอย่างมีจำนวนจำกัด การส่งใบสมัครไม่ได้หมายถึงได้รับตัวอย่างโดยอัตโนมัติ เราจะติดต่อคุณหลังจากตรวจสอบข้อมูลธุรกิจ',
+  '样品数量有限，申请不代表自动获得样品。我们将在审核经营信息后与您联系。': 'ตัวอย่างมีจำนวนจำกัด การสมัครไม่ได้หมายถึงได้รับตัวอย่างโดยอัตโนมัติ เราจะติดต่อคุณหลังจากตรวจสอบข้อมูลธุรกิจ',
   '样品申请单': 'แบบฟอร์มขอรับตัวอย่างสินค้า',
+  '经销商申请': 'ใบสมัครตัวแทนจำหน่าย',
   '您的信息仅用于合作伙伴资格审核、样品评估与合作联系': 'ข้อมูลของท่านจะใช้เพื่อประเมินคุณสมบัติพันธมิตร การขอตัวอย่างสินค้า และการติดต่อด้านความร่วมมือเท่านั้น',
   '预计填写时间：约2分钟': 'เวลาที่คาดว่าจะใช้: ประมาณ 2 นาที',
   '采购需求': 'ความต้องการจัดซื้อ',
+  '公司信息': 'ข้อมูลบริษัท',
+  '已完成': 'กรอกแล้ว',
   '公司与联系方式': 'บริษัทและข้อมูลติดต่อ',
   '经常采购的电动工具类型': 'ประเภทเครื่องมือไฟฟ้าที่จัดซื้อเป็นประจำ',
   '冲击钻/电钻': 'สว่านกระแทก / สว่านไฟฟ้า',
@@ -81,7 +85,6 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '请输入公司或店铺名称': 'กรุณากรอกชื่อบริษัทหรือร้านค้า',
   '公司类型': 'ประเภทธุรกิจ',
   '电动工具经销商': 'ผู้จัดจำหน่ายเครื่องมือไฟฟ้า',
-  '工业用品供应商': 'ผู้จำหน่ายอุปกรณ์อุตสาหกรรม',
   '批发商': 'ผู้ค้าส่ง',
   '拥有区域渠道的公司': 'บริษัทที่มีเครือข่ายจำหน่ายในภูมิภาค',
   '五金店/建材店': 'ร้านฮาร์ดแวร์ / ร้านวัสดุก่อสร้าง',
@@ -99,6 +102,9 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '您的信息仅用于经销商审核与合作联系': 'ข้อมูลของคุณใช้เพื่อการตรวจสอบตัวแทนจำหน่ายและการติดต่อความร่วมมือเท่านั้น',
   '上一步': 'ย้อนกลับ',
   '提交申请': 'ส่งใบสมัคร',
+  '提交中...': 'กำลังส่ง...',
+  '符合条件可申请样品测试': 'ผู้ที่ผ่านเกณฑ์สามารถขอทดสอบตัวอย่างได้',
+  '我同意公司根据隐私政策收集和使用我的信息，用于经销商申请评估、联系、样品安排、市场调研和合作沟通。': 'ฉันยินยอมให้บริษัทเก็บรวบรวมและใช้ข้อมูลของฉันตามนโยบายความเป็นส่วนตัว เพื่อประเมินใบสมัครตัวแทนจำหน่าย ติดต่อ จัดตัวอย่าง วิจัยตลาด และสื่อสารความร่วมมือ',
   '✓ 已完成': '✓ กรอกแล้ว',
   '请填写': 'โปรดกรอก',
 };
@@ -251,14 +257,30 @@ export default function DealerApplicationPage() {
   const handleSubmitApplication = async () => {
     setIsSubmitting(true);
     try {
+      const purchaseProfile = [
+        `常购工具：${formData.purchaseToolTypes.join('、') || '未填写'}`,
+        `采购类型：${formData.purchasePreference || '未填写'}`,
+        `单次采购量：${formData.purchaseQuantity || '未填写'}`,
+        `关注因素：${formData.toolAspects.join('、') || '未填写'}`,
+        `样品意向：${formData.sampleWillingness || '未填写'}`
+      ].join('；');
+
       const applicationRecord = {
         _id: crypto.randomUUID(),
         companyName: formData.companyName,
         contactPersonName: formData.contactPersonName,
         contactPhone: formData.contactPhone,
         email: '',
-        companyType: formData.companyType
-      } as Distributorapplications;
+        companyType: formData.companyType,
+        applicantRole: formData.applicantRole,
+        purchaseToolTypes: formData.purchaseToolTypes.join('、'),
+        purchasePreference: formData.purchasePreference,
+        purchaseQuantity: formData.purchaseQuantity,
+        toolAspects: formData.toolAspects.join('、'),
+        sampleWillingness: formData.sampleWillingness,
+        purchaseProfile,
+        privacyConsent: formData.privacyConsent
+      } as unknown as Distributorapplications;
 
       await BaseCrudService.create<Distributorapplications>('distributorapplications', applicationRecord);
 
@@ -300,7 +322,7 @@ export default function DealerApplicationPage() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       {/* Background */}
-      <div 
+      <div
         className="fixed inset-0 z-0 bg-cover bg-no-repeat bg-center md:bg-center bg-container"
         style={{
           backgroundImage: 'url("https://static.wixstatic.com/media/556c5c_d8734ff9975a41a382e42ae31016af5b~mv2.png")',
@@ -359,6 +381,8 @@ export default function DealerApplicationPage() {
               {/* LINE Consultation */}
               <a
                 href={LINE_CONTACT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-1 font-paragraph text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -395,25 +419,25 @@ export default function DealerApplicationPage() {
                 {/* Partnership Support Section */}
                 <div className="mb-8">
                   <h3 className="font-heading text-lg text-foreground mb-6">{translate('与 Locanex 合作，你将获得')}</h3>
-                  
+
                   {/* 2x2 Grid + Full Width Item */}
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     {[
-                      { 
-                        title: translate('工厂直接供货'), 
-                        desc: translate('提供具有竞争力的供货方案与长期稳定的产品支持。') 
+                      {
+                        title: translate('工厂直接供货'),
+                        desc: translate('提供具有竞争力的供货方案与长期稳定的产品支持。')
                       },
-                      { 
-                        title: translate('OEM / ODM 合作'), 
-                        desc: translate('支持品牌Logo、包装及基于当地市场需求的产品开发。') 
+                      {
+                        title: translate('OEM / ODM 合作'),
+                        desc: translate('支持品牌Logo、包装及基于当地市场需求的产品开发。')
                       },
-                      { 
-                        title: translate('21V专业产品平台'), 
-                        desc: translate('覆盖电动工具、电池和充电器，便于组合销售与系列化经营。') 
+                      {
+                        title: translate('21V专业产品平台'),
+                        desc: translate('覆盖电动工具、电池和充电器，便于组合销售与系列化经营。')
                       },
-                      { 
-                        title: translate('样品与市场测试'), 
-                        desc: translate('符合条件的合作伙伴可申请样品，先进行产品和市场评估。') 
+                      {
+                        title: translate('样品与市场测试'),
+                        desc: translate('符合条件的合作伙伴可申请样品，先进行产品和市场评估。')
                       }
                     ].map((item, i) => (
                       <div key={i} className="border border-primary/30 bg-black/40 p-3 rounded-lg">
@@ -424,7 +448,7 @@ export default function DealerApplicationPage() {
                         <p className="font-paragraph text-xs text-foreground/70 leading-relaxed">{item.desc}</p>
                       </div>
                     ))}
-                    
+
                     {/* Full Width Item */}
                     <div className="col-span-2 border border-primary/30 bg-black/40 p-3 rounded-lg">
                       <div className="flex items-start gap-2 mb-2">
@@ -780,7 +804,7 @@ export default function DealerApplicationPage() {
                         <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border rounded-sm text-[10px] ${formData.privacyConsent ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
                           {formData.privacyConsent ? '✓' : ''}
                         </span>
-                        <span>{translate('您的信息仅用于合作伙伴资格审核、样品评估与合作联系')}</span>
+                        <span>{translate('我同意公司根据隐私政策收集和使用我的信息，用于经销商申请评估、联系、样品安排、市场调研和合作沟通。')}</span>
                       </button>
 
                       {/* Buttons */}
@@ -797,7 +821,7 @@ export default function DealerApplicationPage() {
                           onClick={handleSubmitApplication}
                           disabled={!isStep2Complete || isSubmitting}
                         >
-                          {isSubmitting ? '提交中...' : translate('提交申请')}
+                          {isSubmitting ? translate('提交中...') : translate('提交申请')}
                         </Button>
                       </div>
                     </motion.div>
@@ -1168,7 +1192,7 @@ export default function DealerApplicationPage() {
                           <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border rounded-sm text-[10px] flex-shrink-0 ${formData.privacyConsent ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
                             {formData.privacyConsent ? '✓' : ''}
                           </span>
-                          <span>{translate('您的信息仅用于合作伙伴资格审核、样品评估与合作联系')}</span>
+                          <span>{translate('我同意公司根据隐私政策收集和使用我的信息，用于经销商申请评估、联系、样品安排、市场调研和合作沟通。')}</span>
                         </button>
 
                         {/* Buttons */}
@@ -1185,7 +1209,7 @@ export default function DealerApplicationPage() {
                             onClick={handleSubmitApplication}
                             disabled={!isStep2Complete || isSubmitting}
                           >
-                            {isSubmitting ? '提交中...' : translate('提交申请')}
+                            {isSubmitting ? translate('提交中...') : translate('提交申请')}
                           </Button>
                         </div>
                       </motion.div>
