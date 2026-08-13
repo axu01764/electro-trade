@@ -2247,101 +2247,148 @@ export default function HomePage() {
 
           {/* Left Side: Ideal Distributor */}
           <div className="p-6 max-sm:p-4 sm:p-12 md:p-20 lg:p-32 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-muted-gray/20">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-8 max-sm:mb-8 sm:mb-12">
-                哪些合作伙伴<span className="text-primary">适合申请？</span>
-              </h2>
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+              >
+                <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-8 max-sm:mb-8 sm:mb-12">
+                  哪些合作伙伴<span className="text-primary">适合申请？</span>
+                </h2>
 
-              <div className="space-y-8 max-sm:space-y-8 sm:space-y-12">
-                <div>
-                  <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
-                    <CheckCircle className="text-green-500 w-6 h-6" /> 适合申请
-                  </h3>
-                  <ul className="space-y-2 max-sm:space-y-2 sm:space-y-4 font-paragraph text-foreground/80">
-                    {['电动工具经销商', '五金店/建材店', '工业用品供应商', '电商卖家', '批发商', '拥有区域渠道的公司'].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-sm max-sm:text-sm sm:text-base">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary"></div> {item}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="space-y-8 max-sm:space-y-8 sm:space-y-12">
+                  <div>
+                    <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
+                      <CheckCircle className="text-green-500 w-6 h-6" /> 适合申请
+                    </h3>
+                    <ul className="space-y-2 max-sm:space-y-2 sm:space-y-4 font-paragraph text-foreground/80">
+                      {['电动工具经销商', '五金店/建材店', '工业用品供应商', '电商卖家', '批发商', '拥有区域渠道的公司'].map((item, i) => (
+                        <li key={i} className="flex items-center gap-3 text-sm max-sm:text-sm sm:text-base">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary"></div> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full border-2 border-red-500 flex items-center justify-center text-red-500 text-sm font-bold">X</div> 暂不适合
+                    </h3>
+                    <ul className="space-y-2 max-sm:space-y-2 sm:space-y-4 font-paragraph text-foreground/60">
+                      {['仅希望购买个人试用品', '没有相关销售渠道', '无法提供真实经营信息', '不接受核心产品测试反馈'].map((item, i) => (
+                        <li key={i} className="flex items-center gap-3 text-sm max-sm:text-sm sm:text-base">
+                          <div className="w-1.5 h-1.5 rounded-full bg-muted-gray"></div> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
+              </motion.div>
+            </div>
 
-                <div>
-                  <h3 className="font-heading text-lg max-sm:text-lg sm:text-xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full border-2 border-red-500 flex items-center justify-center text-red-500 text-sm font-bold">X</div> 暂不适合
-                  </h3>
-                  <ul className="space-y-2 max-sm:space-y-2 sm:space-y-4 font-paragraph text-foreground/60">
-                    {['仅希望购买个人试用品', '没有相关销售渠道', '无法提供真实经营信息', '不接受核心产品测试反馈'].map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-sm max-sm:text-sm sm:text-base">
-                        <div className="w-1.5 h-1.5 rounded-full bg-muted-gray"></div> {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right Side: Application Form */}
           <div id="application" className="p-6 max-sm:p-4 sm:p-12 md:p-20 lg:p-32 bg-background relative overflow-hidden">
-            <div className="industrial-noise"></div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative z-10 max-w-md mx-auto lg:mx-0"
-            >
-              <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-2 max-sm:mb-2 sm:mb-4">
-                申请成为<span className="text-primary">Locanex经销商</span>
-              </h2>
-              <p className="mb-6 font-paragraph text-sm text-foreground/60 md:mb-10 md:text-base">先填写采购需求，再补充公司身份与联系方式。</p>
+          <div className="industrial-noise"></div>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative z-10 max-w-md mx-auto lg:mx-0"
+          >
+            <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-2 max-sm:mb-2 sm:mb-4">
+              申请成为<span className="text-primary">Locanex经销商</span>
+            </h2>
+            <p className="mb-6 font-paragraph text-sm text-foreground/60 md:mb-10 md:text-base">先填写采购需求，再补充公司身份与联系方式。</p>
 
-              {/* Step Indicator */}
-              <div className="hidden md:flex items-center mb-10">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
-                <div className="font-paragraph text-sm ml-3 mr-4 text-foreground/80">步骤 1: 采购需求</div>
-                <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
-                <div className="font-paragraph text-sm ml-3 text-foreground/80">步骤 2: 公司与联系信息</div>
-              </div>
-              <div className="flex md:hidden items-center mb-8">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
-                <div className="font-paragraph text-xs ml-2 mr-2 text-foreground/80">步骤 1：采购需求</div>
-                <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-2 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
-                <div className="font-paragraph text-xs ml-2 text-foreground/80">步骤 2：公司信息</div>
-              </div>
+            {/* Step Indicator */}
+            <div className="hidden md:flex items-center mb-10">
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
+              <div className="font-paragraph text-sm ml-3 mr-4 text-foreground/80">步骤 1: 采购需求</div>
+              <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
+              <div className="font-paragraph text-sm ml-3 text-foreground/80">步骤 2: 公司与联系信息</div>
+            </div>
+            <div className="flex md:hidden items-center mb-8">
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${applicationStep >= 1 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>1</div>
+              <div className="font-paragraph text-xs ml-2 mr-2 text-foreground/80">步骤 1：采购需求</div>
+              <div className={`flex-grow h-px ${applicationStep >= 2 ? 'bg-primary' : 'bg-muted-gray/30'} transition-colors`}></div>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-2 ${applicationStep >= 2 ? 'bg-primary text-black' : 'bg-secondary text-muted-gray-foreground'} font-heading text-sm font-bold transition-colors`}>2</div>
+              <div className="font-paragraph text-xs ml-2 text-foreground/80">步骤 2：公司信息</div>
+            </div>
 
-              <div className="bg-secondary/20 border border-muted-gray/20 p-4 max-sm:p-4 sm:p-8">
-                {/* All breakpoints: accordion-style dealer qualification form */}
-                <div className="block">
-                  {applicationStep === 1 && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                      <Accordion
-                        type="single"
-                        collapsible
-                        value={openFormQuestion}
-                        onValueChange={setOpenFormQuestion}
-                        className="space-y-3"
+            <div className="bg-secondary/20 border border-muted-gray/20 p-4 max-sm:p-4 sm:p-8">
+              {/* All breakpoints: accordion-style dealer qualification form */}
+              <div className="block">
+                {applicationStep === 1 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                    <Accordion
+                      type="single"
+                      collapsible
+                      value={openFormQuestion}
+                      onValueChange={setOpenFormQuestion}
+                      className="space-y-3"
+                    >
+                      <FormQuestion
+                        value="purchaseToolTypes"
+                        number={1}
+                        title="经常采购的电动工具类型"
+                        complete={formData.purchaseToolTypes.length > 0}
                       >
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          {purchaseToolOptions.map(option => (
+                            <ChoiceButton
+                              key={option}
+                              selected={formData.purchaseToolTypes.includes(option)}
+                              onClick={() => toggleMultiSelect('purchaseToolTypes', option)}
+                            >
+                              {option}
+                            </ChoiceButton>
+                          ))}
+                        </div>
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="mt-4 bg-primary text-black hover:bg-primary/90 rounded-none"
+                          disabled={formData.purchaseToolTypes.length === 0}
+                          onClick={() => setOpenFormQuestion('')}
+                        >
+                          确认选择
+                        </Button>
+                      </FormQuestion>
+
+                      <FormQuestion
+                        value="purchasePreference"
+                        number={2}
+                        title="主要采购无绳还是有绳工具"
+                        complete={Boolean(formData.purchasePreference)}
+                      >
+                        <div className="grid grid-cols-1 gap-2">
+                          {purchasePreferenceOptions.map(option => (
+                            <ChoiceButton
+                              key={option}
+                              selected={formData.purchasePreference === option}
+                              onClick={() => handlePurchasePreferenceChange(option)}
+                            >
+                              {option}
+                            </ChoiceButton>
+                          ))}
+                        </div>
+                      </FormQuestion>
+
+                      {purchasesCordless && (
                         <FormQuestion
-                          value="purchaseToolTypes"
-                          number={1}
-                          title="经常采购的电动工具类型"
-                          complete={formData.purchaseToolTypes.length > 0}
+                          value="cordlessVoltagePlatforms"
+                          number={3}
+                          title="常购无绳工具电压平台"
+                          complete={formData.cordlessVoltagePlatforms.length > 0}
                         >
                           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                            {purchaseToolOptions.map(option => (
+                            {cordlessVoltageOptions.map(option => (
                               <ChoiceButton
                                 key={option}
-                                selected={formData.purchaseToolTypes.includes(option)}
-                                onClick={() => toggleMultiSelect('purchaseToolTypes', option)}
+                                selected={formData.cordlessVoltagePlatforms.includes(option)}
+                                onClick={() => toggleMultiSelect('cordlessVoltagePlatforms', option)}
                               >
                                 {option}
                               </ChoiceButton>
@@ -2351,176 +2398,28 @@ export default function HomePage() {
                             type="button"
                             size="sm"
                             className="mt-4 bg-primary text-black hover:bg-primary/90 rounded-none"
-                            disabled={formData.purchaseToolTypes.length === 0}
+                            disabled={formData.cordlessVoltagePlatforms.length === 0}
                             onClick={() => setOpenFormQuestion('')}
                           >
                             确认选择
                           </Button>
                         </FormQuestion>
+                      )}
 
+                      {purchasesCorded && (
                         <FormQuestion
-                          value="purchasePreference"
-                          number={2}
-                          title="主要采购无绳还是有绳工具"
-                          complete={Boolean(formData.purchasePreference)}
+                          value="cordedPowerRange"
+                          number={4}
+                          title="经常采购的有绳工具功率范围"
+                          complete={Boolean(formData.cordedPowerRange)}
                         >
                           <div className="grid grid-cols-1 gap-2">
-                            {purchasePreferenceOptions.map(option => (
+                            {cordedPowerOptions.map(option => (
                               <ChoiceButton
                                 key={option}
-                                selected={formData.purchasePreference === option}
-                                onClick={() => handlePurchasePreferenceChange(option)}
-                              >
-                                {option}
-                              </ChoiceButton>
-                            ))}
-                          </div>
-                        </FormQuestion>
-
-                        {purchasesCordless && (
-                          <FormQuestion
-                            value="cordlessVoltagePlatforms"
-                            number={3}
-                            title="常购无绳工具电压平台"
-                            complete={formData.cordlessVoltagePlatforms.length > 0}
-                          >
-                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                              {cordlessVoltageOptions.map(option => (
-                                <ChoiceButton
-                                  key={option}
-                                  selected={formData.cordlessVoltagePlatforms.includes(option)}
-                                  onClick={() => toggleMultiSelect('cordlessVoltagePlatforms', option)}
-                                >
-                                  {option}
-                                </ChoiceButton>
-                              ))}
-                            </div>
-                            <Button
-                              type="button"
-                              size="sm"
-                              className="mt-4 bg-primary text-black hover:bg-primary/90 rounded-none"
-                              disabled={formData.cordlessVoltagePlatforms.length === 0}
-                              onClick={() => setOpenFormQuestion('')}
-                            >
-                              确认选择
-                            </Button>
-                          </FormQuestion>
-                        )}
-
-                        {purchasesCorded && (
-                          <FormQuestion
-                            value="cordedPowerRange"
-                            number={4}
-                            title="经常采购的有绳工具功率范围"
-                            complete={Boolean(formData.cordedPowerRange)}
-                          >
-                            <div className="grid grid-cols-1 gap-2">
-                              {cordedPowerOptions.map(option => (
-                                <ChoiceButton
-                                  key={option}
-                                  selected={formData.cordedPowerRange === option}
-                                  onClick={() => {
-                                    handleInputChange('cordedPowerRange', option);
-                                    setOpenFormQuestion('');
-                                  }}
-                                >
-                                  {option}
-                                </ChoiceButton>
-                              ))}
-                            </div>
-                          </FormQuestion>
-                        )}
-                      </Accordion>
-
-                      <p className="mt-5 font-paragraph text-xs text-foreground/50">
-                        点击问题标题展开填写；同一时间只展开一个问题，已填写内容会自动保留。
-                      </p>
-                      <Button
-                        className="mt-5 w-full rounded-none bg-primary py-6 font-heading text-sm text-primary-foreground hover:bg-primary/90"
-                        onClick={handlePurchaseStepNext}
-                        disabled={!isPurchaseStepComplete}
-                      >
-                        下一步：公司身份与联系方式
-                      </Button>
-                    </motion.div>
-                  )}
-
-                  {applicationStep === 2 && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                      <Accordion
-                        type="single"
-                        collapsible
-                        value={openFormQuestion}
-                        onValueChange={setOpenFormQuestion}
-                        className="space-y-3"
-                      >
-                        <FormQuestion
-                          value="contactPersonName"
-                          number={1}
-                          title="联系人姓名"
-                          complete={Boolean(formData.contactPersonName.trim())}
-                          incompleteLabel="请填写"
-                        >
-                          <Label htmlFor="desktopContactPersonName" className="sr-only">联系人姓名</Label>
-                          <Input
-                            id="desktopContactPersonName"
-                            value={formData.contactPersonName}
-                            onChange={(event) => handleInputChange('contactPersonName', event.target.value)}
-                            className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
-                            placeholder="请输入联系人姓名"
-                            autoComplete="name"
-                          />
-                          <Button
-                            type="button"
-                            size="sm"
-                            className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
-                            disabled={!formData.contactPersonName.trim()}
-                            onClick={() => setOpenFormQuestion('')}
-                          >
-                            保存并收起
-                          </Button>
-                        </FormQuestion>
-
-                        <FormQuestion
-                          value="companyName"
-                          number={2}
-                          title="公司或店铺名称"
-                          complete={Boolean(formData.companyName.trim())}
-                          incompleteLabel="请填写"
-                        >
-                          <Label htmlFor="desktopCompanyName" className="sr-only">公司或店铺名称</Label>
-                          <Input
-                            id="desktopCompanyName"
-                            value={formData.companyName}
-                            onChange={(event) => handleInputChange('companyName', event.target.value)}
-                            className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
-                            placeholder="请输入公司或店铺名称"
-                            autoComplete="organization"
-                          />
-                          <Button
-                            type="button"
-                            size="sm"
-                            className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
-                            disabled={!formData.companyName.trim()}
-                            onClick={() => setOpenFormQuestion('')}
-                          >
-                            保存并收起
-                          </Button>
-                        </FormQuestion>
-
-                        <FormQuestion
-                          value="companyType"
-                          number={3}
-                          title="公司类型"
-                          complete={Boolean(formData.companyType)}
-                        >
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                            {companyTypeOptions.map(option => (
-                              <ChoiceButton
-                                key={option}
-                                selected={formData.companyType === option}
+                                selected={formData.cordedPowerRange === option}
                                 onClick={() => {
-                                  handleInputChange('companyType', option);
+                                  handleInputChange('cordedPowerRange', option);
                                   setOpenFormQuestion('');
                                 }}
                               >
@@ -2529,193 +2428,294 @@ export default function HomePage() {
                             ))}
                           </div>
                         </FormQuestion>
+                      )}
+                    </Accordion>
 
-                        <FormQuestion
-                          value="applicantRole"
-                          number={4}
-                          title="申请人身份/职位"
-                          complete={Boolean(formData.applicantRole)}
-                        >
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                            {applicantRoleOptions.map(option => (
-                              <ChoiceButton
-                                key={option}
-                                selected={formData.applicantRole === option}
-                                onClick={() => {
-                                  handleInputChange('applicantRole', option);
-                                  setOpenFormQuestion('');
-                                }}
-                              >
-                                {option}
-                              </ChoiceButton>
-                            ))}
-                          </div>
-                        </FormQuestion>
+                    <p className="mt-5 font-paragraph text-xs text-foreground/50">
+                      点击问题标题展开填写；同一时间只展开一个问题，已填写内容会自动保留。
+                    </p>
+                    <Button
+                      className="mt-5 w-full rounded-none bg-primary py-6 font-heading text-sm text-primary-foreground hover:bg-primary/90"
+                      onClick={handlePurchaseStepNext}
+                      disabled={!isPurchaseStepComplete}
+                    >
+                      下一步：公司身份与联系方式
+                    </Button>
+                  </motion.div>
+                )}
 
-                        <FormQuestion
-                          value="contactPhone"
-                          number={5}
-                          title="手机号码"
-                          complete={/^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim())}
-                          incompleteLabel="请填写"
-                        >
-                          <Label htmlFor="desktopContactPhone" className="sr-only">手机号码</Label>
-                          <Input
-                            id="desktopContactPhone"
-                            type="tel"
-                            inputMode="tel"
-                            value={formData.contactPhone}
-                            onChange={(event) => handleInputChange('contactPhone', event.target.value)}
-                            className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
-                            placeholder="例如：0937281730 或 +66..."
-                            autoComplete="tel"
-                          />
-                          <p className="mt-2 font-paragraph text-xs text-foreground/45">请输入 8–20 位数字，可包含 +、空格或连字符。</p>
-                          <Button
-                            type="button"
-                            size="sm"
-                            className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
-                            disabled={!/^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim())}
-                            onClick={() => setOpenFormQuestion('')}
-                          >
-                            保存并收起
-                          </Button>
-                        </FormQuestion>
-                      </Accordion>
-
-                      <button
-                        type="button"
-                        role="checkbox"
-                        aria-checked={formData.privacyConsent}
-                        onClick={() => handleInputChange('privacyConsent', !formData.privacyConsent)}
-                        className="mt-5 flex w-full items-start gap-3 text-left font-paragraph text-xs leading-5 text-foreground/65"
+                {applicationStep === 2 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                    <Accordion
+                      type="single"
+                      collapsible
+                      value={openFormQuestion}
+                      onValueChange={setOpenFormQuestion}
+                      className="space-y-3"
+                    >
+                      <FormQuestion
+                        value="contactPersonName"
+                        number={1}
+                        title="联系人姓名"
+                        complete={Boolean(formData.contactPersonName.trim())}
+                        incompleteLabel="请填写"
                       >
-                        <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border text-[10px] ${formData.privacyConsent ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
-                          {formData.privacyConsent ? '✓' : ''}
-                        </span>
-                        <span>我同意公司根据隐私政策收集和使用我的信息，用于经销商申请评估、联系、样品安排、市场调研和合作沟通。</span>
-                      </button>
-
-                      <div className="mt-5 flex gap-4">
-                        <Button
-                          variant="outline"
-                          className="w-1/3 rounded-none border-muted-gray/50 py-6 font-heading text-sm text-foreground hover:bg-secondary"
-                          onClick={() => {
-                            setApplicationStep(1);
-                            setOpenFormQuestion('');
-                          }}
-                        >
-                          返回
-                        </Button>
-                        <Button
-                          className="w-2/3 rounded-none bg-primary py-6 font-heading text-sm text-primary-foreground hover:bg-primary/90"
-                          onClick={handleSubmitApplication}
-                          disabled={!isCompanyStepComplete || isSubmitting}
-                        >
-                          {isSubmitting ? '提交中...' : '提交申请并获取经销商方案'}
-                        </Button>
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-
-                {/* Legacy mobile form retained in source for rollback, but no longer rendered. */}
-                <div className="hidden">
-                  {applicationStep === 1 && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 max-sm:space-y-4 sm:space-y-6">
-                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                        <Label htmlFor="companyName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司名称 *</Label>
+                        <Label htmlFor="desktopContactPersonName" className="sr-only">联系人姓名</Label>
                         <Input
-                          id="companyName"
-                          value={formData.companyName}
-                          onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
-                          placeholder="请输入公司全称"
-                        />
-                      </div>
-                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                        <Label htmlFor="contactPersonName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系人姓名 *</Label>
-                        <Input
-                          id="contactPersonName"
+                          id="desktopContactPersonName"
                           value={formData.contactPersonName}
-                          onChange={(e) => handleInputChange('contactPersonName', e.target.value)}
-                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                          onChange={(event) => handleInputChange('contactPersonName', event.target.value)}
+                          className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
                           placeholder="请输入联系人姓名"
+                          autoComplete="name"
                         />
-                      </div>
-                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                        <Label htmlFor="companyType" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司类型 *</Label>
-                        <Select value={formData.companyType} onValueChange={(value) => handleInputChange('companyType', value)}>
-                          <SelectTrigger className="bg-background border-muted-gray/30 text-foreground focus:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm">
-                            <SelectValue placeholder="请选择公司类型" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-secondary border-muted-gray/30 text-foreground">
-                            <SelectItem value="五金工具经销商">五金工具经销商</SelectItem>
-                            <SelectItem value="建材市场经销商">建材市场经销商</SelectItem>
-                            <SelectItem value="工业用品供应商">工业用品供应商</SelectItem>
-                            <SelectItem value="电商平台卖家">电商平台卖家</SelectItem>
-                            <SelectItem value="批发商">批发商</SelectItem>
-                            <SelectItem value="零售连锁店">零售连锁店</SelectItem>
-                            <SelectItem value="其他">其他</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <Button
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm py-3 max-sm:py-3 sm:py-6 h-auto rounded-none mt-3 max-sm:mt-3 sm:mt-4"
-                        onClick={handleNextStep}
-                        disabled={!formData.companyName || !formData.contactPersonName || !formData.companyType}
-                      >
-                        下一步
-                      </Button>
-                    </motion.div>
-                  )}
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
+                          disabled={!formData.contactPersonName.trim()}
+                          onClick={() => setOpenFormQuestion('')}
+                        >
+                          保存并收起
+                        </Button>
+                      </FormQuestion>
 
-                  {applicationStep === 2 && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 max-sm:space-y-4 sm:space-y-6">
-                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                        <Label htmlFor="contactPhone" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系电话 *</Label>
+                      <FormQuestion
+                        value="companyName"
+                        number={2}
+                        title="公司或店铺名称"
+                        complete={Boolean(formData.companyName.trim())}
+                        incompleteLabel="请填写"
+                      >
+                        <Label htmlFor="desktopCompanyName" className="sr-only">公司或店铺名称</Label>
                         <Input
-                          id="contactPhone"
+                          id="desktopCompanyName"
+                          value={formData.companyName}
+                          onChange={(event) => handleInputChange('companyName', event.target.value)}
+                          className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
+                          placeholder="请输入公司或店铺名称"
+                          autoComplete="organization"
+                        />
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
+                          disabled={!formData.companyName.trim()}
+                          onClick={() => setOpenFormQuestion('')}
+                        >
+                          保存并收起
+                        </Button>
+                      </FormQuestion>
+
+                      <FormQuestion
+                        value="companyType"
+                        number={3}
+                        title="公司类型"
+                        complete={Boolean(formData.companyType)}
+                      >
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          {companyTypeOptions.map(option => (
+                            <ChoiceButton
+                              key={option}
+                              selected={formData.companyType === option}
+                              onClick={() => {
+                                handleInputChange('companyType', option);
+                                setOpenFormQuestion('');
+                              }}
+                            >
+                              {option}
+                            </ChoiceButton>
+                          ))}
+                        </div>
+                      </FormQuestion>
+
+                      <FormQuestion
+                        value="applicantRole"
+                        number={4}
+                        title="申请人身份/职位"
+                        complete={Boolean(formData.applicantRole)}
+                      >
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                          {applicantRoleOptions.map(option => (
+                            <ChoiceButton
+                              key={option}
+                              selected={formData.applicantRole === option}
+                              onClick={() => {
+                                handleInputChange('applicantRole', option);
+                                setOpenFormQuestion('');
+                              }}
+                            >
+                              {option}
+                            </ChoiceButton>
+                          ))}
+                        </div>
+                      </FormQuestion>
+
+                      <FormQuestion
+                        value="contactPhone"
+                        number={5}
+                        title="手机号码"
+                        complete={/^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim())}
+                        incompleteLabel="请填写"
+                      >
+                        <Label htmlFor="desktopContactPhone" className="sr-only">手机号码</Label>
+                        <Input
+                          id="desktopContactPhone"
+                          type="tel"
+                          inputMode="tel"
                           value={formData.contactPhone}
-                          onChange={(e) => handleInputChange('contactPhone', e.target.value)}
-                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
-                          placeholder="请输入联系电话"
+                          onChange={(event) => handleInputChange('contactPhone', event.target.value)}
+                          className="h-12 rounded-none border-muted-gray/30 bg-background text-foreground focus-visible:ring-primary"
+                          placeholder="例如：0937281730 或 +66..."
+                          autoComplete="tel"
                         />
-                      </div>
-                      <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
-                        <Label htmlFor="email" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">电子邮箱 *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
-                          placeholder="请输入电子邮箱"
-                        />
-                      </div>
-                      <div className="flex gap-2 max-sm:gap-2 sm:gap-4 mt-4 max-sm:mt-4 sm:mt-4">
+                        <p className="mt-2 font-paragraph text-xs text-foreground/45">请输入 8–20 位数字，可包含 +、空格或连字符。</p>
                         <Button
-                          variant="outline"
-                          className="w-1/3 border-muted-gray/50 text-foreground hover:bg-secondary font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
-                          onClick={() => setApplicationStep(1)}
+                          type="button"
+                          size="sm"
+                          className="mt-3 rounded-none bg-primary text-black hover:bg-primary/90"
+                          disabled={!/^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim())}
+                          onClick={() => setOpenFormQuestion('')}
                         >
-                          返回
+                          保存并收起
                         </Button>
-                        <Button
-                          className="w-2/3 bg-primary hover:bg-primary/90 text-primary-foreground font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
-                          onClick={handleSubmitApplication}
-                          disabled={!formData.contactPhone || !formData.email || isSubmitting}
-                        >
-                          {isSubmitting ? '提交中...' : '提交申请'}
-                        </Button>
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
+                      </FormQuestion>
+                    </Accordion>
+
+                    <button
+                      type="button"
+                      role="checkbox"
+                      aria-checked={formData.privacyConsent}
+                      onClick={() => handleInputChange('privacyConsent', !formData.privacyConsent)}
+                      className="mt-5 flex w-full items-start gap-3 text-left font-paragraph text-xs leading-5 text-foreground/65"
+                    >
+                      <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border text-[10px] ${formData.privacyConsent ? 'border-primary bg-primary text-black' : 'border-muted-gray/50'}`}>
+                        {formData.privacyConsent ? '✓' : ''}
+                      </span>
+                      <span>我同意公司根据隐私政策收集和使用我的信息，用于经销商申请评估、联系、样品安排、市场调研和合作沟通。</span>
+                    </button>
+
+                    <div className="mt-5 flex gap-4">
+                      <Button
+                        variant="outline"
+                        className="w-1/3 rounded-none border-muted-gray/50 py-6 font-heading text-sm text-foreground hover:bg-secondary"
+                        onClick={() => {
+                          setApplicationStep(1);
+                          setOpenFormQuestion('');
+                        }}
+                      >
+                        返回
+                      </Button>
+                      <Button
+                        className="w-2/3 rounded-none bg-primary py-6 font-heading text-sm text-primary-foreground hover:bg-primary/90"
+                        onClick={handleSubmitApplication}
+                        disabled={!isCompanyStepComplete || isSubmitting}
+                      >
+                        {isSubmitting ? '提交中...' : '提交申请并获取经销商方案'}
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
               </div>
-            </motion.div>
-          </div>
+
+              {/* Legacy mobile form retained in source for rollback, but no longer rendered. */}
+              <div className="hidden">
+                {applicationStep === 1 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 max-sm:space-y-4 sm:space-y-6">
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="companyName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司名称 *</Label>
+                      <Input
+                        id="companyName"
+                        value={formData.companyName}
+                        onChange={(e) => handleInputChange('companyName', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                        placeholder="请输入公司全称"
+                      />
+                    </div>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="contactPersonName" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系人姓名 *</Label>
+                      <Input
+                        id="contactPersonName"
+                        value={formData.contactPersonName}
+                        onChange={(e) => handleInputChange('contactPersonName', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                        placeholder="请输入联系人姓名"
+                      />
+                    </div>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="companyType" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">公司类型 *</Label>
+                      <Select value={formData.companyType} onValueChange={(value) => handleInputChange('companyType', value)}>
+                        <SelectTrigger className="bg-background border-muted-gray/30 text-foreground focus:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm">
+                          <SelectValue placeholder="请选择公司类型" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-secondary border-muted-gray/30 text-foreground">
+                          <SelectItem value="五金工具经销商">五金工具经销商</SelectItem>
+                          <SelectItem value="建材市场经销商">建材市场经销商</SelectItem>
+                          <SelectItem value="工业用品供应商">工业用品供应商</SelectItem>
+                          <SelectItem value="电商平台卖家">电商平台卖家</SelectItem>
+                          <SelectItem value="批发商">批发商</SelectItem>
+                          <SelectItem value="零售连锁店">零售连锁店</SelectItem>
+                          <SelectItem value="其他">其他</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm py-3 max-sm:py-3 sm:py-6 h-auto rounded-none mt-3 max-sm:mt-3 sm:mt-4"
+                      onClick={handleNextStep}
+                      disabled={!formData.companyName || !formData.contactPersonName || !formData.companyType}
+                    >
+                      下一步
+                    </Button>
+                  </motion.div>
+                )}
+
+                {applicationStep === 2 && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 max-sm:space-y-4 sm:space-y-6">
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="contactPhone" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">联系电话 *</Label>
+                      <Input
+                        id="contactPhone"
+                        value={formData.contactPhone}
+                        onChange={(e) => handleInputChange('contactPhone', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                        placeholder="请输入联系电话"
+                      />
+                    </div>
+                    <div className="space-y-1 max-sm:space-y-1 sm:space-y-2">
+                      <Label htmlFor="email" className="font-paragraph text-xs max-sm:text-xs sm:text-sm text-foreground/80">电子邮箱 *</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        className="bg-background border-muted-gray/30 text-foreground focus-visible:ring-primary rounded-none h-10 max-sm:h-10 sm:h-12 text-sm max-sm:text-sm"
+                        placeholder="请输入电子邮箱"
+                      />
+                    </div>
+                    <div className="flex gap-2 max-sm:gap-2 sm:gap-4 mt-4 max-sm:mt-4 sm:mt-4">
+                      <Button
+                        variant="outline"
+                        className="w-1/3 border-muted-gray/50 text-foreground hover:bg-secondary font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
+                        onClick={() => setApplicationStep(1)}
+                      >
+                        返回
+                      </Button>
+                      <Button
+                        className="w-2/3 bg-primary hover:bg-primary/90 text-primary-foreground font-heading py-3 max-sm:py-3 sm:py-6 h-auto rounded-none text-xs max-sm:text-xs sm:text-sm"
+                        onClick={handleSubmitApplication}
+                        disabled={!formData.contactPhone || !formData.email || isSubmitting}
+                      >
+                        {isSubmitting ? '提交中...' : '提交申请'}
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          </motion.div>
         </div>
+        {/* Right Side: Application Form */}
+          </div>
       </section>
       {/* --- FAQ SECTION --- */}
       <section id="faq" className="relative w-full py-32 bg-background">
