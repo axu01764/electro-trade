@@ -2241,6 +2241,235 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
+      {/* --- DEALER QUALIFICATION & APPLICATION GUIDE --- */}
+      <section id="dealer-qualification" className="py-20 bg-[#0a0a0a] text-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* 区域主标题 */}
+          <div className="text-center mb-16">
+            <p className="text-orange-500 font-bold tracking-widest text-sm mb-2">
+              DEALER QUALIFICATION · APPLICATION GUIDE
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {isThai ? 'มองหาพันธมิตรในประเทศไทยที่มีช่องทางการจำหน่าย' : '寻找有渠道能力的泰国合作伙伴'}
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              {isThai 
+                ? 'เมื่อยืนยันแนวทางความร่วมมือแล้ว กรุณาไปยังหน้าสมัครแยกเพื่อส่งข้อมูล ส่วนนี้จะไม่แสดงคำถามในแบบฟอร์มซ้ำ และมีไว้เพื่อช่วยให้ผู้แทนจำหน่ายเข้าใจประโยชน์ของการสมัครได้อย่างรวดเร็ว' 
+                : '确认合作方向后，进入独立申请页面提交资料。本区域不重复填写问题，只帮助经销商快速了解申请价值。'}
+            </p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-12">
+            {/* 左侧：资格筛选 (40%) */}
+            <div className="lg:w-[40%] space-y-8">
+              <div>
+                <p className="text-orange-500 font-bold text-xs mb-2">WHO SHOULD APPLY</p>
+                <h3 className="text-2xl font-bold mb-4">
+                  {isThai ? 'พันธมิตรประเภทใดเหมาะกับการสมัคร?' : '哪些合作伙伴适合申请？'}
+                </h3>
+                <p className="text-gray-400 mb-6">
+                  {isThai ? 'เราให้ความสำคัญกับพันธมิตรที่มีช่องทางธุรกิจจริง ฐานลูกค้า และความสามารถในการจัดซื้ออย่างต่อเนื่อง' : '我们优先寻找具备真实经营渠道、客户资源与持续采购能力的伙伴。'}
+                </p>
+              </div>
+
+              {/* 适合申请 */}
+              <div className="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800">
+                <h4 className="text-green-500 font-bold mb-4 flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5" />
+                  {isThai ? 'เหมาะกับการสมัคร' : '适合申请'}
+                </h4>
+                <ul className="space-y-3">
+                  {(isThai ? [
+                    'ผู้แทนจำหน่ายเครื่องมือไฟฟ้า',
+                    'ร้านฮาร์ดแวร์ / ร้านวัสดุก่อสร้าง',
+                    'ผู้จำหน่ายอุปกรณ์อุตสาหกรรม',
+                    'ผู้ขายบนแพลตฟอร์มอีคอมเมิร์ซ',
+                    'ผู้ค้าส่งเครื่องมือก่อสร้าง',
+                    'บริษัทที่มีทีมขายหรือช่องทางจำหน่ายในพื้นที่'
+                  ] : [
+                    '电动工具经销商',
+                    '五金店 / 建材店',
+                    '工业用品供应商',
+                    '电商平台卖家',
+                    '建筑工具批发商',
+                    '拥有销售团队或区域渠道的公司'
+                  ]).map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-3 text-gray-300">
+                      <div className="w-1.5 h-1.5 bg-orange-500 rounded-full" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* 暂不适合 */}
+              <div className="bg-[#1a1a1a]/50 p-6 rounded-lg border border-gray-800/50">
+                <h4 className="text-red-500/70 font-bold mb-4 flex items-center gap-2">
+                  <XCircle className="w-5 h-5" />
+                  {isThai ? 'ยังไม่เหมาะ' : '暂不适合'}
+                </h4>
+                <ul className="space-y-3">
+                  {(isThai ? [
+                    'ผู้ที่ต้องการรับสินค้าทดลองเพื่อใช้ส่วนบุคคลเท่านั้น',
+                    'ผู้ที่ไม่มีช่องทางการขายที่เกี่ยวข้อง',
+                    'ผู้ที่ไม่สามารถให้ข้อมูลธุรกิจจริงได้',
+                    'ผู้ที่ไม่ยินดีส่งข้อเสนอแนะจากการทดสอบจริง'
+                  ] : [
+                    '仅希望领取个人试用品',
+                    '没有相关销售渠道',
+                    '无法提供真实经营信息',
+                    '不愿提交真实测试反馈'
+                  ]).map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-3 text-gray-500">
+                      <div className="w-1.5 h-1.5 bg-gray-600 rounded-full" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* 底部提示框 */}
+              <div className="bg-[#1a1a1a] p-4 border-l-4 border-orange-500 rounded-r-lg">
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  {isThai 
+                    ? 'โปรแกรมนี้สำหรับพันธมิตรทางธุรกิจเท่านั้น การสมัครไม่ได้หมายความว่าจะได้รับสินค้าตัวอย่างโดยอัตโนมัติ และต้องผ่านการตรวจสอบคุณสมบัติ' 
+                    : '这是面向商业合作伙伴的申请计划。免费样品数量有限，申请不代表自动获得样品，需经过资质审核。'}
+                </p>
+              </div>
+            </div>
+
+            {/* 右侧：申请价值、流程与CTA (60%) */}
+            <div className="lg:w-[60%] space-y-12">
+              <div>
+                <p className="text-orange-500 font-bold text-xs mb-2">WHY APPLY</p>
+                <h3 className="text-2xl font-bold mb-4">
+                  {isThai ? 'หลังจากสมัครแล้ว คุณจะได้รับอะไรบ้าง?' : '完成申请，你将获得什么？'}
+                </h3>
+                <p className="text-gray-400">
+                  {isThai ? 'เราจะเสนอรูปแบบความร่วมมือที่เหมาะสมตามช่องทางการขายและความต้องการจัดซื้อของคุณ' : '审核团队会根据渠道类型与采购需求，为你匹配更合适的合作方式。'}
+                </p>
+              </div>
+
+              {/* 权益卡片 2x2 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  {
+                    icon: <FileText className="w-8 h-8 text-orange-500" />,
+                    title: isThai ? 'ข้อมูลสินค้าและแคตตาล็อก' : '产品资料与目录',
+                    desc: isThai ? 'เรียนรู้เกี่ยวกับซีรีส์ Locanex 21V และชุดสินค้าที่เหมาะกับช่องทางของคุณ' : '了解 Locanex 21V 系列及适合渠道的产品组合。'
+                  },
+                  {
+                    icon: <Tag className="w-8 h-8 text-orange-500" />,
+                    title: isThai ? 'ราคาสำหรับตัวแทนจำหน่ายและแผนความร่วมมือ' : '经销价格与合作方案',
+                    desc: isThai ? 'พูดคุยเรื่องราคา นโยบายการจัดซื้อ และการจัดส่งหลังผ่านการตรวจสอบคุณสมบัติ' : '资质审核后沟通价格、采购政策与供货安排。'
+                  },
+                  {
+                    icon: <Settings2 className="w-8 h-8 text-orange-500" />,
+                    title: isThai ? 'การปรึกษา OEM / ODM' : 'OEM / ODM 沟通',
+                    desc: isThai ? 'ประเมินแนวทางการปรับแต่งแบรนด์ บรรจุภัณฑ์ และผลิตภัณฑ์' : '按品牌、包装与市场需求评估定制合作方向。'
+                  },
+                  {
+                    icon: <PackageCheck className="w-8 h-8 text-orange-500" />,
+                    title: isThai ? 'สิทธิ์เข้ารับการประเมินตัวอย่างฟรี' : '免费样品评估资格',
+                    desc: isThai ? 'พันธมิตรที่ผ่านเกณฑ์จะเข้าสู่กระบวนการพิจารณาตัวอย่างสินค้า' : '符合条件的伙伴可进入指定产品样品审核。'
+                  }
+                ].map((card, idx) => (
+                  <div key={idx} className="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800 hover:border-orange-500/50 transition-colors">
+                    <div className="mb-4">{card.icon}</div>
+                    <h5 className="text-lg font-bold mb-2">{card.title}</h5>
+                    <p className="text-sm text-gray-400 leading-relaxed">{card.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* 申请后流程 */}
+              <div>
+                <h4 className="text-xl font-bold mb-8 text-center lg:text-left">
+                  {isThai ? 'ขั้นตอนหลังการสมัคร' : '申请后流程'}
+                </h4>
+                <div className="relative">
+                  {/* 桌面端横向步骤 */}
+                  <div className="hidden md:flex justify-between items-start relative">
+                    <div className="absolute top-4 left-0 w-full h-[1px] bg-gray-800 z-0" />
+                    {[
+                      { step: '01', title: isThai ? 'ส่งใบสมัคร' : '提交申请', desc: isThai ? 'ไปยังหน้าสมัครแยกและกรอกข้อมูล' : '进入独立页面填写资料' },
+                      { step: '02', title: isThai ? 'ประเมินคุณสมบัติ' : '资质评估', desc: isThai ? 'ตรวจสอบช่องทางและความสามารถในการจัดซื้อ' : '核实渠道与采购能力' },
+                      { step: '03', title: isThai ? 'ติดต่อผ่าน LINE' : 'LINE 沟通', desc: isThai ? 'ยืนยันความต้องการสินค้าเพิ่มเติม' : '团队进一步确认产品需求' },
+                      { step: '04', title: isThai ? 'ตัวอย่างและความร่วมมือ' : '样品与合作', desc: isThai ? 'ยืนยันตัวอย่างหรือแผนความร่วมมือ' : '确定样品或合作方案' }
+                    ].map((item, idx) => (
+                      <div key={idx} className="relative z-10 flex flex-col items-center text-center w-1/4 px-2">
+                        <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-sm mb-4">
+                          {item.step}
+                        </div>
+                        <h6 className="font-bold mb-2 text-sm">{item.title}</h6>
+                        <p className="text-xs text-gray-500">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {/* 移动端垂直时间轴 */}
+                  <div className="md:hidden space-y-8 relative before:absolute before:left-4 before:top-0 before:bottom-0 before:w-[1px] before:bg-gray-800">
+                    {[
+                      { step: '01', title: isThai ? 'ส่งใบสมัคร' : '提交申请', desc: isThai ? 'ไปยังหน้าสมัครแยกและกรอกข้อมูล' : '进入独立页面填写资料' },
+                      { step: '02', title: isThai ? 'ประเมินคุณสมบัติ' : '资质评估', desc: isThai ? 'ตรวจสอบช่องทางและความสามารถในการจัดซื้อ' : '核实渠道与采购能力' },
+                      { step: '03', title: isThai ? 'ติดต่อผ่าน LINE' : 'LINE 沟通', desc: isThai ? 'ยืนยันความต้องการสินค้าเพิ่มเติม' : '团队进一步确认产品需求' },
+                      { step: '04', title: isThai ? 'ตัวอย่างและความร่วมมือ' : '样品与合作', desc: isThai ? 'ยืนยันตัวอย่างหรือแผนความร่วมมือ' : '确定样品或合作方案' }
+                    ].map((item, idx) => (
+                      <div key={idx} className="pl-10 relative">
+                        <div className="absolute left-0 top-0 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-black font-bold text-sm">
+                          {item.step}
+                        </div>
+                        <h6 className="font-bold mb-1">{item.title}</h6>
+                        <p className="text-sm text-gray-500">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* 准备提示卡 */}
+              <div className="bg-[#1a1a1a] p-6 rounded-xl border border-dashed border-gray-700">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <span className="text-orange-500 font-bold">
+                    {isThai ? 'เตรียมข้อมูลก่อนสมัคร' : '申请前建议准备'}
+                  </span>
+                  <span className="text-gray-400 text-sm">
+                    {isThai 
+                      ? 'ชื่อบริษัทหรือร้านค้า · ตำแหน่งผู้สมัคร · ประเภทเครื่องมือที่จัดซื้อเป็นประจำ · โทรศัพท์ / LINE' 
+                      : '公司或店铺名称 · 申请人身份 · 常购工具类型 · 联系电话 / LINE'}
+                  </span>
+                </div>
+              </div>
+
+              {/* CTA 按钮 */}
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link 
+                    to="/dealer-application" 
+                    className="flex-1 bg-orange-500 hover:bg-orange-600 text-black font-bold py-4 px-8 rounded-lg text-center transition-all transform hover:scale-[1.02]"
+                  >
+                    {isThai ? 'ไปกรอกใบสมัครตัวแทนจำหน่าย' : '前往填写经销商申请'}
+                  </Link>
+                  <a 
+                    href="https://line.me/ti/p/G_saKyMNTQ" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex-1 bg-transparent border-2 border-gray-700 hover:border-orange-500 text-white font-bold py-4 px-8 rounded-lg text-center transition-all flex items-center justify-center gap-2"
+                  >
+                    <MessageCircle className="w-5 h-5 text-[#06C755]" />
+                    {isThai ? 'ปรึกษาผ่าน LINE' : '添加 LINE 咨询'}
+                  </a>
+                </div>
+                <p className="text-center text-xs text-gray-500">
+                  {isThai 
+                    ? 'ใช้เวลาประมาณ 60 วินาที · ข้อมูลใช้สำหรับการประเมินคุณสมบัติและการติดต่อเรื่องความร่วมมือเท่านั้น' 
+                    : '填写约 60 秒 · 资料仅用于资格审核与合作沟通'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* --- IDEAL DISTRIBUTOR & APPLICATION FORM (SPLIT LAYOUT) --- */}
       <section id="application-section" className="relative w-full bg-secondary/30 border-t border-muted-gray/20">
         <div className="grid grid-cols-1 max-sm:grid-cols-1 lg:grid-cols-2">
