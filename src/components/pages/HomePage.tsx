@@ -2315,7 +2315,16 @@ export default function HomePage() {
         </div>
       </section>
       {/* --- QUALIFICATION & APPLICATION GUIDE --- */}
-      <section id="application-section" className="relative w-full overflow-hidden border-t border-muted-gray/20 bg-background py-14 sm:py-20 lg:py-28">
+      <section
+        id="application-section"
+        className="relative w-full overflow-hidden border-t border-muted-gray/20 bg-background py-14 sm:py-20 lg:py-28"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url("https://static.wixstatic.com/media/556c5c_12ad3dd671644e08ae2d784cc6f7b5cb~mv2.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'left bottom',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         <div className="industrial-noise"></div>
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(255,153,0,0.10),transparent_34%)]"></div>
 
