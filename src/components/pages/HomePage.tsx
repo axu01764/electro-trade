@@ -25,6 +25,9 @@ import {
 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
+// The former homepage form remains in a hidden rollback section below. Keeping
+// its types and helpers intact makes recovery possible without affecting the
+// new standalone application flow.
 type ApplicationFormData = {
   companyName: string;
   contactPersonName: string;
@@ -73,7 +76,11 @@ const companyTypeOptions = [
   '其他'
 ];
 const applicantRoleOptions = ['公司负责人/老板', '采购负责人', '销售负责人', '店铺经理', '电商运营负责人', '其他'];
+
 const LINE_CONTACT_URL = 'https://line.me/ti/p/G_saKyMNTQ';
+// Keep the application page URL in one place. If the Wix page slug is changed
+// later, only this constant needs to be updated.
+const DEALER_APPLICATION_URL = '/dealer-application';
 const MOBILE_PRODUCT_CARD_COUNT = 6;
 
 // Upload the approved MT2081 product image to Wix Media, then paste its
@@ -295,6 +302,38 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '无法提供真实经营信息': 'ไม่สามารถให้ข้อมูลธุรกิจที่ตรวจสอบได้',
   '不接受核心产品测试反馈': 'ไม่พร้อมให้ผลตอบรับจากการทดสอบผลิตภัณฑ์หลัก',
 
+  // Homepage qualification and application guide
+  '寻找有渠道能力的泰国合作伙伴': 'มองหาพันธมิตรในประเทศไทยที่มีช่องทางการจำหน่าย',
+  '寻找有渠道能力的': 'มองหา',
+  '泰国合作伙伴': 'พันธมิตรในประเทศไทยที่มีช่องทางจำหน่าย',
+  '确认合作方向后，进入独立申请页面提交资料。本区域不重复填写问题，只帮助经销商快速了解申请价值。': 'เมื่อยืนยันแนวทางความร่วมมือแล้ว กรุณาไปยังหน้าสมัครแยกเพื่อส่งข้อมูล ส่วนนี้จะไม่แสดงคำถามในแบบฟอร์มซ้ำ และมีไว้เพื่อช่วยให้ตัวแทนจำหน่ายเข้าใจประโยชน์ของการสมัครได้อย่างรวดเร็ว',
+  '我们优先寻找具备真实经营渠道、客户资源和持续采购能力的合作伙伴。': 'เราให้ความสำคัญกับพันธมิตรที่มีช่องทางธุรกิจจริง ฐานลูกค้า และความสามารถในการจัดซื้ออย่างต่อเนื่อง',
+  '仅希望领取个人试用品': 'ผู้ที่ต้องการรับสินค้าทดลองเพื่อใช้ส่วนบุคคลเท่านั้น',
+  '不愿意提交真实测试反馈': 'ผู้ที่ไม่ยินดีส่งข้อเสนอแนะจากการทดสอบจริง',
+  '本计划仅面向商业合作伙伴。提交申请不代表自动获得样品，所有申请均需经过资质审核。': 'โปรแกรมนี้สำหรับพันธมิตรทางธุรกิจเท่านั้น การสมัครไม่ได้หมายความว่าจะได้รับสินค้าตัวอย่างโดยอัตโนมัติ และทุกใบสมัครต้องผ่านการตรวจสอบคุณสมบัติ',
+  '完成申请，你将获得什么？': 'หลังจากสมัครแล้ว คุณจะได้รับอะไรบ้าง?',
+  '我们将根据你的销售渠道与采购需求，提供适合的合作方向。': 'เราจะเสนอรูปแบบความร่วมมือที่เหมาะสมตามช่องทางการขายและความต้องการจัดซื้อของคุณ',
+  '产品资料与目录': 'ข้อมูลสินค้าและแคตตาล็อก',
+  '了解 Locanex 21V 系列与适合你渠道的产品组合。': 'เรียนรู้เกี่ยวกับซีรีส์ Locanex 21V และชุดสินค้าที่เหมาะกับช่องทางของคุณ',
+  '经销价格与合作方案': 'ราคาสำหรับตัวแทนจำหน่ายและแผนความร่วมมือ',
+  '资质审核后沟通供货价格、采购政策与交付安排。': 'พูดคุยเรื่องราคา นโยบายการจัดซื้อ และการจัดส่งหลังผ่านการตรวจสอบคุณสมบัติ',
+  'OEM / ODM 沟通': 'การปรึกษา OEM / ODM',
+  '评估品牌、包装和产品差异化定制方向。': 'ประเมินแนวทางการปรับแต่งแบรนด์ บรรจุภัณฑ์ และผลิตภัณฑ์',
+  '免费样品评估资格': 'สิทธิ์เข้ารับการประเมินตัวอย่างฟรี',
+  '符合条件的合作伙伴可进入指定产品样品评估流程。': 'พันธมิตรที่ผ่านเกณฑ์จะเข้าสู่กระบวนการพิจารณาตัวอย่างสินค้า',
+  '申请后的流程': 'ขั้นตอนหลังการสมัคร',
+  '提交申请': 'ส่งใบสมัคร',
+  '进入独立页面填写采购、公司与联系信息。': 'ไปยังหน้าสมัครแยกและกรอกข้อมูลการจัดซื้อ บริษัท และข้อมูลติดต่อ',
+  '审核经营渠道与采购能力。': 'ตรวจสอบช่องทางธุรกิจและความสามารถในการจัดซื้อ',
+  'LINE 沟通': 'ติดต่อผ่าน LINE',
+  '进一步确认产品需求与合作方式。': 'ยืนยันความต้องการสินค้าและรูปแบบความร่วมมือเพิ่มเติม',
+  '样品与合作': 'ตัวอย่างและความร่วมมือ',
+  '确认样品安排或制定正式合作方案。': 'ยืนยันการจัดตัวอย่างหรือวางแผนความร่วมมืออย่างเป็นทางการ',
+  '申请前建议准备': 'เตรียมข้อมูลก่อนสมัคร',
+  '公司或店铺名称 · 申请人职位 · 常购电动工具类型 · 手机号码 / LINE': 'ชื่อบริษัทหรือร้านค้า · ตำแหน่งผู้สมัคร · ประเภทเครื่องมือไฟฟ้าที่จัดซื้อเป็นประจำ · โทรศัพท์ / LINE',
+  '前往填写经销商申请': 'ไปกรอกใบสมัครตัวแทนจำหน่าย',
+  '约60秒完成 · 信息仅用于资质评估、样品安排和合作沟通': 'ใช้เวลาประมาณ 60 วินาที · ข้อมูลใช้สำหรับการประเมินคุณสมบัติ การจัดตัวอย่าง และการติดต่อเรื่องความร่วมมือเท่านั้น',
+
   // Application form
   '申请成为': 'สมัครเป็น',
   'Locanex经销商': 'ตัวแทนจำหน่าย Locanex',
@@ -324,7 +363,6 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '返回': 'ย้อนกลับ',
   '提交中...': 'กำลังส่ง...',
   '提交申请并获取经销商方案': 'ส่งใบสมัครและรับข้อเสนอสำหรับตัวแทนจำหน่าย',
-  '提交申请': 'ส่งใบสมัคร',
   '公司名称 *': 'ชื่อบริษัท *',
   '请输入公司全称': 'กรุณากรอกชื่อบริษัทเต็ม',
   '联系人姓名 *': 'ชื่อผู้ติดต่อ *',
@@ -643,6 +681,41 @@ export default function HomePage() {
     return () => document.removeEventListener('click', handleLineContactClick, true);
   }, []);
 
+  // Header and Footer are shared components. Route their application CTAs to
+  // the standalone form without requiring edits to those component files.
+  useEffect(() => {
+    const handleApplicationClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const interactiveElement = target.closest('button, a');
+      if (!interactiveElement) return;
+
+      const normalizedLabel = (interactiveElement.textContent || '')
+        .replace(/\s+/g, '')
+        .toLowerCase();
+      const applicationHref = interactiveElement.getAttribute('href') || '';
+      const isApplicationCta =
+        applicationHref === '#application' ||
+        applicationHref === '#application-section' ||
+        normalizedLabel.includes('申请经销') ||
+        normalizedLabel.includes('申请免费样品评估') ||
+        normalizedLabel.includes('申请该产品样品') ||
+        normalizedLabel.includes('前往填写经销商申请') ||
+        normalizedLabel.includes('สมัครตัวแทนจำหน่าย') ||
+        normalizedLabel.includes('สมัครรับการประเมินตัวอย่างฟรี') ||
+        normalizedLabel.includes('ไปกรอกใบสมัครตัวแทนจำหน่าย');
+
+      if (!isApplicationCta) return;
+      event.preventDefault();
+      event.stopPropagation();
+      goToDealerApplication();
+    };
+
+    document.addEventListener('click', handleApplicationClick, true);
+    return () => document.removeEventListener('click', handleApplicationClick, true);
+  }, []);
+
   const loadProducts = async () => {
     try {
       const result = await BaseCrudService.getAll<Coreproducts>('coreproducts');
@@ -719,7 +792,7 @@ export default function HomePage() {
     }
   };
 
-  // --- FORM HANDLING LOGIC ---
+  // --- LEGACY HOMEPAGE FORM HANDLERS (kept only for rollback) ---
   const handleInputChange = (field: keyof ApplicationFormData, value: string | string[] | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -764,11 +837,8 @@ export default function HomePage() {
     /^\+?[0-9\s-]{8,20}$/.test(formData.contactPhone.trim()) &&
     formData.privacyConsent;
 
-  // 保留原手机端两步表单的前进逻辑，避免本次桌面/平板优化影响移动端。
   const handleNextStep = () => {
-    if (applicationStep === 1) {
-      setApplicationStep(2);
-    }
+    if (applicationStep === 1) setApplicationStep(2);
   };
 
   const handlePurchaseStepNext = () => {
@@ -804,7 +874,6 @@ export default function HomePage() {
       } as unknown as Distributorapplications;
 
       await BaseCrudService.create<Distributorapplications>('distributorapplications', applicationRecord);
-
       setFormData(createInitialFormData());
       setApplicationStep(1);
       setOpenFormQuestion('');
@@ -819,6 +888,10 @@ export default function HomePage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const goToDealerApplication = () => {
+    window.location.assign(DEALER_APPLICATION_URL);
   };
 
   // --- ANIMATION & SCROLL LOGIC ---
@@ -1071,7 +1144,7 @@ export default function HomePage() {
               <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 max-sm:py-3 sm:py-6 max-sm:h-[52px] sm:h-auto rounded-none relative overflow-hidden group max-sm:w-full sm:w-auto"
-                onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={goToDealerApplication}
               >
                 <span className="relative z-10 flex items-center justify-center sm:justify-start gap-2">
                   申请免费样品评估 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform hidden sm:inline" />
@@ -1318,7 +1391,7 @@ export default function HomePage() {
 
                   <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={goToDealerApplication}
                   >
                     申请该产品样品
                   </Button>
@@ -1371,7 +1444,7 @@ export default function HomePage() {
 
                   <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={goToDealerApplication}
                   >
                     申请该产品样品
                   </Button>
@@ -1424,7 +1497,7 @@ export default function HomePage() {
 
                   <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={goToDealerApplication}
                   >
                     申请该产品样品
                   </Button>
@@ -1477,7 +1550,7 @@ export default function HomePage() {
 
                   <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={goToDealerApplication}
                   >
                     申请该产品样品
                   </Button>
@@ -1530,7 +1603,7 @@ export default function HomePage() {
 
                   <Button
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                    onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={goToDealerApplication}
                   >
                     申请该产品样品
                   </Button>
@@ -1572,7 +1645,7 @@ export default function HomePage() {
                     </div>
                     <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                      onClick={goToDealerApplication}
                     >
                       申请该产品样品
                     </Button>
@@ -1604,7 +1677,7 @@ export default function HomePage() {
                     </div>
                     <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                      onClick={goToDealerApplication}
                     >
                       申请该产品样品
                     </Button>
@@ -1636,7 +1709,7 @@ export default function HomePage() {
                     </div>
                     <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                      onClick={goToDealerApplication}
                     >
                       申请该产品样品
                     </Button>
@@ -1668,7 +1741,7 @@ export default function HomePage() {
                     </div>
                     <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                      onClick={goToDealerApplication}
                     >
                       申请该产品样品
                     </Button>
@@ -1700,7 +1773,7 @@ export default function HomePage() {
                     </div>
                     <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                      onClick={goToDealerApplication}
                     >
                       申请该产品样品
                     </Button>
@@ -1741,7 +1814,7 @@ export default function HomePage() {
                     </div>
                     <Button
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
-                      onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                      onClick={goToDealerApplication}
                     >
                       申请该产品样品
                     </Button>
@@ -1812,7 +1885,7 @@ export default function HomePage() {
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-10 md:px-12 py-3 max-sm:py-3 md:py-6 md:py-7 h-auto rounded-none uppercase tracking-wider font-bold"
-              onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={goToDealerApplication}
             >
               申请免费样品评估
             </Button>
@@ -2176,7 +2249,7 @@ export default function HomePage() {
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-8 md:px-12 py-3 max-sm:py-3 md:py-4 h-auto rounded-none"
-              onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={goToDealerApplication}
             >
               申请免费样品评估
             </Button>
@@ -2241,8 +2314,153 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-      {/* --- IDEAL DISTRIBUTOR & APPLICATION FORM (SPLIT LAYOUT) --- */}
-      <section id="application-section" className="relative w-full bg-secondary/30 border-t border-muted-gray/20">
+      {/* --- QUALIFICATION & APPLICATION GUIDE --- */}
+      <section id="application-section" className="relative w-full overflow-hidden border-t border-muted-gray/20 bg-background py-14 sm:py-20 lg:py-28">
+        <div className="industrial-noise"></div>
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(255,153,0,0.10),transparent_34%)]"></div>
+
+        <div id="application" className="relative z-10 mx-auto max-w-[100rem] px-4 sm:px-6 md:px-10 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65 }}
+            className="mb-10 max-w-4xl sm:mb-14"
+          >
+            <p className="mb-3 font-heading text-xs font-bold uppercase tracking-[0.22em] text-primary">THAILAND PARTNER PROGRAM</p>
+            <h2 className="mb-4 font-heading text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl">
+              寻找有渠道能力的<span className="text-primary">泰国合作伙伴</span>
+            </h2>
+            <p className="max-w-3xl font-paragraph text-sm leading-7 text-foreground/65 sm:text-base">
+              确认合作方向后，进入独立申请页面提交资料。本区域不重复填写问题，只帮助经销商快速了解申请价值。
+            </p>
+          </motion.div>
+
+          <div className="grid items-start gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-8">
+            <motion.aside
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65 }}
+              className="border border-muted-gray/25 bg-secondary/20 p-5 sm:p-7 lg:sticky lg:top-24"
+            >
+              <h3 className="mb-3 font-heading text-xl text-foreground sm:text-2xl">哪些合作伙伴<span className="text-primary">适合申请？</span></h3>
+              <p className="mb-7 font-paragraph text-sm leading-6 text-foreground/60">
+                我们优先寻找具备真实经营渠道、客户资源和持续采购能力的合作伙伴。
+              </p>
+
+              <div className="mb-7">
+                <h4 className="mb-4 flex items-center gap-2 font-heading text-sm text-foreground">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  适合申请
+                </h4>
+                <ul className="grid grid-cols-1 gap-3 font-paragraph text-sm text-foreground/78 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  {['电动工具经销商', '五金店/建材店', '工业用品供应商', '电商平台卖家', '批发商', '拥有区域渠道的公司'].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="border-t border-muted-gray/20 pt-6">
+                <h4 className="mb-4 flex items-center gap-2 font-heading text-sm text-foreground">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full border border-red-500 text-[10px] text-red-400">X</span>
+                  暂不适合
+                </h4>
+                <ul className="space-y-3 font-paragraph text-sm text-foreground/55">
+                  {['仅希望领取个人试用品', '没有相关销售渠道', '无法提供真实经营信息', '不愿意提交真实测试反馈'].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-gray"></span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-7 border border-primary/35 bg-primary/[0.06] p-4 font-paragraph text-xs leading-6 text-foreground/65">
+                本计划仅面向商业合作伙伴。提交申请不代表自动获得样品，所有申请均需经过资质审核。
+              </div>
+            </motion.aside>
+
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.08 }}
+              className="border border-muted-gray/25 bg-black/25 p-5 sm:p-7 lg:p-9"
+            >
+              <div className="mb-8">
+                <h3 className="mb-2 font-heading text-2xl text-foreground sm:text-3xl">完成申请，你将获得什么？</h3>
+                <p className="font-paragraph text-sm leading-6 text-foreground/60">我们将根据你的销售渠道与采购需求，提供适合的合作方向。</p>
+              </div>
+
+              <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {[
+                  { icon: Package, title: '产品资料与目录', desc: '了解 Locanex 21V 系列与适合你渠道的产品组合。' },
+                  { icon: TrendingUp, title: '经销价格与合作方案', desc: '资质审核后沟通供货价格、采购政策与交付安排。' },
+                  { icon: Settings, title: 'OEM / ODM 沟通', desc: '评估品牌、包装和产品差异化定制方向。' },
+                  { icon: Award, title: '免费样品评估资格', desc: '符合条件的合作伙伴可进入指定产品样品评估流程。' }
+                ].map(({ icon: Icon, title, desc }) => (
+                  <article key={title} className="border border-muted-gray/25 bg-secondary/20 p-5 transition-colors hover:border-primary/55">
+                    <div className="mb-4 flex h-10 w-10 items-center justify-center border border-primary/55 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h4 className="mb-2 font-heading text-base text-foreground">{title}</h4>
+                    <p className="font-paragraph text-xs leading-6 text-foreground/58 sm:text-sm">{desc}</p>
+                  </article>
+                ))}
+              </div>
+
+              <div className="mb-9">
+                <h3 className="mb-5 font-heading text-xl text-foreground sm:text-2xl">申请后的流程</h3>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  {[
+                    { num: '01', title: '提交申请', desc: '进入独立页面填写采购、公司与联系信息。' },
+                    { num: '02', title: '资质评估', desc: '审核经营渠道与采购能力。' },
+                    { num: '03', title: 'LINE 沟通', desc: '进一步确认产品需求与合作方式。' },
+                    { num: '04', title: '样品与合作', desc: '确认样品安排或制定正式合作方案。' }
+                  ].map((step) => (
+                    <div key={step.num} className="relative border-t border-primary/50 px-1 pt-4">
+                      <span className="mb-3 block font-heading text-xs text-primary">{step.num}</span>
+                      <h4 className="mb-2 font-heading text-sm text-foreground">{step.title}</h4>
+                      <p className="font-paragraph text-xs leading-5 text-foreground/55">{step.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-7 border-l-2 border-primary bg-secondary/20 p-4 sm:p-5">
+                <p className="mb-2 font-heading text-sm text-primary">申请前建议准备</p>
+                <p className="font-paragraph text-xs leading-6 text-foreground/65 sm:text-sm">公司或店铺名称 · 申请人职位 · 常购电动工具类型 · 手机号码 / LINE</p>
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button
+                  size="lg"
+                  className="h-auto flex-1 rounded-none bg-primary px-6 py-4 font-heading text-sm text-primary-foreground hover:bg-primary/90 sm:text-base"
+                  onClick={goToDealerApplication}
+                >
+                  前往填写经销商申请 <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-auto rounded-none border-muted-gray/60 px-6 py-4 font-heading text-sm text-foreground hover:border-primary hover:bg-primary/10 sm:text-base"
+                  onClick={() => window.location.assign(LINE_CONTACT_URL)}
+                >
+                  <MessageCircle className="mr-2 h-4 w-4" /> 添加LINE咨询
+                </Button>
+              </div>
+              <p className="mt-4 font-paragraph text-xs leading-5 text-foreground/45">约60秒完成 · 信息仅用于资质评估、样品安排和合作沟通</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- LEGACY HOMEPAGE FORM: hidden rollback copy, safe to restore if needed --- */}
+      <section aria-hidden="true" data-legacy-homepage-application-form="true" className="hidden">
         <div className="grid grid-cols-1 max-sm:grid-cols-1 lg:grid-cols-2">
 
           {/* Left Side: Ideal Distributor */}
@@ -2287,7 +2505,7 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-          <div id="application" className="p-6 max-sm:p-4 sm:p-12 md:p-20 lg:p-32 bg-background relative overflow-hidden">
+          <div id="legacy-homepage-application" className="p-6 max-sm:p-4 sm:p-12 md:p-20 lg:p-32 bg-background relative overflow-hidden">
           <div className="industrial-noise"></div>
           <motion.div
             initial={{ opacity: 0, x: 30 }}
@@ -2798,7 +3016,7 @@ export default function HomePage() {
               <Button
                 size="lg"
                 className="bg-black hover:bg-black/80 text-white font-heading text-lg px-12 py-7 h-auto rounded-none shadow-2xl"
-                onClick={() => document.getElementById('application')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={goToDealerApplication}
               >
                 申请免费样品评估
               </Button>
