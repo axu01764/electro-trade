@@ -323,11 +323,11 @@ export default function DealerApplicationPage() {
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       {/* Background */}
       <div
-        className="fixed inset-0 z-0 bg-cover bg-no-repeat bg-center md:bg-center bg-container"
+        className="fixed inset-0 z-0 bg-cover bg-no-repeat bg-container"
         style={{
-          backgroundImage: 'url("https://static.wixstatic.com/media/556c5c_d8734ff9975a41a382e42ae31016af5b~mv2.png")',
+          backgroundImage: 'url("https://static.wixstatic.com/media/556c5c_12ad3dd671644e08ae2d784cc6f7b5cb~mv2.png")',
           backgroundSize: 'cover',
-          backgroundPosition: 'center center',
+          backgroundPosition: 'left bottom',
           backgroundRepeat: 'no-repeat',
           backgroundAttachment: 'scroll'
         }}
@@ -336,11 +336,12 @@ export default function DealerApplicationPage() {
         <style>{`
           @media (max-width: 768px) {
             .bg-container {
+              background-image: url("https://static.wixstatic.com/media/556c5c_d8734ff9975a41a382e42ae31016af5b~mv2.png") !important;
               background-position: 42% center !important;
             }
           }
         `}</style>
-        <div className="absolute inset-0 bg-black/35"></div>
+        <div className="absolute inset-0 bg-black/15"></div>
       </div>
 
       {/* Content */}
