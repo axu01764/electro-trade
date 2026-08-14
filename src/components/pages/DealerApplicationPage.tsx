@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Distributorapplications } from '@/entities';
 import { BaseCrudService } from '@/integrations';
+import { analytics } from '@wix/site';
 import { motion } from 'framer-motion';
 import { Globe, Lock, MessageCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -283,6 +284,20 @@ export default function DealerApplicationPage() {
       } as unknown as Distributorapplications;
 
       await BaseCrudService.create<Distributorapplications>('distributorapplications', applicationRecord);
+
+      // Send a Meta/Facebook Lead conversion only after the application
+      // has been saved successfully. Tracking errors must never block or
+      // invalidate the customer's submitted application.
+      try {
+        analytics.trackEvent('Lead', {
+          category: 'DealerApplication',
+          formId: 'locanex-dealer-application',
+          label: 'Locanex Dealer Application Submitted',
+          origin: 'Locanex Website'
+        });
+      } catch (trackingError) {
+        console.warn('Failed to report Meta Lead conversion:', trackingError);
+      }
 
       setFormData({
         purchaseToolTypes: [],
