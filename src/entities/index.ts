@@ -42,6 +42,22 @@ export interface Distributorapplications {
   email?: string;
   /** @wixFieldType text */
   companyType?: string;
+  /** @wixFieldType text */
+  toolAspects?: string;
+  /** @wixFieldType text */
+  sampleWillingness?: string;
+  /** @wixFieldType text */
+  purchaseProfile?: string;
+  /** @wixFieldType boolean */
+  privacyConsent?: boolean;
+  /** @wixFieldType text */
+  applicantRole?: string;
+  /** @wixFieldType text */
+  purchasePreference?: string;
+  /** @wixFieldType text */
+  purchaseToolTypes?: string;
+  /** @wixFieldType text */
+  purchaseQuantity?: string;
 }
 
 

@@ -4,6 +4,7 @@ import { ScrollToTop } from '@/lib/scroll-to-top';
 import ErrorPage from '@/integrations/errorHandlers/ErrorPage';
 import HomePage from '@/components/pages/HomePage';
 import DealerApplicationPage from '@/components/pages/DealerApplicationPage';
+import DealerSurveyPage from '@/components/pages/DealerSurveyPage';
 
 // Layout component that includes ScrollToTop
 function Layout() {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "dealer-application",
         element: <DealerApplicationPage />,
+      },
+      {
+        path: "dealer-survey",
+        element: <DealerSurveyPage />,
       },
       {
         path: "*",
