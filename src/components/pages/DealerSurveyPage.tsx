@@ -1,4 +1,6 @@
 import { Image } from '@/components/ui/image';
+import { items } from "@wix/data";
+import { analytics } from "@wix/site";
 import {
   Check,
   ChevronDown,
@@ -17,12 +19,13 @@ import { useMemo, useRef, useState } from "react";
 const HERO_BACKGROUND_URL =
   "https://static.wixstatic.com/media/556c5c_263f6f6f3b5a41409fa0ce2d622b8d90~mv2.png";
 const SURVEY_BACKGROUND_URL = "";
-const SUBMISSION_ENDPOINT = "";
+const SUBMISSION_COLLECTION_ID = "DealerSurveySubmissions";
 
 // Upload the second-screen background to Wix, then paste its media URL into
 // SURVEY_BACKGROUND_URL. A prop can still override it when this page is embedded.
-// Connect SUBMISSION_ENDPOINT to a Wix HTTP function, or pass onSubmitApplication,
-// before publishing so completed applications are stored instead of only validated.
+// Form submissions are stored in the DealerSurveySubmissions CMS collection.
+// The collection must allow visitors to create items while restricting read,
+// update and delete permissions to site administrators and collaborators.
 
 const PRODUCTS = [
   {
@@ -424,6 +427,31 @@ const THAI_LABELS: Record<string, string> = {
 };
 
 const thaiLabel = (value: string) => THAI_LABELS[value] ?? value;
+
+const joinAnswers = (values: string[]) => values.join(" | ");
+
+const getCampaignTracking = () => {
+  if (typeof window === "undefined") {
+    return {
+      sourceUrl: "",
+      utmSource: "",
+      utmMedium: "",
+      utmCampaign: "",
+      utmContent: "",
+      fbclid: "",
+    };
+  }
+
+  const searchParams = new URLSearchParams(window.location.search);
+  return {
+    sourceUrl: window.location.href,
+    utmSource: searchParams.get("utm_source") ?? "",
+    utmMedium: searchParams.get("utm_medium") ?? "",
+    utmCampaign: searchParams.get("utm_campaign") ?? "",
+    utmContent: searchParams.get("utm_content") ?? "",
+    fbclid: searchParams.get("fbclid") ?? "",
+  };
+};
 
 type FormData = {
   businessType: string[];
@@ -904,27 +932,64 @@ function SurveyForm({ onSubmitApplication }: { onSubmitApplication?: SubmissionH
     if (!validateStep(3) || isSubmitting) return;
 
     setIsSubmitting(true);
+    setErrors((previous) => ({ ...previous, submit: "" }));
     try {
       if (onSubmitApplication) {
         await onSubmitApplication(formData);
-      } else if (SUBMISSION_ENDPOINT) {
-        const response = await fetch(SUBMISSION_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-        if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
       } else {
-        setErrors({
-          submit:
-            "แบบฟอร์มและการตรวจสอบข้อมูลพร้อมใช้งานแล้ว แต่ยังไม่ได้เชื่อมต่อระบบรับข้อมูลของ Wix โปรดตั้งค่า SUBMISSION_ENDPOINT หรือส่ง onSubmitApplication เข้ามา",
+        const tracking = getCampaignTracking();
+        await items.insert(SUBMISSION_COLLECTION_ID, {
+          companyName: formData.companyName.trim(),
+          contactName: formData.contactName.trim(),
+          phone: formData.phone.trim(),
+          lineId: formData.lineId.trim(),
+          province: thaiLabel(formData.province),
+          district: formData.district.trim(),
+          businessType: joinAnswers(formData.businessType.map(thaiLabel)),
+          otherBusinessType: formData.otherBusinessType.trim(),
+          salesChannels: joinAnswers(formData.salesChannels.map(thaiLabel)),
+          otherSalesChannel: formData.otherSalesChannel.trim(),
+          currentProducts: joinAnswers(formData.currentProducts.map(thaiLabel)),
+          otherCurrentProduct: formData.otherCurrentProduct.trim(),
+          currentBrands: joinAnswers(formData.currentBrands.map(thaiLabel)),
+          otherBrand: formData.otherBrand.trim(),
+          problems: joinAnswers(formData.problems.map(thaiLabel)),
+          otherProblem: formData.otherProblem.trim(),
+          monthlySalesRange: thaiLabel(formData.monthlySalesRange),
+          desiredSample: thaiLabel(formData.desiredSample),
+          otherDesiredSample: formData.otherDesiredSample.trim(),
+          desiredSamplePriceTier: formData.desiredSamplePriceTier,
+          firstOrderQuantity: thaiLabel(formData.firstOrderQuantity),
+          feedbackWillingness: thaiLabel(formData.feedbackWillingness),
+          onlineLink: formData.onlineLink.trim(),
+          additionalNeeds: formData.additionalNeeds.trim(),
+          consentAccuracy: formData.consentAccuracy,
+          consentEligibility: formData.consentEligibility,
+          consentContact: formData.consentContact,
+          ...tracking,
+          submissionStatus: "New",
+          submittedAt: new Date(),
         });
-        return;
       }
+
+      try {
+        analytics.trackEvent("Lead", {
+          origin: "Dealer Survey",
+          formId: "dealer-survey",
+          label: "Thailand Power Tool Dealer Survey",
+          category: "B2B Power Tools Dealer",
+        });
+      } catch (analyticsError) {
+        console.error("Lead analytics event failed", analyticsError);
+      }
+
       setIsSubmitted(true);
     } catch (error) {
-      console.error(error);
-      setErrors({ submit: "ส่งข้อมูลไม่สำเร็จ โปรดลองอีกครั้งภายหลังหรือติดต่อเราทาง LINE" });
+      console.error("Dealer survey submission failed", error);
+      setErrors({
+        submit:
+          "ส่งข้อมูลไม่สำเร็จ ข้อมูลที่กรอกไว้ยังคงอยู่ โปรดลองอีกครั้งภายหลังหรือติดต่อเราทาง LINE",
+      });
     } finally {
       setIsSubmitting(false);
     }
