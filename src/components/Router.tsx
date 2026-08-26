@@ -1,12 +1,11 @@
-import { MemberProvider } from '@/integrations';
-import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
-import { ScrollToTop } from '@/lib/scroll-to-top';
-import ErrorPage from '@/integrations/errorHandlers/ErrorPage';
-import HomePage from '@/components/pages/HomePage';
 import DealerApplicationPage from '@/components/pages/DealerApplicationPage';
 import DealerSurveyPage from '@/components/pages/DealerSurveyPage';
+import HomePage from '@/components/pages/HomePage';
+import { MemberProvider } from '@/integrations';
+import ErrorPage from '@/integrations/errorHandlers/ErrorPage';
+import { ScrollToTop } from '@/lib/scroll-to-top';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
-// Layout component that includes ScrollToTop
 function Layout() {
   return (
     <>
@@ -18,7 +17,7 @@ function Layout() {
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
@@ -30,18 +29,16 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "dealer-application",
+        path: 'dealer-application',
         element: <DealerApplicationPage />,
       },
       {
-        path: "dealer-survey",
+        path: 'dealer-survey',
         element: <DealerSurveyPage />,
       },
     ],
   },
-], {
-  basename: import.meta.env.BASE_NAME,
-});
+]);
 
 export default function AppRouter() {
   return (
