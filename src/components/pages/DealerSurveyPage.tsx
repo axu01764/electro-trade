@@ -19,11 +19,11 @@ import { useMemo, useRef, useState } from "react";
 const HERO_BACKGROUND_URL =
   "https://static.wixstatic.com/media/556c5c_263f6f6f3b5a41409fa0ce2d622b8d90~mv2.png";
 const SURVEY_BACKGROUND_URL = "";
-const SUBMISSION_COLLECTION_ID = "DealerSurveySubmissions";
+const SUBMISSION_COLLECTION_ID = "Import1";
 
 // Upload the second-screen background to Wix, then paste its media URL into
 // SURVEY_BACKGROUND_URL. A prop can still override it when this page is embedded.
-// Form submissions are stored in the DealerSurveySubmissions CMS collection.
+// Form submissions are stored in the Import1 CMS collection.
 // The collection must allow visitors to create items while restricting read,
 // update and delete permissions to site administrators and collaborators.
 
