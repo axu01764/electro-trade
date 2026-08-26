@@ -939,6 +939,7 @@ function SurveyForm({ onSubmitApplication }: { onSubmitApplication?: SubmissionH
       } else {
         const tracking = getCampaignTracking();
         await items.insert(SUBMISSION_COLLECTION_ID, {
+          title: formData.companyName.trim() || formData.contactName.trim(),
           companyName: formData.companyName.trim(),
           contactName: formData.contactName.trim(),
           phone: formData.phone.trim(),
