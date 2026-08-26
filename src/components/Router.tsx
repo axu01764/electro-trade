@@ -37,10 +37,6 @@ const router = createBrowserRouter([
         path: "dealer-survey",
         element: <DealerSurveyPage />,
       },
-      {
-        path: "*",
-        element: <Navigate to="/" replace />,
-      },
     ],
   },
 ], {
