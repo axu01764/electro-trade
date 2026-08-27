@@ -617,7 +617,7 @@ export default function LocanexLandingPage({
                 สำหรับร้านฮาร์ดแวร์ ตัวแทนจำหน่ายเครื่องมือไฟฟ้า ผู้ค้าส่ง และธุรกิจที่เกี่ยวข้องในประเทศไทยเท่านั้น
               </div>
               <h1 className="mb-6 text-5xl font-black leading-[1.08] md:text-6xl lg:text-7xl">
-                เปิดรับตัวแทนจำหน่าย <span className="text-[#FF9800]">100 ราย</span>
+                เปิดรับตัวแทนจำหน่าย
                 <br />
                 ในตลาดเครื่องมือไฟฟ้าไทย
               </h1>
@@ -642,10 +642,6 @@ export default function LocanexLandingPage({
                 ใช้เวลาประมาณ 3–5 นาที เราจะติดต่อกลับทาง LINE หรือโทรศัพท์ภายใน 3 วันหลังส่งแบบฟอร์ม
               </p>
             </div>
-          </div>
-          <div className="absolute right-12 top-32 z-20 hidden rounded-lg border border-white/25 bg-black/75 p-4 text-center backdrop-blur-md lg:block">
-            <div className="text-3xl font-black text-[#FF9800]">100</div>
-            <div className="mt-1 text-xs">สิทธิ์ทดลองฟรี</div>
           </div>
         </section>
 
@@ -703,7 +699,7 @@ function BenefitItem({ text }: { text: string }) {
 
 function SurveyIntro() {
   const items = [
-    { icon: Zap, text: "รอบนี้มีสิทธิ์ทดลอง 100 ราย" },
+    { icon: Zap, text: "ผู้สมัครที่ผ่านการพิจารณามีสิทธิ์รับสินค้าทดลอง" },
     { icon: Wrench, text: "เครื่องมือ + แบตเตอรี่ + เครื่องชาร์จ" },
     { icon: Truck, text: "Locanex รับผิดชอบค่าสินค้าทดลองและค่าจัดส่ง" },
     { icon: ShieldCheck, text: "ติดต่อกลับภายใน 3 วันหลังส่งแบบฟอร์ม" },
