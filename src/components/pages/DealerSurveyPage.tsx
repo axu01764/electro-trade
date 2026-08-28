@@ -574,7 +574,7 @@ export default function LocanexLandingPage({
           <div className="text-2xl font-black tracking-wide text-[#FF9800]">Locanex</div>
           <div className="flex items-center gap-3">
             <a
-              href="https://line.me/ti/p/~0937281730"
+              href="https://line.me/ti/p/~Frankie5608"
               target="_blank"
               rel="noreferrer"
               className="hidden items-center gap-2 rounded-md border border-white/20 px-4 py-2 text-sm font-medium transition hover:border-[#FF9800] sm:flex"
@@ -665,11 +665,11 @@ export default function LocanexLandingPage({
             <p className="mt-1 text-sm text-gray-400">โครงการทดลองเครื่องมือไฟฟ้าสำหรับผู้จำหน่ายในประเทศไทย</p>
           </div>
           <div className="flex flex-wrap justify-center gap-5 text-sm">
-            <a className="flex items-center gap-2 hover:text-[#FF9800]" href="https://line.me/ti/p/~0937281730">
-              <MessageCircle className="h-5 w-5 text-[#00B900]" /> LINE: 0937281730
+            <a className="flex items-center gap-2 hover:text-[#FF9800]" href="https://line.me/ti/p/~Frankie5608">
+              <MessageCircle className="h-5 w-5 text-[#00B900]" /> LINE: Frankie5608
             </a>
-            <a className="flex items-center gap-2 hover:text-[#FF9800]" href="tel:0937281730">
-              <Phone className="h-5 w-5 text-[#FF9800]" /> โทร: 0937281730
+            <a className="flex items-center gap-2 hover:text-[#FF9800]" href="tel:0926219611">
+              <Phone className="h-5 w-5 text-[#FF9800]" /> โทร: 0926219611
             </a>
           </div>
         </div>
@@ -716,11 +716,11 @@ function SurveyIntro() {
           </p>
         </div>
         <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-300">
-          <a className="flex items-center gap-2 hover:text-[#FF9800]" href="https://line.me/ti/p/~0937281730">
-            <MessageCircle className="h-4 w-4 text-[#00B900]" /> LINE: 0937281730
+          <a className="flex items-center gap-2 hover:text-[#FF9800]" href="https://line.me/ti/p/~Frankie5608">
+            <MessageCircle className="h-4 w-4 text-[#00B900]" /> LINE: Frankie5608
           </a>
-          <a className="flex items-center gap-2 hover:text-[#FF9800]" href="tel:0937281730">
-            <Phone className="h-4 w-4 text-[#FF9800]" /> โทร: 0937281730
+          <a className="flex items-center gap-2 hover:text-[#FF9800]" href="tel:0926219611">
+            <Phone className="h-4 w-4 text-[#FF9800]" /> โทร: 0926219611
           </a>
         </div>
       </div>
@@ -1003,7 +1003,7 @@ function SurveyForm({ onSubmitApplication }: { onSubmitApplication?: SubmissionH
           Locanex ได้รับข้อมูลผู้จำหน่าย ความต้องการสินค้า และคำขอสินค้าทดลองของคุณแล้ว เราจะติดต่อกลับทาง LINE หรือโทรศัพท์ภายใน 3 วัน
         </p>
         <a
-          href="https://line.me/ti/p/~0937281730"
+          href="https://line.me/ti/p/~Frankie5608"
           target="_blank"
           rel="noreferrer"
           className="mt-8 inline-flex items-center gap-2 rounded-md bg-[#00B900] px-8 py-4 font-bold transition hover:bg-[#009F00]"
