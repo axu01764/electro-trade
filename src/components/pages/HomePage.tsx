@@ -80,7 +80,7 @@ const applicantRoleOptions = ['公司负责人/老板', '采购负责人', '销�
 const LINE_CONTACT_URL = 'https://line.me/ti/p/G_saKyMNTQ';
 // Keep the application page URL in one place. If the Wix page slug is changed
 // later, only this constant needs to be updated.
-const DEALER_APPLICATION_URL = '/#inquiry';
+const DEALER_APPLICATION_URL = '/dealer-application';
 const MOBILE_PRODUCT_CARD_COUNT = 6;
 
 // Upload the approved MT2081 product image to Wix Media, then paste its
@@ -106,7 +106,7 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '常见问题': 'คำถามที่พบบ่อย',
   'LINE咨询': 'ปรึกษาทาง LINE',
   '添加LINE咨询': 'เพิ่ม LINE เพื่อปรึกษา',
-  '批发询价': 'สมัครเป็นตัวแทนจำหน่าย',
+  '申请经销': 'สมัครเป็นตัวแทนจำหน่าย',
   '快速链接': 'ลิงก์ด่วน',
   '关于Locanex': 'เกี่ยวกับ Locanex',
   '经销商申请': 'สมัครตัวแทนจำหน่าย',
@@ -161,34 +161,34 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '电商运营负责人': 'ผู้ดูแลอีคอมเมิร์ซ',
 
   // Hero
-  '专业电动工具': 'กำลังมองหาพันธมิตรในประเทศไทย',
-  '批发采购与 OEM/ODM': 'สำหรับธุรกิจเครื่องมือไฟฟ้า',
-  '为五金店、批发商和品牌商提供电动工具与定制合作服务。': 'ราคาสำหรับตัวแทนจำหน่ายที่แข่งขันได้ พร้อมการจัดส่งที่มั่นคงและการสนับสนุนด้านตลาด',
-  '支持小批量付费试单，采购数量越大可申请对应批发报价。': 'ตัวแทนจำหน่ายที่ผ่านเกณฑ์สามารถสมัครขอรับตัวอย่างสินค้าเพื่อทดสอบได้',
-  '获取批发报价': 'สมัครประเมินตัวอย่างสินค้า',
-  '提交采购需求，获取适合型号及数量的正式报价': 'ใช้เวลาสมัครประมาณ 60 วินาที｜ไม่มีค่าธรรมเนียม｜จัดส่งตัวอย่างหลังผ่านการประเมิน',
+  '寻找泰国本地': 'กำลังมองหาพันธมิตรในประเทศไทย',
+  '电动工具合作伙伴': 'สำหรับธุรกิจเครื่องมือไฟฟ้า',
+  '有竞争力的经销价格、稳定供货和市场支持。': 'ราคาสำหรับตัวแทนจำหน่ายที่แข่งขันได้ พร้อมการจัดส่งที่มั่นคงและการสนับสนุนด้านตลาด',
+  '符合条件的经销商可申请免费产品样品。': 'ตัวแทนจำหน่ายที่ผ่านเกณฑ์สามารถสมัครขอรับตัวอย่างสินค้าเพื่อทดสอบได้',
+  '申请免费样品评估': 'สมัครประเมินตัวอย่างสินค้า',
+  '申请约需60秒｜无需支付申请费用｜审核通过后安排样品': 'ใช้เวลาสมัครประมาณ 60 วินาที｜ไม่มีค่าธรรมเนียม｜จัดส่งตัวอย่างหลังผ่านการประเมิน',
   '有竞争力的经销价格': 'ราคาตัวแทนจำหน่ายที่แข่งขันได้',
-  '小批量付费试单': 'โอกาสทดสอบตัวอย่างสินค้า',
-  'OEM/ODM 定制': 'การสนับสนุนด้านการตลาด',
-  '全系列一年质保': 'การสนับสนุนหลังการขาย',
+  '样品测试机会': 'โอกาสทดสอบตัวอย่างสินค้า',
+  '营销支持': 'การสนับสนุนด้านการตลาด',
+  '售后支持': 'การสนับสนุนหลังการขาย',
 
   // Dealer advantages
-  '为什么选择 LOCANEX': 'ทำไม Locanex จึงควรเป็นพันธมิตรธุรกิจรายต่อไป',
+  '为什么 Locanex 值得成为你的下一个': 'ทำไม Locanex จึงควรเป็นพันธมิตรธุรกิจรายต่อไป',
   '为什么 Locanex 值得成为你的': 'ทำไม Locanex จึงควรเป็น',
   '下一个': 'พันธมิตรธุรกิจรายต่อไป',
-  '？': 'ของคุณ?',
-  '兼容电池平台、1年质保、阶梯批发价格与 OEM/ODM 服务。': 'เราไม่ได้เพียงจัดหาสินค้า แต่ยังมอบแนวทางความร่วมมือที่สร้างศักยภาพการขายในระยะยาวให้ตัวแทนจำหน่าย',
+  '合作伙伴？': 'ของคุณ?',
+  '不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。': 'เราไม่ได้เพียงจัดหาสินค้า แต่ยังมอบแนวทางความร่วมมือที่สร้างศักยภาพการขายในระยะยาวให้ตัวแทนจำหน่าย',
   '阶梯采购政策': 'นโยบายราคาตามปริมาณสั่งซื้อ',
   '通过资质审核后获取经销商合作报价': 'รับใบเสนอราคาสำหรับตัวแทนจำหน่ายหลังผ่านการประเมินคุณสมบัติ',
   '根据采购数量提供不同级别的合作方案': 'เสนอเงื่อนไขความร่วมมือหลายระดับตามปริมาณการสั่งซื้อ',
   '统一无线电池平台': 'แพลตฟอร์มแบตเตอรี่ไร้สายร่วมกัน',
-  '兼容无线工具共享电池，减少重复购买和备货成本': 'เครื่องมือไร้สายหลายรุ่นใช้แบตเตอรี่ร่วมกัน ช่วยสร้างโอกาสการขายต่อเนื่อง',
+  '多款无线工具共享电池平台，带来持续销售机会': 'เครื่องมือไร้สายหลายรุ่นใช้แบตเตอรี่ร่วมกัน ช่วยสร้างโอกาสการขายต่อเนื่อง',
   '组合销售机会': 'โอกาสขายเป็นชุด',
   '工具、电池、充电器和配件可组合销售': 'สามารถจัดชุดขายเครื่องมือ แบตเตอรี่ เครื่องชาร์จ และอุปกรณ์เสริมได้',
   '稳定供货': 'การจัดส่งที่มั่นคง',
   '提供稳定供货和长期补货支持': 'รองรับการจัดส่งและเติมสินค้าอย่างต่อเนื่องในระยะยาว',
   '泰国市场支持': 'การสนับสนุนตลาดไทย',
-  '提供泰文产品资料、图片、视频和OEM/ODM 定制': 'มีข้อมูลสินค้า ภาพ วิดีโอ และสื่อการตลาดภาษาไทย',
+  '提供泰文产品资料、图片、视频和营销支持': 'มีข้อมูลสินค้า ภาพ วิดีโอ และสื่อการตลาดภาษาไทย',
 
   // Products
   '专业无刷电动工具系列': 'เครื่องมือไฟฟ้าไร้แปรงถ่านระดับมืออาชีพ',
@@ -216,9 +216,9 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '覆盖高频金工任务，适合维修、工程与工业渠道。': 'ครอบคลุมงานโลหะที่ใช้บ่อย เหมาะกับช่องทางซ่อมบำรุง วิศวกรรม และอุตสาหกรรม',
   '为21V无绳工具提供长时间供电，适合高频钻孔、紧固、切割与打磨。': 'จ่ายพลังงานต่อเนื่องให้เครื่องมือไร้สาย 21V เหมาะกับงานเจาะ ขันยึด ตัด และเจียรที่ใช้งานบ่อย',
   '8.0Ah / 148Wh大容量，适合作为升级和备用电池销售，带动工具、电池组合销售与复购。': 'ความจุสูง 8.0Ah / 148Wh เหมาะสำหรับขายเป็นแบตเตอรี่สำรองหรืออัปเกรด ช่วยเพิ่มยอดขายแบบชุดและการซื้อซ้ำ',
-  '咨询该产品批发价': 'สมัครทดสอบตัวอย่างรุ่นนี้',
-  '对哪款产品感兴趣？': 'ต้องการทดสอบรุ่นใดก่อน?',
-  '支持批发采购和小批量付费试单，选择产品并提交需求即可咨询报价。': 'ตัวแทนจำหน่ายในประเทศไทยที่ผ่านเกณฑ์สามารถสมัครทดสอบตัวอย่างรุ่นที่สนใจได้ ตัวอย่างมีจำนวนจำกัดและต้องผ่านการประเมินคุณสมบัติ',
+  '申请该产品样品': 'สมัครทดสอบตัวอย่างรุ่นนี้',
+  '想先测试哪一款？': 'ต้องการทดสอบรุ่นใดก่อน?',
+  '符合条件的泰国经销商可申请指定产品样品进行评估与测试。样品数量有限，申请需经资质审核。': 'ตัวแทนจำหน่ายในประเทศไทยที่ผ่านเกณฑ์สามารถสมัครทดสอบตัวอย่างรุ่นที่สนใจได้ ตัวอย่างมีจำนวนจำกัดและต้องผ่านการประเมินคุณสมบัติ',
   '请将 MT2081 图片上传至 Wix，并填写 MT2081_IMAGE_URL': 'โปรดอัปโหลดภาพ MT2081 ไปยัง Wix และระบุ MT2081_IMAGE_URL',
   'Locanex 21V 产品横向轮播，共6款': 'แกลเลอรีผลิตภัณฑ์ Locanex 21V แบบเลื่อน จำนวน 6 รุ่น',
 
@@ -263,9 +263,9 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '以供货为主，支持有限': 'เน้นการจัดส่งสินค้า การสนับสนุนมีจำกัด',
 
   // Sample testing process
-  'OEM/ODM 产品定制服务': 'โครงการทดสอบตัวอย่างสำหรับตัวแทนจำหน่าย',
+  '经销商样品测试计划': 'โครงการทดสอบตัวอย่างสำหรับตัวแทนจำหน่าย',
   '申请加入泰国经销商': 'สมัครเข้าร่วมโครงการตัวแทนจำหน่ายไทย',
-  'OEM/ODM 定制服务': 'เพื่อทดสอบผลิตภัณฑ์',
+  '产品测试计划': 'เพื่อทดสอบผลิตภัณฑ์',
   '通过样品测试了解真实产品表现，并根据测试反馈制定长期合作方案。': 'ประเมินประสิทธิภาพจริงผ่านการทดสอบตัวอย่าง และวางแผนความร่วมมือระยะยาวจากผลตอบรับ',
   '提交经销商申请': 'ส่งใบสมัครตัวแทนจำหน่าย',
   '填写申请表 提交基本信息': 'กรอกใบสมัคร\nและข้อมูลพื้นฐาน',
@@ -280,7 +280,7 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '制定合作方案': 'วางแผนความร่วมมือ',
   '根据测试反馈 制定合作方案': 'จัดทำแผนความร่วมมือ\nจากผลการทดสอบ',
   '样品数量有限 ｜ 申请不代表自动获得样品 ｜ 需提供真实经营信息': 'ตัวอย่างมีจำนวนจำกัด ｜ การสมัครไม่ได้หมายถึงได้รับตัวอย่างโดยอัตโนมัติ ｜ ต้องให้ข้อมูลธุรกิจที่เป็นจริง',
-  '* 付费试单需经经销商资质审核，样品型号与数量由双方沟通后确定。': '* การสั่งซื้อทดลองแบบชำระเงินต้องผ่านการประเมินคุณสมบัติตัวแทนจำหน่าย โดยรุ่นและจำนวนจะยืนยันร่วมกัน',
+  '* 免费样品需经经销商资质审核，样品型号与数量由双方沟通后确定。': '* ตัวอย่างฟรีต้องผ่านการประเมินคุณสมบัติตัวแทนจำหน่าย โดยรุ่นและจำนวนจะยืนยันร่วมกัน',
 
   // Company capability and eligibility
   '公司实力、': 'ศักยภาพบริษัท ',
@@ -292,7 +292,7 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '产品系列集中展示，方便选品与样品确认': 'จัดแสดงผลิตภัณฑ์เป็นหมวดหมู่ เพื่อสะดวกต่อการคัดเลือกและยืนยันตัวอย่าง',
   '仓库与库存': 'คลังสินค้าและสต็อก',
   '完善的库存管理，支持稳定供货与及时补货': 'บริหารสต็อกอย่างเป็นระบบ รองรับการจัดส่งและเติมสินค้าอย่างทันท่วงที',
-  '欢迎批发商、五金店、电商卖家及品牌客户洽谈。': 'เรากำลังคัดเลือกพันธมิตรกลุ่มแรกสำหรับตลาดประเทศไทย',
+  '我们正在寻找首批泰国市场合作伙伴。': 'เรากำลังคัดเลือกพันธมิตรกลุ่มแรกสำหรับตลาดประเทศไทย',
   '哪些合作伙伴': 'พันธมิตรประเภทใด',
   '适合申请？': 'เหมาะสำหรับการสมัคร?',
   '适合申请': 'เหมาะสำหรับสมัคร',
@@ -303,7 +303,7 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '不接受核心产品测试反馈': 'ไม่พร้อมให้ผลตอบรับจากการทดสอบผลิตภัณฑ์หลัก',
 
   // Homepage qualification and application guide
-  '为泰国企业提供专业电动工具与定制服务': 'มองหาพันธมิตรในประเทศไทยที่มีช่องทางการจำหน่าย',
+  '寻找有渠道能力的泰国合作伙伴': 'มองหาพันธมิตรในประเทศไทยที่มีช่องทางการจำหน่าย',
   '寻找有渠道能力的': 'มองหา',
   '泰国合作伙伴': 'พันธมิตรในประเทศไทยที่มีช่องทางจำหน่าย',
   '确认合作方向后，进入独立申请页面提交资料。本区域不重复填写问题，只帮助经销商快速了解申请价值。': 'เมื่อยืนยันแนวทางความร่วมมือแล้ว กรุณาไปยังหน้าสมัครแยกเพื่อส่งข้อมูล ส่วนนี้จะไม่แสดงคำถามในแบบฟอร์มซ้ำ และมีไว้เพื่อช่วยให้ตัวแทนจำหน่ายเข้าใจประโยชน์ของการสมัครได้อย่างรวดเร็ว',
@@ -316,10 +316,10 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '产品资料与目录': 'ข้อมูลสินค้าและแคตตาล็อก',
   '了解 Locanex 21V 系列与适合你渠道的产品组合。': 'เรียนรู้เกี่ยวกับซีรีส์ Locanex 21V และชุดสินค้าที่เหมาะกับช่องทางของคุณ',
   '经销价格与合作方案': 'ราคาสำหรับตัวแทนจำหน่ายและแผนความร่วมมือ',
-  '根据产品型号、配置和采购数量提供报价与交付安排。': 'พูดคุยเรื่องราคา นโยบายการจัดซื้อ และการจัดส่งหลังผ่านการตรวจสอบคุณสมบัติ',
+  '资质审核后沟通供货价格、采购政策与交付安排。': 'พูดคุยเรื่องราคา นโยบายการจัดซื้อ และการจัดส่งหลังผ่านการตรวจสอบคุณสมบัติ',
   'OEM / ODM 沟通': 'การปรึกษา OEM / ODM',
   '评估品牌、包装和产品差异化定制方向。': 'ประเมินแนวทางการปรับแต่งแบรนด์ บรรจุภัณฑ์ และผลิตภัณฑ์',
-  '付费试单评估资格': 'สิทธิ์เข้ารับการประเมินการสั่งซื้อทดลองแบบชำระเงิน',
+  '免费样品评估资格': 'สิทธิ์เข้ารับการประเมินตัวอย่างฟรี',
   '符合条件的合作伙伴可进入指定产品样品评估流程。': 'พันธมิตรที่ผ่านเกณฑ์จะเข้าสู่กระบวนการพิจารณาตัวอย่างสินค้า',
   '申请后的流程': 'ขั้นตอนหลังการสมัคร',
   '提交申请': 'ส่งใบสมัคร',
@@ -331,12 +331,12 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '确认样品安排或制定正式合作方案。': 'ยืนยันการจัดตัวอย่างหรือวางแผนความร่วมมืออย่างเป็นทางการ',
   '申请前建议准备': 'เตรียมข้อมูลก่อนสมัคร',
   '公司或店铺名称 · 申请人职位 · 常购电动工具类型 · 手机号码 / LINE': 'ชื่อบริษัทหรือร้านค้า · ตำแหน่งผู้สมัคร · ประเภทเครื่องมือไฟฟ้าที่จัดซื้อเป็นประจำ · โทรศัพท์ / LINE',
-  '获取批发报价': 'ไปกรอกใบสมัครตัวแทนจำหน่าย',
+  '前往填写经销商申请': 'ไปกรอกใบสมัครตัวแทนจำหน่าย',
   '约60秒完成 · 信息仅用于资质评估、样品安排和合作沟通': 'ใช้เวลาประมาณ 60 วินาที · ข้อมูลใช้สำหรับการประเมินคุณสมบัติ การจัดตัวอย่าง และการติดต่อเรื่องความร่วมมือเท่านั้น',
 
   // Application form
-  '咨询 LOCANEX': 'สมัครเป็น',
-  '批发与定制': 'ตัวแทนจำหน่าย Locanex',
+  '申请成为': 'สมัครเป็น',
+  'Locanex经销商': 'ตัวแทนจำหน่าย Locanex',
   '先填写采购需求，再补充公司身份与联系方式。': 'เริ่มจากข้อมูลความต้องการจัดซื้อ จากนั้นกรอกข้อมูลบริษัทและช่องทางติดต่อ',
   '步骤 1: 采购需求': 'ขั้นตอน 1: ความต้องการจัดซื้อ',
   '步骤 2: 公司与联系信息': 'ขั้นตอน 2: บริษัทและข้อมูลติดต่อ',
@@ -381,8 +381,8 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '常见': 'คำถามที่',
   '问题': 'พบบ่อย',
   '暂无常见问题': 'ยังไม่มีคำถามที่พบบ่อย',
-  '如何咨询 LOCANEX你们的合作经销商？': 'สมัครเป็นตัวแทนจำหน่ายของคุณได้อย่างไร?',
-  '您可以通过页面表单提交基本信息，或直接添加我们的 Line / WhatsApp 联系我们。我们的团队会了解您的销售渠道、客户类型和市场需求，并为您推荐适合的供货、OEM 或 ODM 合作方案。对于符合条件的合作伙伴，我们还可以安排样品测试与进一步洽谈。': 'คุณสามารถส่งข้อมูลพื้นฐานผ่านแบบฟอร์มบนหน้าเว็บไซต์ หรือติดต่อเราทาง Line / WhatsApp ทีมงานจะสอบถามช่องทางการขาย กลุ่มลูกค้า และความต้องการของตลาด เพื่อแนะนำรูปแบบความร่วมมือด้านการจัดส่งสินค้า OEM หรือ ODM ที่เหมาะสม สำหรับพันธมิตรที่ผ่านเกณฑ์ เรายังสามารถรองรับการสั่งซื้อทดลองแบบชำระเงินและหารือรายละเอียดเพิ่มเติมได้',
+  '如何申请成为你们的合作经销商？': 'สมัครเป็นตัวแทนจำหน่ายของคุณได้อย่างไร?',
+  '您可以通过页面表单提交基本信息，或直接添加我们的 Line / WhatsApp 联系我们。我们的团队会了解您的销售渠道、客户类型和市场需求，并为您推荐适合的供货、OEM 或 ODM 合作方案。对于符合条件的合作伙伴，我们还可以安排样品测试与进一步洽谈。': 'คุณสามารถส่งข้อมูลพื้นฐานผ่านแบบฟอร์มบนหน้าเว็บไซต์ หรือติดต่อเราทาง Line / WhatsApp ทีมงานจะสอบถามช่องทางการขาย กลุ่มลูกค้า และความต้องการของตลาด เพื่อแนะนำรูปแบบความร่วมมือด้านการจัดส่งสินค้า OEM หรือ ODM ที่เหมาะสม สำหรับพันธมิตรที่ผ่านเกณฑ์ เรายังสามารถจัดส่งตัวอย่างเพื่อทดสอบและหารือรายละเอียดเพิ่มเติมได้',
   '你们是工厂直接供货吗？': 'คุณจัดส่งสินค้าตรงจากโรงงานหรือไม่?',
   '是的，我们是源头工厂，可直接为泰国本地五金工具经销商供货，减少中间环节，帮助您获得更有竞争力的价格和更稳定的供货支持。': 'ใช่ เราเป็นโรงงานผู้ผลิตโดยตรง สามารถจัดส่งให้ตัวแทนจำหน่ายเครื่องมือและฮาร์ดแวร์ในประเทศไทย ช่วยลดขั้นตอนคนกลาง เพื่อให้ได้ราคาที่แข่งขันได้และการจัดส่งที่มั่นคงยิ่งขึ้น',
   '你们可以提供 OEM 贴牌服务吗？': 'มีบริการ OEM ภายใต้แบรนด์ของลูกค้าหรือไม่?',
@@ -397,28 +397,9 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   '我们可提供产品供货、OEM/ODM沟通、样品支持、包装定制、产品资料支持以及后续产品优化建议，帮助经销商更好地开拓市场。': 'เราสนับสนุนการจัดส่งสินค้า การประสานงาน OEM/ODM ตัวอย่างสินค้า การออกแบบบรรจุภัณฑ์ ข้อมูลผลิตภัณฑ์ และข้อเสนอแนะในการปรับปรุงสินค้า เพื่อช่วยตัวแทนจำหน่ายพัฒนาตลาดได้ดียิ่งขึ้น',
   '可以建立长期合作关系吗？': 'สามารถสร้างความร่วมมือระยะยาวได้หรือไม่?',
   '可以。我们希望与有渠道能力和市场规划的泰国本地经销商建立长期稳定合作，共同开发市场。': 'ได้ เราต้องการสร้างความร่วมมือระยะยาวและมั่นคงกับตัวแทนจำหน่ายในประเทศไทยที่มีช่องทางการขายและแผนพัฒนาตลาด เพื่อร่วมกันขยายตลาด',
-  '准备采购 LOCANEX': 'พร้อมร่วมพัฒนาตลาดกับ Locanex',
-  '专业电动工具了吗？': 'ในธุรกิจเครื่องมือไฟฟ้าของไทยหรือยัง?',
-  '支持现有产品批发、OEM 贴牌与 ODM 合作；填写询价表单了解报价。': 'ส่งใบสมัครตัวแทนจำหน่ายเพื่อรับข้อมูลสินค้า ราคาสำหรับตัวแทนจำหน่าย และสิทธิ์ประเมินตัวอย่างสินค้า',
-  '专业电动工具': 'เครื่องมือไฟฟ้าสำหรับมืออาชีพ',
-  '批发采购与 OEM/ODM': 'ขายส่งและบริการ OEM/ODM',
-  '为五金店、批发商和品牌商提供电动工具与定制合作服务。': 'จำหน่ายเครื่องมือไฟฟ้าสำหรับร้านค้า ผู้ค้าส่ง และเจ้าของแบรนด์ พร้อมบริการ OEM/ODM',
-  '支持小批量付费试单，采购数量越大可申请对应批发报价。': 'รองรับการสั่งซื้อทดลองแบบชำระเงิน และเสนอราคาส่งตามจำนวนสั่งซื้อ',
-  '获取批发报价': 'ขอใบเสนอราคาส่ง',
-  '提交采购需求，获取适合型号及数量的正式报价': 'แจ้งความต้องการเพื่อรับใบเสนอราคาตามรุ่นและจำนวนสินค้า',
-  '小批量付费试单': 'สั่งซื้อทดลองจำนวนน้อยแบบชำระเงิน',
-  'OEM/ODM 定制': 'บริการ OEM/ODM',
-  '全系列一年质保': 'รับประกันสินค้า 1 ปี',
-  '咨询该产品批发价': 'สอบถามราคาส่งรุ่นนี้',
-  '对哪款产品感兴趣？': 'สนใจสินค้ารุ่นใด?',
-  '支持批发采购和小批量付费试单，选择产品并提交需求即可咨询报价。': 'รองรับการซื้อส่งและทดลองสั่งซื้อแบบชำระเงิน เลือกสินค้าแล้วส่งคำขอใบเสนอราคา',
-  '准备采购 LOCANEX': 'สนใจสั่งซื้อเครื่องมือ',
-  '专业电动工具了吗？': 'ไฟฟ้า LOCANEX หรือไม่?',
-  '支持现有产品批发、OEM 贴牌与 ODM 合作；填写询价表单了解报价。': 'รองรับการขายส่งสินค้า OEM และ ODM กรอกแบบฟอร์มเพื่อรับข้อมูลราคา',
-  '批发询价': 'สอบถามราคาส่ง',
-  '为什么选择 LOCANEX': 'ทำไมต้องเลือก LOCANEX',
-  '兼容电池平台、1年质保、阶梯批发价格与 OEM/ODM 服务。': 'แพลตฟอร์มแบตเตอรี่ร่วมกัน รับประกัน 1 ปี ราคาขายส่งตามจำนวน และบริการ OEM/ODM',
-  '欢迎批发商、五金店、电商卖家及品牌客户洽谈。': 'ยินดีต้อนรับผู้ค้าส่ง ร้านฮาร์ดแวร์ ผู้ขายออนไลน์ และเจ้าของแบรนด์',
+  '准备与 Locanex 一起开拓': 'พร้อมร่วมพัฒนาตลาดกับ Locanex',
+  '泰国电动工具市场吗？': 'ในธุรกิจเครื่องมือไฟฟ้าของไทยหรือยัง?',
+  '提交经销商申请，获取产品资料、经销价格和免费产品评估资格。': 'ส่งใบสมัครตัวแทนจำหน่ายเพื่อรับข้อมูลสินค้า ราคาสำหรับตัวแทนจำหน่าย และสิทธิ์ประเมินตัวอย่างสินค้า'
 };
 
 const TH_TO_ZH_TEXT = Object.entries(ZH_TO_TH_TEXT).reduce<Record<string, string>>(
@@ -445,7 +426,7 @@ const THAI_FAQS = [
   {
     _id: 'thai-faq-1',
     question: 'สมัครเป็นตัวแทนจำหน่ายของ Locanex ได้อย่างไร?',
-    answer: 'คุณสามารถส่งข้อมูลพื้นฐานผ่านแบบฟอร์มบนหน้าเว็บไซต์ หรือติดต่อเราทาง LINE / WhatsApp ทีมงานจะสอบถามช่องทางการขาย กลุ่มลูกค้า และความต้องการของตลาด เพื่อแนะนำรูปแบบความร่วมมือด้านการจัดส่งสินค้า OEM หรือ ODM ที่เหมาะสม สำหรับพันธมิตรที่ผ่านเกณฑ์ เรายังสามารถรองรับการสั่งซื้อทดลองแบบชำระเงินและนัดหมายพูดคุยรายละเอียดเพิ่มเติมได้'
+    answer: 'คุณสามารถส่งข้อมูลพื้นฐานผ่านแบบฟอร์มบนหน้าเว็บไซต์ หรือติดต่อเราทาง LINE / WhatsApp ทีมงานจะสอบถามช่องทางการขาย กลุ่มลูกค้า และความต้องการของตลาด เพื่อแนะนำรูปแบบความร่วมมือด้านการจัดส่งสินค้า OEM หรือ ODM ที่เหมาะสม สำหรับพันธมิตรที่ผ่านเกณฑ์ เรายังสามารถจัดส่งตัวอย่างเพื่อทดสอบและนัดหมายพูดคุยรายละเอียดเพิ่มเติมได้'
   },
   {
     _id: 'thai-faq-2',
@@ -593,31 +574,8 @@ function ChoiceButton({ selected, onClick, children }: ChoiceButtonProps) {
 
 export default function HomePage() {
   // --- CANONICAL DATA SOURCES & STATE ---
-  const [siteLanguage, setSiteLanguage] = useState<SiteLanguage>('th');
+  const [siteLanguage, setSiteLanguage] = useState<SiteLanguage>('zh');
   const [languageReady, setLanguageReady] = useState(false);
-  const [inquiryData, setInquiryData] = useState({requestType:'wholesale',company:'',businessType:'',province:'',quantity:'',products:[] as string[],customNeeds:'',contact:'',phone:'',line:'',onlineLink:'',consent:false});
-  const [inquirySubmitting, setInquirySubmitting] = useState(false);
-  const [inquiryError, setInquiryError] = useState('');
-  const [inquirySuccess, setInquirySuccess] = useState(false);
-  const updateInquiry = (key: keyof typeof inquiryData, value: string | boolean | string[]) => {setInquiryData(old=>({...old,[key]:value})); setInquiryError(''); setInquirySuccess(false);};
-  const handleNewInquirySubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if(inquiryData.products.length===0){setInquiryError(siteLanguage==='th'?'กรุณาเลือกสินค้าอย่างน้อยหนึ่งรายการ':'请至少选择一项产品');return;}
-    if(!/^\+?[0-9\s-]{8,20}$/.test(inquiryData.phone.trim())){setInquiryError(siteLanguage==='th'?'กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้อง':'请填写正确的电话号码');return;}
-    if(!inquiryData.consent){setInquiryError(siteLanguage==='th'?'กรุณายืนยันความยินยอม':'请确认隐私同意');return;}
-    setInquirySubmitting(true);
-    try {
-      const params=new URLSearchParams(window.location.search);
-      // Store additional inquiry details in the existing purchaseProfile field until CMS fields are explicitly migrated.
-      const purchaseProfile = JSON.stringify({requestType:inquiryData.requestType,province:inquiryData.province,quantity:inquiryData.quantity,products:inquiryData.products,customNeeds:inquiryData.customNeeds,line:inquiryData.line,onlineLink:inquiryData.onlineLink,sourceUrl:window.location.href,utmSource:params.get('utm_source'),utmMedium:params.get('utm_medium'),utmCampaign:params.get('utm_campaign'),utmContent:params.get('utm_content'),fbclid:params.get('fbclid')});
-      await BaseCrudService.create<Distributorapplications>('distributorapplications',{
-        _id:crypto.randomUUID(),companyName:inquiryData.company,contactPersonName:inquiryData.contact,contactPhone:inquiryData.phone,email:'',companyType:inquiryData.businessType,applicantRole:'',purchaseToolTypes:inquiryData.products.join('、'),purchasePreference:inquiryData.requestType,cordlessVoltagePlatforms:'',cordedPowerRange:'',purchaseProfile,privacyConsent:inquiryData.consent
-      } as unknown as Distributorapplications);
-      setInquirySuccess(true);
-      setInquiryData(old=>({...old,company:'',contact:'',phone:'',line:'',onlineLink:'',customNeeds:'',quantity:'',products:[],consent:false}));
-    } catch(e){console.error('Wholesale inquiry failed',e);setInquiryError(siteLanguage==='th'?'ส่งข้อมูลไม่สำเร็จ กรุณาลองใหม่':'提交失败，请稍后重试');}
-    finally {setInquirySubmitting(false);}
-  };
   const [products, setProducts] = useState<Coreproducts[]>([]);
   const [faqs, setFaqs] = useState<Faq[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -675,8 +633,8 @@ export default function HomePage() {
     document.documentElement.lang = siteLanguage === 'th' ? 'th' : 'zh-CN';
     document.documentElement.dataset.locanexLanguage = siteLanguage;
     document.title = siteLanguage === 'th'
-      ? 'LOCANEX | เครื่องมือไฟฟ้าราคาส่งและบริการ OEM/ODM'
-      : 'LOCANEX | 电动工具批发与 OEM/ODM';
+      ? 'Locanex | พันธมิตรเครื่องมือไฟฟ้าในประเทศไทย'
+      : 'Locanex | 寻找泰国本地电动工具合作伙伴';
 
     const frameId = window.requestAnimationFrame(() => translateRenderedPage(siteLanguage));
     return () => window.cancelAnimationFrame(frameId);
@@ -740,12 +698,12 @@ export default function HomePage() {
       const isApplicationCta =
         applicationHref === '#application' ||
         applicationHref === '#application-section' ||
-        normalizedLabel.includes('批发询价') ||
-        normalizedLabel.includes('获取批发报价') ||
-        normalizedLabel.includes('咨询该产品批发价') ||
-        normalizedLabel.includes('获取批发报价') ||
+        normalizedLabel.includes('申请经销') ||
+        normalizedLabel.includes('申请免费样品评估') ||
+        normalizedLabel.includes('申请该产品样品') ||
+        normalizedLabel.includes('前往填写经销商申请') ||
         normalizedLabel.includes('สมัครตัวแทนจำหน่าย') ||
-        normalizedLabel.includes('สมัครรับการประเมินการสั่งซื้อทดลองแบบชำระเงิน') ||
+        normalizedLabel.includes('สมัครรับการประเมินตัวอย่างฟรี') ||
         normalizedLabel.includes('ไปกรอกใบสมัครตัวแทนจำหน่าย');
 
       if (!isApplicationCta) return;
@@ -933,7 +891,7 @@ export default function HomePage() {
   };
 
   const goToDealerApplication = () => {
-    document.getElementById('inquiry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.location.assign(DEALER_APPLICATION_URL);
   };
 
   // --- ANIMATION & SCROLL LOGIC ---
@@ -1173,13 +1131,13 @@ export default function HomePage() {
             </motion.div>
 
             <motion.h1 variants={fadeUpVariant} className="font-heading text-3xl max-sm:text-[30px] sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 max-sm:mb-4 sm:mb-6 max-sm:leading-[1.1] md:leading-[1.2] tracking-tight text-left">
-              专业电动工具<br />
-              <span className="text-primary">批发采购与 OEM/ODM</span>
+              寻找泰国本地<br />
+              <span className="text-primary">电动工具合作伙伴</span>
             </motion.h1>
 
             <motion.p variants={fadeUpVariant} className="font-paragraph text-sm max-sm:text-[14px] sm:text-base md:text-lg text-foreground/80 mb-5 max-sm:mb-5 sm:mb-8 max-sm:leading-[1.65] md:leading-[1.6] text-left">
-              为五金店、批发商和品牌商提供电动工具与定制合作服务。<br />
-              支持小批量付费试单，采购数量越大可申请对应批发报价。
+              有竞争力的经销价格、稳定供货和市场支持。<br />
+              符合条件的经销商可申请免费产品样品。
             </motion.p>
 
             <motion.div variants={fadeUpVariant} className="flex flex-col gap-3 max-sm:gap-3 sm:gap-4 items-stretch sm:items-start mb-4 max-sm:mb-4 sm:mb-6 max-sm:w-full">
@@ -1189,7 +1147,7 @@ export default function HomePage() {
                 onClick={goToDealerApplication}
               >
                 <span className="relative z-10 flex items-center justify-center sm:justify-start gap-2">
-                  获取批发报价 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform hidden sm:inline" />
+                  申请免费样品评估 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform hidden sm:inline" />
                 </span>
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
               </Button>
@@ -1204,16 +1162,16 @@ export default function HomePage() {
             </motion.div>
 
             <motion.p variants={fadeUpVariant} className="font-paragraph text-xs max-sm:text-[10px] text-muted-gray-foreground text-left">
-              提交采购需求，获取适合型号及数量的正式报价
+              申请约需60秒｜无需支付申请费用｜审核通过后安排样品
             </motion.p>
 
             {/* Trust points - Hidden on mobile */}
             <motion.div variants={fadeUpVariant} className="mt-4 max-sm:hidden sm:mt-10 grid grid-cols-1 max-sm:grid-cols-1 sm:grid-cols-2 gap-2 max-sm:gap-2 sm:gap-4 text-left">
               {[
                 '有竞争力的经销价格',
-                '小批量付费试单',
-                'OEM/ODM 定制',
-                '全系列一年质保'
+                '样品测试机会',
+                '营销支持',
+                '售后支持'
               ].map((point, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
@@ -1267,14 +1225,14 @@ export default function HomePage() {
 
             <h2 className="font-heading text-2xl max-sm:text-[25px] sm:text-3xl md:text-5xl lg:text-5xl text-foreground mb-3 max-sm:mb-2 sm:mb-4 leading-[1.2] max-sm:leading-[1.3]">
               <span className="block sm:hidden">
-                为什么选择 LOCANEX<span className="text-primary">？</span>
+                为什么 Locanex 值得成为你的下一个<span className="text-primary">合作伙伴？</span>
               </span>
               <span className="hidden sm:inline">
-                为什么 Locanex 值得成为你的<br />下一个<span className="text-primary">？</span>
+                为什么 Locanex 值得成为你的<br />下一个<span className="text-primary">合作伙伴？</span>
               </span>
             </h2>
             <p className="font-paragraph text-xs max-sm:text-[12px] sm:text-base md:text-lg text-[#AEB4B9] max-w-3xl max-sm:max-w-none mx-auto mt-3 max-sm:mt-2 sm:mt-4 leading-[1.6] max-sm:leading-[1.6]">
-              兼容电池平台、1年质保、阶梯批发价格与 OEM/ODM 服务。
+              不仅提供产品，更为经销商提供具有长期销售潜力的合作方案。
             </p>
           </motion.div>
 
@@ -1298,7 +1256,7 @@ export default function HomePage() {
                 number: '03',
                 icon: Zap,
                 title: '统一无线电池平台',
-                desc: '兼容无线工具共享电池，减少重复购买和备货成本'
+                desc: '多款无线工具共享电池平台，带来持续销售机会'
               },
               {
                 number: '04',
@@ -1316,7 +1274,7 @@ export default function HomePage() {
                 number: '06',
                 icon: Globe,
                 title: '泰国市场支持',
-                desc: '提供泰文产品资料、图片、视频和OEM/ODM 定制'
+                desc: '提供泰文产品资料、图片、视频和营销支持'
               }
             ].map((item, index) => (
               <motion.div
@@ -1435,7 +1393,7 @@ export default function HomePage() {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={goToDealerApplication}
                   >
-                    咨询该产品批发价
+                    申请该产品样品
                   </Button>
                 </div>
               </motion.div>
@@ -1488,7 +1446,7 @@ export default function HomePage() {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={goToDealerApplication}
                   >
-                    咨询该产品批发价
+                    申请该产品样品
                   </Button>
                 </div>
               </motion.div>
@@ -1541,7 +1499,7 @@ export default function HomePage() {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={goToDealerApplication}
                   >
-                    咨询该产品批发价
+                    申请该产品样品
                   </Button>
                 </div>
               </motion.div>
@@ -1594,7 +1552,7 @@ export default function HomePage() {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={goToDealerApplication}
                   >
-                    咨询该产品批发价
+                    申请该产品样品
                   </Button>
                 </div>
               </motion.div>
@@ -1647,7 +1605,7 @@ export default function HomePage() {
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs max-sm:text-xs md:text-sm py-2 max-sm:py-2 md:py-3 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                     onClick={goToDealerApplication}
                   >
-                    咨询该产品批发价
+                    申请该产品样品
                   </Button>
                 </div>
               </motion.div>
@@ -1689,7 +1647,7 @@ export default function HomePage() {
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={goToDealerApplication}
                     >
-                      咨询该产品批发价
+                      申请该产品样品
                     </Button>
                   </div>
                 </div>
@@ -1721,7 +1679,7 @@ export default function HomePage() {
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={goToDealerApplication}
                     >
-                      咨询该产品批发价
+                      申请该产品样品
                     </Button>
                   </div>
                 </div>
@@ -1753,7 +1711,7 @@ export default function HomePage() {
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={goToDealerApplication}
                     >
-                      咨询该产品批发价
+                      申请该产品样品
                     </Button>
                   </div>
                 </div>
@@ -1785,7 +1743,7 @@ export default function HomePage() {
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={goToDealerApplication}
                     >
-                      咨询该产品批发价
+                      申请该产品样品
                     </Button>
                   </div>
                 </div>
@@ -1817,7 +1775,7 @@ export default function HomePage() {
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={goToDealerApplication}
                     >
-                      咨询该产品批发价
+                      申请该产品样品
                     </Button>
                   </div>
                 </div>
@@ -1858,7 +1816,7 @@ export default function HomePage() {
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-xs py-2 h-auto rounded-none mt-auto transition-all duration-300 uppercase tracking-wider font-bold"
                       onClick={goToDealerApplication}
                     >
-                      咨询该产品批发价
+                      申请该产品样品
                     </Button>
                   </div>
                 </div>
@@ -1919,17 +1877,17 @@ export default function HomePage() {
             className="mt-12 max-sm:mt-10 sm:mt-20 md:mt-28 text-center"
           >
             <h3 className="font-heading text-xl max-sm:text-xl sm:text-2xl md:text-3xl text-foreground mb-3 max-sm:mb-3 sm:mb-4">
-              对哪款产品感兴趣？
+              想先测试哪一款？
             </h3>
             <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/70 max-w-3xl mx-auto mb-6 max-sm:mb-5 sm:mb-8 leading-[1.6]">
-              支持批发采购和小批量付费试单，选择产品并提交需求即可咨询报价。
+              符合条件的泰国经销商可申请指定产品样品进行评估与测试。样品数量有限，申请需经资质审核。
             </p>
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-10 md:px-12 py-3 max-sm:py-3 md:py-6 md:py-7 h-auto rounded-none uppercase tracking-wider font-bold"
               onClick={goToDealerApplication}
             >
-              获取批发报价
+              申请免费样品评估
             </Button>
           </motion.div>
         </div>
@@ -2178,11 +2136,11 @@ export default function HomePage() {
             className="text-center mb-12 max-sm:mb-10 sm:mb-16 md:mb-20"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/50 text-primary text-xs max-sm:text-xs sm:text-sm font-heading mb-4 max-sm:mb-4 sm:mb-6">
-              <Settings className="w-4 h-4" /> OEM/ODM 产品定制服务
+              <Settings className="w-4 h-4" /> 经销商样品测试计划
             </div>
             <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-5xl text-foreground mb-3 max-sm:mb-3 sm:mb-4 leading-tight">
               申请加入泰国经销商<br />
-              <span className="text-primary">OEM/ODM 定制服务</span>
+              <span className="text-primary">产品测试计划</span>
             </h2>
             <p className="font-paragraph text-sm max-sm:text-sm sm:text-base md:text-lg text-foreground/80 max-w-3xl mx-auto leading-[1.6]">
               通过样品测试了解真实产品表现，并根据测试反馈制定长期合作方案。
@@ -2293,10 +2251,10 @@ export default function HomePage() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm max-sm:text-sm md:text-base md:text-lg px-6 max-sm:px-6 md:px-8 md:px-12 py-3 max-sm:py-3 md:py-4 h-auto rounded-none"
               onClick={goToDealerApplication}
             >
-              获取批发报价
+              申请免费样品评估
             </Button>
             <p className="font-paragraph text-xs max-sm:text-xs md:text-sm text-muted-gray-foreground text-center max-w-2xl leading-[1.5]">
-              * 付费试单需经经销商资质审核，样品型号与数量由双方沟通后确定。
+              * 免费样品需经经销商资质审核，样品型号与数量由双方沟通后确定。
             </p>
           </motion.div>
         </div>
@@ -2352,7 +2310,7 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="mt-8 max-sm:mt-8 sm:mt-12 text-center"
           >
-            <p className="font-heading text-lg max-sm:text-lg sm:text-xl text-primary tracking-wide">欢迎批发商、五金店、电商卖家及品牌客户洽谈。</p>
+            <p className="font-heading text-lg max-sm:text-lg sm:text-xl text-primary tracking-wide">我们正在寻找首批泰国市场合作伙伴。</p>
           </motion.div>
         </div>
       </section>
@@ -2450,9 +2408,9 @@ export default function HomePage() {
               <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {[
                   { icon: Package, title: '产品资料与目录', desc: '了解 Locanex 21V 系列与适合你渠道的产品组合。' },
-                  { icon: TrendingUp, title: '经销价格与合作方案', desc: '根据产品型号、配置和采购数量提供报价与交付安排。' },
+                  { icon: TrendingUp, title: '经销价格与合作方案', desc: '资质审核后沟通供货价格、采购政策与交付安排。' },
                   { icon: Settings, title: 'OEM / ODM 沟通', desc: '评估品牌、包装和产品差异化定制方向。' },
-                  { icon: Award, title: '付费试单评估资格', desc: '符合条件的合作伙伴可进入指定产品样品评估流程。' }
+                  { icon: Award, title: '免费样品评估资格', desc: '符合条件的合作伙伴可进入指定产品样品评估流程。' }
                 ].map(({ icon: Icon, title, desc }) => (
                   <article key={title} className="border border-muted-gray/25 bg-secondary/20 p-5 transition-colors hover:border-primary/55">
                     <div className="mb-4 flex h-10 w-10 items-center justify-center border border-primary/55 text-primary">
@@ -2493,7 +2451,7 @@ export default function HomePage() {
                   className="h-auto flex-1 rounded-none bg-primary px-6 py-4 font-heading text-sm text-primary-foreground hover:bg-primary/90 sm:text-base"
                   onClick={goToDealerApplication}
                 >
-                  获取批发报价 <ArrowRight className="ml-2 h-4 w-4" />
+                  前往填写经销商申请 <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <Button
                   size="lg"
@@ -2566,7 +2524,7 @@ export default function HomePage() {
             className="relative z-10 max-w-md mx-auto lg:mx-0"
           >
             <h2 className="font-heading text-2xl max-sm:text-2xl sm:text-3xl md:text-4xl text-foreground mb-2 max-sm:mb-2 sm:mb-4">
-              咨询 LOCANEX<span className="text-primary">批发与定制</span>
+              申请成为<span className="text-primary">Locanex经销商</span>
             </h2>
             <p className="mb-6 font-paragraph text-sm text-foreground/60 md:mb-10 md:text-base">先填写采购需求，再补充公司身份与联系方式。</p>
 
@@ -2986,43 +2944,6 @@ export default function HomePage() {
         {/* Right Side: Application Form */}
           </div>
       </section>
-
-      <section id="oem-odm" className="relative py-20 px-5 bg-[#1a1a1a]"><div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center"><div><p className="text-primary tracking-widest mb-3">OEM / ODM SERVICES</p><h2 className="text-white text-3xl md:text-5xl font-heading mb-5">{siteLanguage==='th'?'บริการ OEM/ODM เครื่องมือไฟฟ้า':'电动工具 OEM / ODM 定制'}</h2><p className="text-white/70 leading-8 mb-5">{siteLanguage==='th'?'รองรับการปรึกษาด้านแบรนด์ โลโก้ บรรจุภัณฑ์ และความต้องการพัฒนาสินค้า โดยขึ้นอยู่กับความเป็นไปได้ของแต่ละโครงการ':'支持品牌标识、包装及产品配置的定制咨询，具体可行性按项目确认。'}</p><button type="button" onClick={goToDealerApplication} className="px-7 py-3 bg-primary text-black font-bold">{siteLanguage==='th'?'สอบถามบริการ OEM/ODM':'咨询 OEM/ODM 服务'}</button></div><Image src="https://static.wixstatic.com/media/556c5c_35ab86ea4b674d54a597438efd805d7e~mv2.png" alt="LOCANEX production" width={900} className="w-full h-auto object-cover rounded" /></div></section>
-      <section id="benefits" className="bg-[#0e0e0e] py-16 px-5 border-t border-white/10"><div className="max-w-6xl mx-auto"><p className="text-primary tracking-wider mb-3">WHY LOCANEX</p><h2 className="text-3xl md:text-5xl font-heading text-white mb-8">{siteLanguage==='th'?'ทำไมต้องเลือก LOCANEX?':'为什么选择 LOCANEX？'}</h2><div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{[
-['battery','统一电池平台','แพลตฟอร์มแบตเตอรี่ร่วมกัน','同一兼容平台内，多款无线工具共用电池','เครื่องมือหลายรุ่นในแพลตฟอร์มที่รองรับใช้แบตเตอรี่ร่วมกันได้'],
-['warranty','全系列一年质保','รับประกันสินค้า 1 ปี','具体依产品保修条款执行','เป็นไปตามเงื่อนไขการรับประกัน'],
-['range','丰富产品系列','สินค้าหลากหลายประเภท','电钻、扳手、链锯及配套电池','เครื่องมือไฟฟ้าและอุปกรณ์เสริม'],
-['pricing','阶梯批发报价','ราคาส่งตามจำนวน','按型号、配置和采购数量报价','ราคาแตกต่างตามรุ่นและจำนวนสั่งซื้อ'],
-['trial','付费试单','สั่งซื้อทดลองแบบชำระเงิน','支持小批量付费试单','รองรับการทดลองสั่งซื้อจำนวนน้อย'],
-['custom','OEM/ODM 服务','บริการ OEM/ODM','自有品牌及产品定制需求咨询','ปรึกษาสินค้าภายใต้แบรนด์ของลูกค้า']
-].map(([key,zh,th,descZh,descTh])=><article key={key} className="bg-[#222] border border-white/10 p-6"><div className="text-primary text-2xl mb-3">✓</div><h3 className="text-xl text-white font-bold mb-2">{siteLanguage==='th'?th:zh}</h3><p className="text-white/65 text-sm">{siteLanguage==='th'?descTh:descZh}</p></article>)}</div></div></section>
-      {/* --- SINGLE-PAGE WHOLESALE / OEM / ODM INQUIRY --- */}
-      <section id="inquiry" className="relative scroll-mt-24 bg-[#151515] py-16 sm:py-24 border-t border-primary/20">
-        <div className="mx-auto max-w-6xl px-5 grid lg:grid-cols-[.9fr_1.1fr] gap-10">
-          <div>
-            <p className="font-heading tracking-[.18em] text-primary text-sm mb-4">WHOLESALE / OEM / ODM</p>
-            <h2 className="font-heading text-3xl sm:text-5xl text-white leading-tight mb-5">{siteLanguage === 'th' ? 'สอบถามราคาส่งและบริการ OEM/ODM' : '批发采购及 OEM/ODM 询价'}</h2>
-            <p className="text-white/70 leading-8">{siteLanguage === 'th' ? 'แจ้งข้อมูลธุรกิจ สินค้าที่สนใจ และจำนวนที่ต้องการ ทีมงานจะติดต่อกลับเพื่อยืนยันรายละเอียดและจัดทำใบเสนอราคา' : '填写经营信息、意向产品与采购数量，我们将确认需求并提供相应报价。'}</p>
-            <div className="mt-8 space-y-3 text-white/80"><p>✓ {siteLanguage === 'th' ? 'ราคาส่งตามจำนวนสั่งซื้อ' : '按数量分级批发报价'}</p><p>✓ {siteLanguage === 'th' ? 'รองรับการสั่งซื้อทดลองแบบชำระเงิน' : '支持小批量付费试单'}</p><p>✓ {siteLanguage === 'th' ? 'แพลตฟอร์มแบตเตอรี่ร่วมกัน' : '统一兼容电池平台'}</p><p>✓ {siteLanguage === 'th' ? 'รับประกันสินค้า 1 ปี ตามเงื่อนไขบริษัท' : '全系列产品一年质保，具体按保修条款执行'}</p></div>
-          </div>
-          <form onSubmit={handleNewInquirySubmit} className="space-y-5 rounded-xl border border-white/15 bg-[#222] p-5 sm:p-8 text-white">
-            <div><label className="block text-sm mb-2">{siteLanguage === 'th' ? 'ประเภทความต้องการ *' : '业务需求类型 *'}</label><select required value={inquiryData.requestType} onChange={e => updateInquiry('requestType', e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3"><option value="wholesale">{siteLanguage === 'th' ? 'ซื้อสินค้าในราคาส่ง' : '批发采购现有产品'}</option><option value="oem">OEM</option><option value="odm">ODM</option><option value="dealer">{siteLanguage === 'th' ? 'ร่วมเป็นผู้จัดจำหน่าย LOCANEX' : 'LOCANEX 品牌经销合作'}</option></select></div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div><label className="block text-sm mb-2">{siteLanguage === 'th' ? 'ชื่อบริษัท / ร้านค้า *' : '公司/店铺名称 *'}</label><input required value={inquiryData.company} onChange={e => updateInquiry('company', e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3" /></div>
-              <div><label className="block text-sm mb-2">{siteLanguage === 'th' ? 'ประเภทธุรกิจ *' : '经营类型 *'}</label><select required value={inquiryData.businessType} onChange={e => updateInquiry('businessType', e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3"><option value="">{siteLanguage === 'th' ? 'โปรดเลือก' : '请选择'}</option>{['wholesaler','retailer','online','brand','other'].map((v,i)=><option key={v} value={v}>{(siteLanguage === 'th' ? ['ผู้ค้าส่ง','ร้านค้าปลีก','ผู้ขายออนไลน์','เจ้าของแบรนด์','อื่น ๆ'] : ['批发商','五金/零售店','电商卖家','品牌商','其他'])[i]}</option>)}</select></div>
-              <div><label className="block text-sm mb-2">{siteLanguage === 'th' ? 'จังหวัด *' : '所在府 *'}</label><input required value={inquiryData.province} onChange={e => updateInquiry('province', e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3" /></div>
-              <div><label className="block text-sm mb-2">{siteLanguage === 'th' ? 'จำนวนที่คาดว่าจะสั่งซื้อ *' : '预计首单数量 *'}</label><select required value={inquiryData.quantity} onChange={e => updateInquiry('quantity', e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3"><option value="">{siteLanguage === 'th' ? 'โปรดเลือก' : '请选择'}</option>{['1-10','11-30','31-50','51-100','100+','quotation-first'].map(v=><option value={v} key={v}>{v==='quotation-first'?(siteLanguage==='th'?'ขอทราบราคาก่อน':'先了解报价'):v==='100+'?(siteLanguage==='th'?'มากกว่า 100 ชิ้น':'100件以上'):v+' '+(siteLanguage==='th'?'ชิ้น':'件')}</option>)}</select></div>
-            </div>
-            <div><label className="block text-sm mb-2">{siteLanguage === 'th' ? 'สินค้าที่สนใจ *' : '意向产品 *'}</label><div className="grid sm:grid-cols-2 gap-2">{['冲击钻/电钻','冲击扳手','角磨机','电圆锯','电链锯','其他电动工具'].map(v=><label key={v} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={inquiryData.products.includes(v)} onChange={e=>updateInquiry('products',e.target.checked?[...inquiryData.products,v]:inquiryData.products.filter(x=>x!==v))} /><span>{siteLanguage==='th'?ZH_TO_TH_TEXT[v]||v:v}</span></label>)}</div></div>
-            {(inquiryData.requestType==='oem'||inquiryData.requestType==='odm')&&<div><label className="block text-sm mb-2">{siteLanguage==='th'?'รายละเอียดการปรับแต่ง':'定制需求'}</label><textarea value={inquiryData.customNeeds} onChange={e=>updateInquiry('customNeeds',e.target.value)} rows={3} className="w-full rounded bg-[#101010] border border-white/25 p-3" /></div>}
-            <div className="grid sm:grid-cols-2 gap-4"><div><label className="block text-sm mb-2">{siteLanguage==='th'?'ชื่อผู้ติดต่อ *':'联系人 *'}</label><input required value={inquiryData.contact} onChange={e=>updateInquiry('contact',e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3" /></div><div><label className="block text-sm mb-2">{siteLanguage==='th'?'หมายเลขโทรศัพท์ *':'联系电话 *'}</label><input required type="tel" value={inquiryData.phone} onChange={e=>updateInquiry('phone',e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3" /></div><div><label className="block text-sm mb-2">LINE ID</label><input value={inquiryData.line} onChange={e=>updateInquiry('line',e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3" /></div><div><label className="block text-sm mb-2">Website / Facebook</label><input value={inquiryData.onlineLink} onChange={e=>updateInquiry('onlineLink',e.target.value)} className="w-full rounded bg-[#101010] border border-white/25 p-3" /></div></div>
-            <label className="flex items-start gap-3 text-xs text-white/70"><input type="checkbox" required checked={inquiryData.consent} onChange={e=>updateInquiry('consent',e.target.checked)}/><span>{siteLanguage==='th'?'ยินยอมให้ใช้ข้อมูลที่ส่งเพื่อการติดต่อกลับเกี่ยวกับคำขอทางธุรกิจ ตามนโยบายความเป็นส่วนตัว':'同意依据隐私政策处理本次询价资料并用于业务联系。'}</span></label>
-            {inquiryError&&<p role="alert" className="text-red-400 text-sm">{inquiryError}</p>}
-            {inquirySuccess&&<p role="status" className="text-green-400 text-sm">{siteLanguage==='th'?'ส่งข้อมูลสำเร็จ ทีมงานจะติดต่อกลับ':'提交成功，我们将与您联系。'}</p>}
-            <button disabled={inquirySubmitting} type="submit" className="w-full bg-primary text-black font-bold p-4 disabled:opacity-60">{inquirySubmitting?(siteLanguage==='th'?'กำลังส่ง...':'提交中...'):(siteLanguage==='th'?'ส่งคำขอใบเสนอราคา':'提交报价咨询')}</button>
-          </form>
-        </div>
-      </section>
       {/* --- FAQ SECTION --- */}
       <section id="faq" className="relative w-full py-32 bg-background">
         <div className="max-w-[60rem] mx-auto px-6 md:px-12">
@@ -3095,10 +3016,10 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="font-heading text-4xl md:text-6xl text-black mb-6 font-bold">
-              准备采购 LOCANEX<br />专业电动工具了吗？
+              准备与 Locanex 一起开拓<br />泰国电动工具市场吗？
             </h2>
             <p className="font-paragraph text-xl text-black/80 max-w-2xl mx-auto mb-12 font-medium">
-              支持现有产品批发、OEM 贴牌与 ODM 合作；填写询价表单了解报价。
+              提交经销商申请，获取产品资料、经销价格和免费产品评估资格。
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Button
@@ -3106,7 +3027,7 @@ export default function HomePage() {
                 className="bg-black hover:bg-black/80 text-white font-heading text-lg px-12 py-7 h-auto rounded-none shadow-2xl"
                 onClick={goToDealerApplication}
               >
-                获取批发报价
+                申请免费样品评估
               </Button>
               <Button
                 size="lg"
