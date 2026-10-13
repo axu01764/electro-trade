@@ -371,6 +371,19 @@ const ZH_TO_TH_TEXT: Record<string, string> = {
   "暂无常见问题": "ยังไม่มีคำถามที่พบบ่อย",
 };
 
+// Balanced application section copy.
+Object.assign(ZH_TO_TH_TEXT, {
+  "填写前，请准备": "เตรียมข้อมูลก่อนกรอกแบบฟอร์ม",
+  "意向产品与配置": "สินค้าที่สนใจและสเปก",
+  "预计采购数量": "จำนวนที่คาดว่าจะสั่งซื้อ",
+  "手机号码或LINE": "โทรศัพท์หรือ LINE",
+  "请填写真实经营信息，报价根据产品型号、配置与采购数量确认。": "กรุณาให้ข้อมูลธุรกิจที่เป็นจริง โดยเสนอราคาตามรุ่น สเปก และจำนวนสั่งซื้อ",
+  "查看产品系列、用途与配置，选择适合您渠道的产品。": "ดูประเภทสินค้า การใช้งาน และสเปก เพื่อเลือกสินค้าให้เหมาะกับช่องทางธุรกิจของคุณ",
+  "按型号、配置与数量，获取对应报价及采购合作方案。": "รับใบเสนอราคาและข้อเสนอการจัดซื้อตามรุ่น สเปก และจำนวน",
+  "沟通品牌、Logo、包装及产品开发需求，确认定制方向。": "หารือแบรนด์ โลโก้ บรรจุภัณฑ์ และการพัฒนาสินค้า เพื่อยืนยันแนวทางการปรับแต่ง",
+  "确认试单产品、数量与费用，再规划后续正式采购。": "ยืนยันสินค้า จำนวน และค่าใช้จ่ายสำหรับทดลองสั่งซื้อ ก่อนวางแผนจัดซื้อจริง"
+});
+
 const TH_TO_ZH_TEXT = Object.entries(ZH_TO_TH_TEXT).reduce<Record<string, string>>(
   (result, [chinese, thai]) => {
     result[thai.replace(/\s+/g, ' ').trim()] = chinese;
@@ -2316,16 +2329,16 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <div className="grid items-start gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:gap-8">
+          <div className="grid items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
             <motion.aside
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65 }}
-              className="border border-muted-gray/25 bg-secondary/20 p-5 sm:p-7 lg:sticky lg:top-24"
+              className="flex h-full flex-col border border-muted-gray/25 bg-secondary/20 p-5 sm:p-7 lg:p-9"
             >
-              <h3 className="mb-3 font-heading text-xl text-foreground sm:text-2xl">哪些客户适合填写？</h3>
-              <p className="mb-7 font-paragraph text-sm leading-6 text-foreground/60">
+              <h3 className="mb-2 font-heading text-2xl text-foreground sm:text-3xl">哪些客户适合填写？</h3>
+              <p className="mb-8 font-paragraph text-sm leading-6 text-foreground/60">
                 欢迎有真实经营渠道或商业采购需求的客户咨询。
               </p>
 
@@ -2334,7 +2347,7 @@ export default function HomePage() {
                   <CheckCircle className="h-5 w-5 text-green-500" />
                   适合填写
                 </h4>
-                <ul className="grid grid-cols-1 gap-3 font-paragraph text-sm text-foreground/78 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                <ul className="grid grid-cols-1 gap-3 font-paragraph text-sm text-foreground/78 sm:grid-cols-2">
                   {['电动工具经销商', '五金店/建材店', '工业用品供应商', '电商平台卖家', '批发商', "品牌商"].map((item) => (
                     <li key={item} className="flex items-start gap-2.5">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span>
@@ -2347,10 +2360,10 @@ export default function HomePage() {
               <div className="border-t border-muted-gray/20 pt-6">
                 <h4 className="mb-4 flex items-center gap-2 font-heading text-sm text-foreground">
                   <span className="flex h-5 w-5 items-center justify-center rounded-full border border-red-500 text-[10px] text-red-400">i</span>
-                  填写时请注意
+                  填写前，请准备
                 </h4>
-                <ul className="space-y-3 font-paragraph text-sm text-foreground/55">
-                  {["填写真实经营信息", "提供有效联系方式", "说明意向产品", "补充预计采购数量"].map((item) => (
+                <ul className="grid grid-cols-1 gap-3 font-paragraph text-sm text-foreground/55 sm:grid-cols-2">
+                  {["公司或店铺名称", "意向产品与配置", "预计采购数量", "手机号码或LINE"].map((item) => (
                     <li key={item} className="flex items-start gap-2.5">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-gray"></span>
                       <span>{item}</span>
@@ -2359,8 +2372,8 @@ export default function HomePage() {
                 </ul>
               </div>
 
-              <div className="mt-7 border border-primary/35 bg-primary/[0.06] p-4 font-paragraph text-xs leading-6 text-foreground/65">
-                本表单用于商业采购及合作咨询，请提供真实信息，以便确认需求与报价。
+              <div className="mt-7 lg:mt-auto border border-primary/35 bg-primary/[0.06] p-4 font-paragraph text-xs leading-6 text-foreground/65">
+                请填写真实经营信息，报价根据产品型号、配置与采购数量确认。
               </div>
             </motion.aside>
 
@@ -2369,19 +2382,19 @@ export default function HomePage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65, delay: 0.08 }}
-              className="border border-muted-gray/25 bg-black/25 p-5 sm:p-7 lg:p-9"
+              className="flex h-full flex-col border border-muted-gray/25 bg-black/25 p-5 sm:p-7 lg:p-9"
             >
               <div className="mb-8">
                 <h3 className="mb-2 font-heading text-2xl text-foreground sm:text-3xl">填写后，您将了解什么？</h3>
                 <p className="font-paragraph text-sm leading-6 text-foreground/60">根据您的经营渠道与采购需求，确认产品、价格与合作条件。</p>
               </div>
 
-              <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid flex-1 auto-rows-fr grid-cols-1 gap-3 sm:grid-cols-2">
                 {[
-                  { icon: Package, title: "产品资料与目录", desc: "了解 LOCANEX 产品系列与适合您渠道的产品组合。" },
-                  { icon: TrendingUp, title: "最新价格与合作方案", desc: "根据型号、配置和采购数量，获取对应报价与合作条件。" },
-                  { icon: Settings, title: "OEM/ODM 定制咨询", desc: "沟通自有品牌、Logo、包装及产品开发需求。" },
-                  { icon: Award, title: "小批量付费试单咨询", desc: "确认可试单的产品、配置、数量与费用。" }
+                  { icon: Package, title: "产品资料与目录", desc: "查看产品系列、用途与配置，选择适合您渠道的产品。" },
+                  { icon: TrendingUp, title: "最新价格与合作方案", desc: "按型号、配置与数量，获取对应报价及采购合作方案。" },
+                  { icon: Settings, title: "OEM/ODM 定制咨询", desc: "沟通品牌、Logo、包装及产品开发需求，确认定制方向。" },
+                  { icon: Award, title: "小批量付费试单咨询", desc: "确认试单产品、数量与费用，再规划后续正式采购。" }
                 ].map(({ icon: Icon, title, desc }) => (
                   <article key={title} className="border border-muted-gray/25 bg-secondary/20 p-5 transition-colors hover:border-primary/55">
                     <div className="mb-4 flex h-10 w-10 items-center justify-center border border-primary/55 text-primary">
@@ -2393,9 +2406,20 @@ export default function HomePage() {
                 ))}
               </div>
 
+            </motion.div>
+          </div>
+          {/* Shared workflow and actions span both equal-height panels. */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65 }}
+            id="application-follow-up"
+            className="mt-6 border border-muted-gray/25 bg-black/25 p-5 sm:mt-8 sm:p-7 lg:p-9"
+          >
               <div className="mb-9">
                 <h3 className="mb-5 font-heading text-xl text-foreground sm:text-2xl">填写后的沟通流程</h3>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {[
                     { num: "01", title: "提交需求", desc: "填写经营信息与采购需求。" },
                     { num: "02", title: "LINE沟通", desc: "通过 LINE 沟通产品与采购信息。" },
@@ -2411,12 +2435,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="mb-7 border-l-2 border-primary bg-secondary/20 p-4 sm:p-5">
-                <p className="mb-2 font-heading text-sm text-primary">填写前准备</p>
-                <p className="font-paragraph text-xs leading-6 text-foreground/65 sm:text-sm">公司或店铺名称 · 经营类型 · 意向产品 · 采购数量 · 手机号码或LINE</p>
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="mx-auto grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
                 <Button
                   size="lg"
                   className="h-auto flex-1 rounded-none bg-primary px-6 py-4 font-heading text-sm text-primary-foreground hover:bg-primary/90 sm:text-base"
@@ -2433,9 +2452,8 @@ export default function HomePage() {
                   <MessageCircle className="mr-2 h-4 w-4" /> 添加LINE咨询
                 </Button>
               </div>
-              <p className="mt-4 font-paragraph text-xs leading-5 text-foreground/45">信息仅用于需求确认、询价回复与合作沟通。</p>
-            </motion.div>
-          </div>
+              <p className="mt-4 text-center font-paragraph text-xs leading-5 text-foreground/45">信息仅用于需求确认、询价回复与合作沟通。</p>
+          </motion.div>
         </div>
       </section>
 
