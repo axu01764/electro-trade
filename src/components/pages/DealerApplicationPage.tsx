@@ -1,4 +1,4 @@
-// LOCANEX quotation and paid-trial application form — 2026-10-13
+// LOCANEX quotation and paid-trial application form — Meta Lead tracking updated 2026-10-14
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,30 @@ import React, { useEffect, useRef, useState } from 'react';
 type SiteLanguage = 'zh' | 'th';
 const LANGUAGE_STORAGE_KEY = 'locanex-site-language';
 const LINE_CONTACT_URL = 'https://line.me/ti/p/G_saKyMNTQ';
+
+// This standard Lead is forwarded by Wix to the connected Meta integration.
+// Do not also call fbq('track', 'Lead') for the same successful submission.
+// In Meta, verify content_name and content_category in the received event,
+// then use the unique quote-form marker instead of relying on the page URL.
+const QUOTE_LEAD_PARAMETERS = {
+  category: 'LocanexQuoteApplication',
+  formId: 'locanex-quote-application',
+  label: 'Locanex Quote Application Submitted',
+  origin: 'Locanex Quote Application'
+};
+
+function reportQuoteApplicationLead(): void {
+  try {
+    // Handle both synchronous SDK errors and asynchronous rejections without
+    // waiting for analytics delivery or delaying the customer's success message.
+    void Promise.resolve(analytics.trackEvent('Lead', { ...QUOTE_LEAD_PARAMETERS }))
+      .catch((trackingError: unknown) => {
+        console.warn('Failed to report Meta quote Lead conversion:', trackingError);
+      });
+  } catch (trackingError) {
+    console.warn('Failed to report Meta quote Lead conversion:', trackingError);
+  }
+}
 
 const ZH_TO_TH_TEXT: Record<string, string> = {
   "21V专业产品平台": "แพลตฟอร์มผลิตภัณฑ์มืออาชีพ 21V",
@@ -352,19 +376,9 @@ export default function DealerApplicationPage() {
 
       await BaseCrudService.create<Distributorapplications>('distributorapplications', applicationRecord);
 
-      // Send a Meta/Facebook Lead conversion only after the application
-      // has been saved successfully. Tracking errors must never block or
-      // invalidate the customer's submitted application.
-      try {
-        analytics.trackEvent('Lead', {
-          category: 'DealerApplication',
-          formId: 'locanex-dealer-application',
-          label: 'Locanex Dealer Application Submitted',
-          origin: 'Locanex Website'
-        });
-      } catch (trackingError) {
-        console.warn('Failed to report Meta Lead conversion:', trackingError);
-      }
+      // Report exactly once from this handler, only after successful CMS save.
+      // Opening the form, validation failures and failed saves are not Leads.
+      reportQuoteApplicationLead();
 
       setFormData(createInitialFormData());
       setApplicationStep(1);
