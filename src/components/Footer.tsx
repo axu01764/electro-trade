@@ -68,7 +68,7 @@ export default function Footer() {
                 <div>
                   <p className="font-paragraph text-sm text-foreground/60 mb-1">LINE ID</p>
                   <a href="https://line.me/ti/p/~0937281730" className="font-paragraph text-base text-foreground/80 hover:text-primary transition-colors">
-                    0937281730
+                    0961277949
                   </a>
                 </div>
               </li>
