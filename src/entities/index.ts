@@ -80,3 +80,88 @@ export interface Faq {
   /** @wixFieldType datetime */
   lastUpdated?: Date | string;
 }
+
+
+/**
+ * Collection ID: Import1
+ * Interface for _1
+ */
+export interface _1 {
+  _id: string;
+  _createdDate?: Date;
+  _updatedDate?: Date;
+  /** @wixFieldType text */
+  title?: string;
+  /** @wixFieldType text */
+  companyName?: string;
+  /** @wixFieldType text */
+  contactName?: string;
+  /** @wixFieldType text */
+  phone?: string;
+  /** @wixFieldType text */
+  lineId?: string;
+  /** @wixFieldType text */
+  currentProducts?: string;
+  /** @wixFieldType text */
+  otherCurrentProduct?: string;
+  /** @wixFieldType text */
+  desiredSample?: string;
+  /** @wixFieldType text */
+  otherDesiredSample?: string;
+  /** @wixFieldType text */
+  desiredSamplePriceTier?: string;
+  /** @wixFieldType text */
+  currentBrands?: string;
+  /** @wixFieldType text */
+  otherBrand?: string;
+  /** @wixFieldType text */
+  problems?: string;
+  /** @wixFieldType text */
+  otherProblem?: string;
+  /** @wixFieldType text */
+  monthlySalesRange?: string;
+  /** @wixFieldType text */
+  businessType?: string;
+  /** @wixFieldType text */
+  otherBusinessType?: string;
+  /** @wixFieldType text */
+  province?: string;
+  /** @wixFieldType text */
+  district?: string;
+  /** @wixFieldType text */
+  salesChannels?: string;
+  /** @wixFieldType text */
+  otherSalesChannel?: string;
+  /** @wixFieldType text */
+  firstOrderQuantity?: string;
+  /** @wixFieldType text */
+  feedbackWillingness?: string;
+  /** @wixFieldType url */
+  onlineLink?: string;
+  /** @wixFieldType text */
+  additionalNeeds?: string;
+  /** @wixFieldType boolean */
+  consentAccuracy?: boolean;
+  /** @wixFieldType boolean */
+  consentEligibility?: boolean;
+  /** @wixFieldType boolean */
+  consentContact?: boolean;
+  /** @wixFieldType url */
+  sourceUrl?: string;
+  /** @wixFieldType text */
+  utmSource?: string;
+  /** @wixFieldType text */
+  utmMedium?: string;
+  /** @wixFieldType text */
+  utmCampaign?: string;
+  /** @wixFieldType text */
+  utmContent?: string;
+  /** @wixFieldType text */
+  fbclid?: string;
+  /** @wixFieldType text */
+  submissionStatus?: string;
+  /** @wixFieldType datetime */
+  submittedAt?: Date | string;
+  /** @wixFieldType datetime */
+  updatedDate?: Date | string;
+}

@@ -58,8 +58,8 @@ export default function Footer() {
                 <Phone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-paragraph text-sm text-foreground/60 mb-1">联系电话</p>
-                  <a href="tel:0937281730" className="font-paragraph text-base text-foreground/80 hover:text-primary transition-colors">
-                    093 728 1730
+                  <a href="tel:0961277949" className="font-paragraph text-base text-foreground/80 hover:text-primary transition-colors">
+                    096 127 7949
                   </a>
                 </div>
               </li>
