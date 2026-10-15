@@ -77,7 +77,9 @@ const companyTypeOptions = [
 ];
 const applicantRoleOptions = ['公司负责人/老板', '采购负责人', '销售负责人', '店铺经理', '电商运营负责人', '其他'];
 
-const LINE_CONTACT_URL = 'https://line.me/ti/p/G_saKyMNTQ';
+const CONTACT_PHONE_DISPLAY = '096-1277949';
+const CONTACT_PHONE_NUMBER = '0961277949';
+const LINE_CONTACT_URL = 'https://line.me/ti/p/_rt3tKZdtE';
 // Keep the application page URL in one place. If the Wix page slug is changed
 // later, only this constant needs to be updated.
 const DEALER_APPLICATION_URL = '/dealer-application';
@@ -640,8 +642,10 @@ export default function HomePage() {
     capabilityCarouselIndex
   ]);
 
-  // Keep every LINE consultation CTA consistent across Header, HomePage and Footer.
-  // Event delegation also covers the responsive desktop, tablet and mobile variants.
+  const openLineContact = () => window.location.assign(LINE_CONTACT_URL);
+
+  // Catch LINE links in the shared Header and Footer as well as this page's CTAs.
+  // They must not keep opening the previous account's profile URL.
   useEffect(() => {
     const handleLineContactClick = (event: MouseEvent) => {
       const target = event.target;
@@ -656,11 +660,14 @@ export default function HomePage() {
 
       const isLineContact =
         normalizedLabel.includes('line咨询') ||
+        normalizedLabel.includes('添加line') ||
         normalizedLabel.includes('ปรึกษาทางline') ||
+        normalizedLabel.includes('เพิ่มline') ||
         normalizedLabel.includes('เพิ่มlineเพื่อปรึกษา') ||
         normalizedLabel.includes('ติดต่อทางline');
 
-      if (!isLineContact) return;
+      const href = interactiveElement.getAttribute('href') || '';
+      if (!isLineContact && !/^https:\/\/(?:line\.me|lin\.ee)\//i.test(href)) return;
 
       event.preventDefault();
       event.stopPropagation();
@@ -1141,6 +1148,7 @@ export default function HomePage() {
                 size="lg"
                 variant="outline"
                 className="border-2 border-muted-gray text-foreground hover:bg-secondary hover:text-primary font-heading text-sm max-sm:text-sm sm:text-base px-4 max-sm:px-4 sm:px-8 max-sm:py-3 sm:py-6 max-sm:h-[52px] sm:h-auto rounded-none transition-colors max-sm:w-full sm:w-auto"
+                onClick={openLineContact}
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 添加LINE咨询
@@ -2447,11 +2455,17 @@ export default function HomePage() {
                   size="lg"
                   variant="outline"
                   className="h-auto rounded-none border-muted-gray/60 px-6 py-4 font-heading text-sm text-foreground hover:border-primary hover:bg-primary/10 sm:text-base"
-                  onClick={() => window.location.assign(LINE_CONTACT_URL)}
+                  onClick={openLineContact}
                 >
                   <MessageCircle className="mr-2 h-4 w-4" /> 添加LINE咨询
                 </Button>
               </div>
+              <p className="mt-4 text-center font-paragraph text-sm text-foreground/75">
+                {siteLanguage === 'th' ? 'โทรศัพท์: ' : '联系电话：'}
+                <a className="font-semibold text-primary underline underline-offset-4" href={`tel:${CONTACT_PHONE_NUMBER}`}>
+                  {CONTACT_PHONE_DISPLAY}
+                </a>
+              </p>
               <p className="mt-4 text-center font-paragraph text-xs leading-5 text-foreground/45">信息仅用于需求确认、询价回复与合作沟通。</p>
           </motion.div>
         </div>
@@ -2986,7 +3000,7 @@ export default function HomePage() {
       <section id="final-cta" className="relative w-full py-32 overflow-hidden bg-primary">
         <div className="absolute inset-0 opacity-10 mix-blend-overlay">
            <Image
-            src="https://static.wixstatic.com/media/556c5c_e0859bd4b0844dfdb2784bdbbeb0dab7~mv2.png?originWidth=1920&originHeight=1024"
+            src="https://static.wixstatic.com/media/556c5c_e0859bd4b0844dfdb2784bdbbeb0dab7~mv2.png?originWidth=1920&amp;originHeight=1024"
             alt="Texture"
             className="w-full h-full object-cover"
             width={1920}
@@ -3018,6 +3032,7 @@ export default function HomePage() {
                 size="lg"
                 variant="outline"
                 className="border-2 border-black text-black hover:bg-black hover:text-white font-heading text-lg px-12 py-7 h-auto rounded-none transition-colors"
+                onClick={openLineContact}
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
                 添加LINE咨询
