@@ -11,7 +11,9 @@ import React, { useEffect, useRef, useState } from 'react';
 
 type SiteLanguage = 'zh' | 'th';
 const LANGUAGE_STORAGE_KEY = 'locanex-site-language';
-const LINE_CONTACT_URL = 'https://line.me/ti/p/G_saKyMNTQ';
+const CONTACT_PHONE_DISPLAY = '096-1277949';
+const CONTACT_PHONE_NUMBER = '0961277949';
+const LINE_CONTACT_URL = 'https://line.me/ti/p/_rt3tKZdtE';
 
 // This standard Lead is forwarded by Wix to the connected Meta integration.
 // Do not also call fbq('track', 'Lead') for the same successful submission.
@@ -462,6 +464,10 @@ export default function DealerApplicationPage() {
                   ไทย
                 </button>
               </div>
+
+              <a href={`tel:${CONTACT_PHONE_NUMBER}`} className="hidden font-paragraph text-xs text-foreground/80 hover:text-primary sm:inline sm:text-sm">
+                {CONTACT_PHONE_DISPLAY}
+              </a>
 
               {/* LINE Consultation */}
               <a
