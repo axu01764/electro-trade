@@ -6,7 +6,7 @@ import { Distributorapplications } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import { analytics } from '@wix/site';
 import { motion } from 'framer-motion';
-import { Globe, Lock, MessageCircle } from 'lucide-react';
+import { Lock, MessageCircle } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 type SiteLanguage = 'zh' | 'th';
@@ -285,35 +285,15 @@ function ChoiceButton({ selected, onClick, children, disabled = false }: { selec
 }
 
 export default function DealerApplicationPage() {
-  const [siteLanguage, setSiteLanguage] = useState<SiteLanguage>('th');
-  const [languageReady, setLanguageReady] = useState(false);
+  // Keep Thai fixed regardless of any previously saved browser preference.
+  const [siteLanguage] = useState<SiteLanguage>('th');
   const [applicationStep, setApplicationStep] = useState(1);
   const [openFormQuestion, setOpenFormQuestion] = useState('');
   const [formData, setFormData] = useState<ApplicationFormData>(createInitialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const submissionInFlight = useRef(false);
 
-  // Language initialization
   useEffect(() => {
-    let savedLanguage: string | null = null;
-    try {
-      savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    } catch (error) {
-      console.warn('Language preference storage is unavailable:', error);
-    }
-
-    const preferredLanguage: SiteLanguage =
-      savedLanguage === 'zh' || savedLanguage === 'th'
-        ? savedLanguage
-        : 'th';
-
-    setSiteLanguage(preferredLanguage);
-    setLanguageReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!languageReady) return;
-
     try {
       window.localStorage.setItem(LANGUAGE_STORAGE_KEY, siteLanguage);
     } catch (error) {
@@ -324,7 +304,7 @@ export default function DealerApplicationPage() {
     document.title = siteLanguage === 'th'
       ? 'LOCANEX | ขอราคาล่าสุดและบริการ OEM/ODM'
       : 'LOCANEX | 获取最新价格与 OEM/ODM 合作方案';
-  }, [siteLanguage, languageReady]);
+  }, [siteLanguage]);
 
   const handleInputChange = (field: keyof ApplicationFormData, value: string | string[] | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -447,23 +427,6 @@ export default function DealerApplicationPage() {
               >
                 {translate('返回官网')}
               </button>
-
-              {/* Language Switch */}
-              <div className="flex items-center border border-primary/55 bg-black/90 p-1">
-                <Globe className="mx-1 h-3.5 w-3.5 text-primary" />
-                <button
-                  onClick={() => setSiteLanguage('zh')}
-                  className={`min-h-8 px-2.5 font-paragraph text-[11px] transition-colors ${siteLanguage === 'zh' ? 'bg-primary text-black' : 'text-white/70 hover:text-white'}`}
-                >
-                  中文
-                </button>
-                <button
-                  onClick={() => setSiteLanguage('th')}
-                  className={`min-h-8 px-2.5 font-paragraph text-[11px] transition-colors ${siteLanguage === 'th' ? 'bg-primary text-black' : 'text-white/70 hover:text-white'}`}
-                >
-                  ไทย
-                </button>
-              </div>
 
               <a href={`tel:${CONTACT_PHONE_NUMBER}`} className="hidden font-paragraph text-xs text-foreground/80 hover:text-primary sm:inline sm:text-sm">
                 {CONTACT_PHONE_DISPLAY}
