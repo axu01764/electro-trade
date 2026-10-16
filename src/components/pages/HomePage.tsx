@@ -16,7 +16,7 @@ import {
   CheckCircle,
   ChevronDown,
   ChevronRight,
-  Clock, Globe,
+  Clock,
   MessageCircle,
   Package,
   Settings,
@@ -572,8 +572,8 @@ function ChoiceButton({ selected, onClick, children }: ChoiceButtonProps) {
 
 export default function HomePage() {
   // --- CANONICAL DATA SOURCES & STATE ---
-  const [siteLanguage, setSiteLanguage] = useState<SiteLanguage>('th');
-  const [languageReady, setLanguageReady] = useState(false);
+  // Keep Thai fixed regardless of any previously saved browser preference.
+  const [siteLanguage] = useState<SiteLanguage>('th');
   const [products, setProducts] = useState<Coreproducts[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const [applicationStep, setApplicationStep] = useState(1);
@@ -595,29 +595,9 @@ export default function HomePage() {
     loadProducts();
   }, []);
 
-  // Read browser preference after mount to avoid an SSR/hydration mismatch in Wix.
-  useEffect(() => {
-    let savedLanguage: string | null = null;
-    try {
-      savedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    } catch (error) {
-      console.warn('Language preference storage is unavailable:', error);
-    }
-
-    const preferredLanguage: SiteLanguage =
-      savedLanguage === 'zh' || savedLanguage === 'th'
-        ? savedLanguage
-        : 'th';
-
-    setSiteLanguage(preferredLanguage);
-    setLanguageReady(true);
-  }, []);
-
   // Translate only after React renders. Do not continuously observe document.body:
   // a global MutationObserver can overload the Wix Vibe preview runtime.
   useEffect(() => {
-    if (!languageReady) return;
-
     try {
       window.localStorage.setItem(LANGUAGE_STORAGE_KEY, siteLanguage);
     } catch (error) {
@@ -633,7 +613,6 @@ export default function HomePage() {
     return () => window.cancelAnimationFrame(frameId);
   }, [
     siteLanguage,
-    languageReady,
     isLoadingProducts,
     applicationStep,
     openFormQuestion,
@@ -1017,34 +996,8 @@ export default function HomePage() {
         html[data-locanex-language='th'] .font-paragraph {
           font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, Arial, sans-serif !important;
         }
-        .locanex-language-switch {
-          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
-        }
       `}</style>
       <Header />
-      <div
-        className="locanex-language-switch fixed right-3 top-[72px] z-[70] flex items-center border border-primary/55 bg-black/90 p-1 backdrop-blur-md sm:right-5 sm:top-[84px]"
-        role="group"
-        aria-label="Language / ภาษา"
-      >
-        <Globe className="mx-1 h-3.5 w-3.5 text-primary" aria-hidden="true" />
-        <button
-          type="button"
-          onClick={() => setSiteLanguage('zh')}
-          aria-pressed={siteLanguage === 'zh'}
-          className={`min-h-8 px-2.5 font-paragraph text-[11px] transition-colors sm:text-xs ${siteLanguage === 'zh' ? 'bg-primary text-black' : 'text-white/70 hover:text-white'}`}
-        >
-          中文
-        </button>
-        <button
-          type="button"
-          onClick={() => setSiteLanguage('th')}
-          aria-pressed={siteLanguage === 'th'}
-          className={`min-h-8 px-2.5 font-paragraph text-[11px] transition-colors sm:text-xs ${siteLanguage === 'th' ? 'bg-primary text-black' : 'text-white/70 hover:text-white'}`}
-        >
-          ไทย
-        </button>
-      </div>
       {/* --- HERO SECTION --- */}
       <section
         id="hero"
